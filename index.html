@@ -52,10 +52,31 @@
         height: 60px;
         width: 100%;
         background: #b4846c;
+
+        color: #f1ecc3;
       }
 
       .banner {
         height: calc(100% - 60px);
+      }
+
+      .banner h3 {
+        font-size: 1.3rem;
+        letter-spacing: 5px;
+      }
+
+      .banner h4 {
+        padding: 0.5rem 2rem;
+        background: #b4846c;
+        padding-top: 0.7rem;
+
+        color: white;
+      }
+
+      .banner__img {
+        margin-top: 3rem;
+
+        width: 200px;
       }
 
       .flex {
@@ -64,6 +85,14 @@
         align-items: center;
         height: 100%;
         min-height: inherit;
+      }
+
+      .flex-y {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
       }
 
       .footer {
@@ -78,8 +107,14 @@
         <div class="flex">CRAP HEADER</div>
       </div>
       <div class="banner">
-        <div class="flex">
-          <div>CRAP BODY CONTENT</div>
+        <div class="flex-y">
+          <h3>CRAP BODY CONTENT</h3>
+          <h4>「いらっしゃい」</h4>
+          <img
+            class="banner__img"
+            src="assets/61343192396756773fb4f0162ff03f7f.gif"
+            alt="cute_girl.gif"
+          />
         </div>
       </div>
     </div>
