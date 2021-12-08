@@ -5,125 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Crap Portfolio</title>
-
-    <style>
-      * {
-        box-sizing: border-box;
-        font-family: sans-serif;
-
-        font-weight: 600;
-        letter-spacing: 4px;
-      }
-
-      /* width */
-      ::-webkit-scrollbar {
-        width: 10px;
-      }
-
-      /* Track */
-      ::-webkit-scrollbar-track {
-        background: #f1f1f1;
-      }
-
-      /* Handle */
-      ::-webkit-scrollbar-thumb {
-        background: #7d5a50;
-        border-radius: 40px;
-      }
-
-      /* Handle on hover */
-      ::-webkit-scrollbar-thumb:hover {
-        background: #171010;
-      }
-
-      body,
-      html {
-        margin: 0;
-        padding: 0;
-      }
-
-      .hero {
-        width: 100%;
-        min-height: calc(100vh - 60px);
-        background: #f1ecc3;
-        padding: 3rem 0;
-
-        /** RESPONSIVE HEIGHT  */
-        display: flex;
-        flex-direction: column;
-      }
-
-      .header {
-        height: 60px;
-        width: 100%;
-        background: #b4846c;
-
-        color: #f1ecc3;
-      }
-
-      .banner {
-        /** RESPONSIVE MIN HEIGHT (Parent)  */
-        display: flex;
-        flex-direction: column;
-
-        /** RESPONSIVE MIN HEIGHT (Child)  */
-        flex: 1;
-      }
-
-      .banner h3 {
-        font-size: 1.3rem;
-        letter-spacing: 5px;
-      }
-
-      .banner h4 {
-        padding: 0.5rem 2rem;
-        background: #b4846c;
-        padding-top: 0.7rem;
-
-        color: white;
-      }
-
-      .banner__img {
-        margin-top: 3rem;
-
-        width: 200px;
-      }
-
-      .flex {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-        min-height: inherit;
-      }
-
-      .flex-y {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-        min-height: inherit;
-
-        /** RESPONSIVE MIN HEIGHT (Child)  */
-        flex: 1;
-      }
-
-      .footer {
-        background: #e5b299;
-        min-height: 100px;
-      }
-    </style>
+    <link rel="stylesheet" href="assets/css/style.css" />
+    <link rel="stylesheet" href="assets/css/utlitity.css" />
   </head>
   <body>
     <div class="header">
-      <div class="flex">CRAP HEADER</div>
+      <div class="flex ls-3">CRAP HEADER</div>
     </div>
-    <div class="hero">
+    <section class="hero p-x-3">
       <div class="banner">
         <div class="flex-y">
-          <h3>CRAP BODY CONTENT</h3>
-          <h4>「いらっしゃい」</h4>
+          <h2 class="ls-3 txt-mid m-y-3">CRAP BODY CONTENT</h2>
+          <h3 class="ls-2 txt-sz-2">「いらっしゃい」</h3>
           <img
             class="banner__img"
             src="assets/61343192396756773fb4f0162ff03f7f.gif"
@@ -131,9 +24,130 @@
           />
         </div>
       </div>
-    </div>
+    </section>
+    <section class="sect-grid-practice p-x-2 p-y-3 ls-1 txt-mid">
+      <h2 class="txt-sz-2 ls-2">GRID</h2>
+      <h3 class="f-w-1 ls-2 p-1">Something Awesome Here</h3>
+      <section class="sect-grid-3-col">
+        <div class="grid-child">
+          <a
+            class="ref-link-screen txt-mid flex"
+            href="https://www.pinterest.fr/pin/574912708689424266/"
+            >GO TO SOURCE</a
+          >
+          <img
+            src="https://i.pinimg.com/564x/19/13/ec/1913ecb858b84be2e070492773cfd8c9.jpg"
+            alt="grid-image"
+          />
+        </div>
+        <div class="grid-child">
+          <a
+            class="ref-link-screen txt-mid flex"
+            href="https://www.pinterest.com/pin/87468417752843323/"
+            >GO TO SOURCE</a
+          >
+          <img
+            src="https://i.pinimg.com/564x/57/64/c2/5764c230ec056143e6fe32c7195b4de0.jpg"
+            alt="grid-image"
+          />
+        </div>
+        <div class="grid-child">
+          <a
+            class="ref-link-screen txt-mid flex"
+            href="https://www.pinterest.com/pin/19703317109846998/"
+            >GO TO SOURCE</a
+          >
+          <img
+            src="https://64.media.tumblr.com/dfb323292d3b17e06a81f0ea8c1b88a4/tumblr_pf7e5mW7071x41cfyo1_1280.png"
+            alt="grid-image"
+          />
+        </div>
+        <div class="grid-child">
+          <a
+            class="ref-link-screen txt-mid flex"
+            href="https://www.pinterest.com/pin/23010648087431920/"
+            >GO TO SOURCE</a
+          >
+          <img
+            src="https://i.pinimg.com/564x/70/91/15/709115897bfb4fcc16d85e4487091ea6.jpg"
+            alt="grid-image"
+          />
+        </div>
+      </section>
+
+      <section class="sect-grid-3-col-complicate m-y-3">
+        <div class="grid-child">
+          <a
+            class="ref-link-screen txt-mid flex"
+            href="https://unsplash.com/photos/fRlPqznLefY"
+            >GO TO SOURCE</a
+          >
+          <img
+            src="https://images.unsplash.com/photo-1631414517446-6d10a2e72a6e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=870&q=80"
+            alt="grid-image"
+          />
+        </div>
+        <div class="grid-child">
+          <a
+            class="ref-link-screen txt-mid flex"
+            href="https://www.pinterest.com/pin/351912462376582/"
+            >GO TO SOURCE</a
+          >
+          <img
+            src="https://i.pinimg.com/564x/97/42/7b/97427b833a9637a1f54a7432686693ea.jpg"
+            alt="grid-image"
+          />
+        </div>
+        <div class="grid-child">
+          <a
+            class="ref-link-screen txt-mid flex"
+            href="https://www.pixiv.net/en/artworks/67737876"
+            >GO TO SOURCE</a
+          >
+          <img
+            src="https://i.pinimg.com/564x/52/bc/3b/52bc3b369c2ff3dad331c07caac102df.jpg"
+            alt="grid-image"
+          />
+        </div>
+        <div class="grid-child">
+          <a
+            class="ref-link-screen txt-mid flex"
+            href="https://www.pinterest.com/pin/5136987065177635/"
+            >GO TO SOURCE</a
+          >
+          <img
+            src="https://i.pinimg.com/564x/4b/45/10/4b4510dd94c3c7524477a1ad090f8264.jpg"
+            alt="grid-image"
+          />
+        </div>
+        <div class="grid-child">
+          <a
+            class="ref-link-screen txt-mid flex"
+            href="https://www.pinterest.com/pin/94646029661200826/"
+            >GO TO SOURCE</a
+          >
+          <img
+            src="https://i.pinimg.com/564x/54/52/1c/54521c28d206b28ee62351919c87aae0.jpg"
+            alt="grid-image"
+          />
+        </div>
+        <div class="grid-child">
+          <a
+            class="ref-link-screen flex"
+            href="https://www.pinterest.com/pin/1829656088307175/"
+            >GO TO SOURCE</a
+          >
+          <img
+            src="https://i.pinimg.com/564x/50/7a/55/507a55997e368109018d639995a07cb0.jpg"
+            alt="grid-image"
+          />
+        </div>
+      </section>
+      <h3 class="f-w-1 p-x-3 p-y-1 m-top-3 ls-3">COMPLEXITY</h3>
+    </section>
+
     <div class="footer">
-      <div class="flex">CRAP FOOTER</div>
+      <div class="flex ls-3">CRAP FOOTER</div>
     </div>
   </body>
 </html>
