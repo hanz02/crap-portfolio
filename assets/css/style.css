@@ -179,15 +179,16 @@ html {
   background: rgba(255, 255, 255, 0);
   color: rgba(255, 255, 255, 0);
   font-weight: 700;
-  font-size: 0.8rem;
+  font-size: 0.7rem;
   transform: none;
+  padding: 30px;
 
   transition: color 300ms ease-out, background 300ms ease-out,
     box-shadow 400ms ease-in;
 }
 
 .sect-grid-3-col-complicate .grid-child:hover .ref-link-screen {
-  box-shadow: inset 0 0 0 30px #f3d5c9;
+  box-shadow: inset 0 0 0 14px #f3d5c9;
   background: rgba(255, 255, 255, 0.9);
   color: rgba(0, 0, 0, 1);
 }
@@ -209,6 +210,10 @@ html {
     grid-template-columns: repeat(3, 1fr);
     grid-auto-rows: 400px;
   }
+
+  .sect-grid-3-col-complicate .grid-child:hover .ref-link-screen {
+    box-shadow: inset 0 0 0 20px #f3d5c9;
+  }
 }
 
 @media (min-width: 60em) {
@@ -218,6 +223,14 @@ html {
 
   .sect-grid-3-col {
     gap: 1rem;
+  }
+
+  .sect-grid-3-col-complicate .ref-link-screen {
+    font-size: 1rem;
+  }
+
+  .sect-grid-3-col-complicate .grid-child:hover .ref-link-screen {
+    box-shadow: inset 0 0 0 30px #f3d5c9;
   }
 }
 
