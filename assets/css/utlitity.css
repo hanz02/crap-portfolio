@@ -136,6 +136,66 @@ a {
   margin-top: 6rem !important;
 }
 
+.ls-1 {
+  letter-spacing: 1px;
+}
+
+.ls-2 {
+  letter-spacing: 3px;
+}
+
+.ls-3 {
+  letter-spacing: 4px;
+}
+
+.ls-4 {
+  letter-spacing: 6px;
+}
+
+.txt-sz-1 {
+  font-size: 0.8rem;
+}
+
+.txt-sz-2 {
+  font-size: 1.2rem;
+}
+
+.txt-sz-3 {
+  font-size: 1.8rem;
+}
+
+.txt-sz-4 {
+  font-size: 2.1rem;
+}
+
+.txt-mid {
+  text-align: center;
+}
+
+.txt-left {
+  text-align: left;
+}
+
+.txt-right {
+  text-align: right;
+}
+
+.f-w-1 {
+  font-weight: 400;
+}
+
+.f-w-2 {
+  font-weight: 600;
+}
+
+.f-w-3 {
+  font-weight: 900;
+}
+
+.grid {
+  display: grid;
+}
+
 @media (min-width: 40em) {
   .p-x-1 {
     padding-left: 1rem;
@@ -176,64 +236,20 @@ a {
     padding-top: 6rem;
     padding-bottom: 6rem;
   }
-}
 
-.ls-1 {
-  letter-spacing: 1px;
-}
+  .txt-sz-1 {
+    font-size: 1rem;
+  }
 
-.ls-2 {
-  letter-spacing: 3px;
-}
+  .txt-sz-2 {
+    font-size: 1.5rem;
+  }
 
-.ls-3 {
-  letter-spacing: 4px;
-}
+  .txt-sz-3 {
+    font-size: 2rem;
+  }
 
-.ls-4 {
-  letter-spacing: 6px;
-}
-
-.txt-sz-1 {
-  font-size: 0.8rem;
-}
-
-.txt-sz-2 {
-  font-size: 1.5rem;
-}
-
-.txt-sz-3 {
-  font-size: 2rem;
-}
-
-.txt-sz-4 {
-  font-size: 3rem;
-}
-
-.txt-mid {
-  text-align: center;
-}
-
-.txt-left {
-  text-align: left;
-}
-
-.txt-right {
-  text-align: right;
-}
-
-.f-w-1 {
-  font-weight: 400;
-}
-
-.f-w-2 {
-  font-weight: 600;
-}
-
-.f-w-3 {
-  font-weight: 900;
-}
-
-.grid {
-  display: grid;
+  .txt-sz-4 {
+    font-size: 3rem;
+  }
 }
