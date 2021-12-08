@@ -96,6 +96,8 @@ html {
   flex: 1;
 }
 
+/** GRID: parent  */
+
 .sect-grid-practice h2 {
   line-height: 1rem;
 }
@@ -138,6 +140,8 @@ html {
   transform: translateX(0);
 }
 
+/** GRID: section 1*/
+
 .sect-grid-3-col {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -158,6 +162,8 @@ html {
   grid-column: span 2;
 }
 
+/** GRID: section 2 */
+
 .sect-grid-3-col-complicate {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -173,7 +179,7 @@ html {
   background: rgba(255, 255, 255, 0);
   color: rgba(255, 255, 255, 0);
   font-weight: 700;
-  font-size: 1rem;
+  font-size: 0.8rem;
   transform: none;
 
   transition: color 300ms ease-out, background 300ms ease-out,
