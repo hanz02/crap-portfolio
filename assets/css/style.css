@@ -189,6 +189,10 @@ html {
   color: rgba(0, 0, 0, 1);
 }
 
+.sect-grid-3-col-complicate .grid-child:nth-child(3n-2) {
+  grid-column: span 2;
+}
+
 /** GRID: Section 3 */
 .sect-grid-3-col-final {
   display: grid;
