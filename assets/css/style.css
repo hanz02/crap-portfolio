@@ -195,26 +195,43 @@ html {
   grid-column: span 2;
 }
 
-/** GRID: Section 3 */
+/** GRID: V2 Section 3 */
 .sect-grid-3-col-final {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-
+  gap: 0.2rem;
   grid-auto-rows: 150px;
-  gap: 0.4rem;
   width: 90%;
   max-width: 1000px;
   margin: auto;
 }
 
+.sect-grid-3-col-final .grid-child::before {
+  content: "";
+  position: absolute;
+  background: #e6b5a1;
+  inset: 0 0 0 0;
+
+  z-index: 999;
+  transform: translateX(-100%);
+
+  transition: transform 800ms ease-out;
+}
+
+.sect-grid-practice .grid-child:hover::before {
+  transform: translateX(0);
+  transition: transform 270ms ease-out;
+}
+
 .sect-grid-3-col-final .ref-link-screen {
+  z-index: 9999;
   color: rgba(0, 0, 0, 0);
-  transition: transform 350ms ease-out, color 500ms ease-out;
+  background: rgba(255, 255, 255, 1);
+  transition: transform 520ms ease-out, color 600ms ease-out;
 }
 
 .sect-grid-3-col-final .grid-child:hover .ref-link-screen {
   color: rgba(0, 0, 0, 1);
-  background: rgba(255, 255, 255, 1);
 }
 
 .sect-grid-3-col-final .grid-child:first-child,
