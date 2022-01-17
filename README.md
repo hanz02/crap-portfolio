@@ -8,7 +8,7 @@ Live site to the portfolio: [https://hanz02.github.io/crap-portfolio/](https://h
 ## Portfolio Sections
 - Grid Design
   - V1 Section
-  ![V1 Section Screenshot](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+  ![](./assets/git-screenshots/grid-v1.png)
   
   - V2 Section "Complexity"
-  ![V2 Section Screenshot](https://github.com/[username]/[reponame]/blob/[branch]/image.jpg?raw=true)
+  ![](./assets/git-screenshots/grid-v2.png)
