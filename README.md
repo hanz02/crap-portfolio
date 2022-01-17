@@ -9,12 +9,12 @@ Live site to the portfolio: [https://hanz02.github.io/crap-portfolio/](https://h
 - Grid Design
   - V1 Section <br>(Desktop View)
   ![](./assets/git-screenshots/grid-v1.png)
-  /
+  
   - V1 Section (Mobile View)
   ![](./assets/git-screenshots/grid-v1(Mobile).png)
-  /
-  - V2 Section "Complexity" <br>(Desktop View)
+  
+  - V2 Section "Complexity" (Desktop View)
   ![](./assets/git-screenshots/grid-v2.png)
-  /
+  
   - V2 Section "Complexity" (Mobile View)
   ![](./assets/git-screenshots/grid-v2(Mobile).png)
