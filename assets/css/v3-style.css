@@ -1,0 +1,55 @@
+/** GRID: V3 Section 1 */
+/* TODO  Initialize V3 Section 1 */
+.v3-sect1 {
+  /* border: 10px solid red; */
+}
+
+.v3-sect1 .intro:first-child {
+  background-image: url(https://pbs.twimg.com/media/FbdEIjRXwAAnuyw?format=jpg&name=large);
+  position: relative;
+  z-index: 0;
+}
+
+.v3-sect1 .intro:first-child::before {
+  position: absolute;
+  content: "";
+  background-color: white;
+  width: 100%;
+  height: 102%;
+  right: 0%;
+  left: 0%;
+  top: 0%;
+  bottom: 2%;
+
+  -webkit-clip-path: polygon(16% 0, 79% 100%, 61% 100%, 0 100%, 0 0);
+  clip-path: polygon(16% 0, 79% 100%, 61% 100%, 0 100%, 0 0);
+
+  z-index: -1;
+}
+
+.v3-sect1 .intro:last-child {
+  background-image: url(https://i.pinimg.com/564x/41/9d/12/419d12a71b19227a5f86db14d0a6b654.jpg);
+}
+
+.v3-sect1 .intro {
+  display: flex;
+  border: none;
+
+  /* border: 10px solid purple; */
+
+  background-repeat: no-repeat;
+  background-position: left;
+  background-size: cover;
+
+  min-height: 50em;
+}
+
+.v3-sect1 .grid {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.v3-sect1 .grid-child {
+  height: 4rem;
+  border: 10px solid blue;
+}
