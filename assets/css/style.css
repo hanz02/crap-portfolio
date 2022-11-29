@@ -106,7 +106,6 @@ h3 {
   border: 1px solid #000;
   width: fit-content;
   margin: auto;
-  margin-bottom: 3rem;
 }
 
 .v1-sect1 h3:first-of-type {
@@ -219,6 +218,11 @@ h3 {
   transform: translateX(-100%);
 
   transition: transform 800ms ease-out;
+}
+
+.v2-sect1 .grid-child:hover::before {
+  transform: translateX(0);
+  transition: transform 270ms ease-out;
 }
 
 .v2-sect1 .ref-link-screen {
