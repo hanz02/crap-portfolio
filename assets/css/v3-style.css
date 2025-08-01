@@ -1,0 +1,275 @@
+/** GRID: V3 Section 1 */
+.v3-sect1 img {
+  height: auto;
+}
+
+.v3-sect1 .p-y-1 {
+  /* border: 10px solid red; */
+  padding: initial;
+}
+
+.v3-sect1 .title {
+  position: relative;
+  margin: 7rem auto;
+  width: 90%;
+  max-width: 75rem;
+}
+
+/* TITLE - BACKGROUND BLACK LINE */
+.v3-sect1 .title::before {
+  position: absolute;
+  content: "";
+  border-top: solid 2px black;
+  inset: 50%;
+  width: 100%;
+
+  z-index: -2;
+  transform: translate(-50%, -50%);
+}
+
+/* TITLE - 3 DIAMONDS SHAPE */
+.v3-sect1 .title .wrap {
+  position: relative;
+  margin: auto;
+  width: fit-content;
+  padding-left: 4px;
+  background: white;
+
+  border: 3px solid white;
+}
+.v3-sect1 h3 {
+  position: relative;
+  border: none;
+  font-size: 0.8rem;
+  /* font-size: 0.9rem; */
+}
+
+.v3-sect1 .sub-insanity h3 {
+  margin-top: 0.1rem;
+  font-size: 0.7rem;
+  /* font-size: 0.8rem; */
+  color: #716f81;
+
+  /* background-color: white; */
+}
+
+/* SUB DIAMOND 1*/
+.v3-sect1 .title .sub-insanity h3:last-child::before {
+  position: absolute;
+  content: "";
+
+  width: 200%;
+  height: 310%;
+
+  transform: translate(-50%, -50%) rotate(45deg);
+  top: 50%;
+  left: 45%;
+
+  z-index: -1;
+}
+
+.v3-sect1 .title .sub-insanity.FIRST h3:last-child::before {
+  border: 2px solid #f29191;
+}
+
+/* SUB DIAMOND 2*/
+.v3-sect1 .title .sub-insanity.LAST h3:last-child::before {
+  border: 1px solid #716f81;
+
+  width: 210%;
+  height: 320%;
+}
+
+/* SUB BIG DIAMOND 3*/
+.v3-sect1 .title .sub-insanity.FIRST h3:last-child::after {
+  position: absolute;
+  content: "";
+
+  width: 310%;
+  height: 600%;
+
+  transform: translate(-50%, -50%) rotate(45deg);
+
+  border: solid 1px black;
+  background: white;
+
+  left: 30%;
+  top: 10%;
+
+  z-index: -2;
+}
+
+/* ELEMENTs: white padding to left and right of the whole shapping */
+/* abosulte to <wrap> */
+.v3-sect1 .title .element::before,
+.v3-sect1 .title .element::after {
+  position: absolute;
+  content: "";
+
+  height: 0.5rem;
+
+  top: 50%;
+
+  transform: translateY(-50%);
+  background: white;
+
+  z-index: -2;
+}
+
+.v3-sect1 .title .element::before {
+  right: 100%;
+  width: 6rem;
+}
+
+.v3-sect1 .title .element::after {
+  left: 20%;
+  width: 7rem;
+}
+
+/* V3-SECTION: INTRO */
+.v3-sect1 .intro.first {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: none;
+
+  background-repeat: no-repeat;
+  background-position: left;
+  background-size: cover;
+
+  padding: 7rem 0;
+
+  /* border: 10px solid purple; */
+}
+
+.v3-sect1 .intro.first {
+  background-image: url(https://pbs.twimg.com/media/FbdEIjRXwAAnuyw?format=jpg&name=large);
+
+  position: relative;
+  z-index: 0;
+}
+
+/* background fade*/
+.v3-sect1 .intro.first::after {
+  position: absolute;
+  content: "";
+  background-color: rgba(255, 255, 255, 0.203);
+  backdrop-filter: blur(10px);
+
+  inset: 0;
+  z-index: -2;
+}
+
+/* white pentagon shape clip */
+.v3-sect1 .intro.first::before {
+  position: absolute;
+  content: "";
+  background-color: white;
+  width: 100%;
+  height: 102%;
+  right: 0%;
+  left: 0%;
+  top: 0%;
+  bottom: 2%;
+
+  -webkit-clip-path: polygon(0 51%, 100% 58%, 100% 100%, 0% 100%);
+  clip-path: polygon(0 51%, 100% 58%, 100% 100%, 0% 100%);
+
+  z-index: -1;
+}
+
+/* flex child to .intro */
+.v3-sect1 .intro.first .intro__content {
+  display: flex;
+  flex-direction: column;
+
+  /* min-height: auto; */
+  box-shadow: 2px 10px 20px -5px rgba(0, 0, 0, 0.263);
+
+  border-radius: 18px;
+  width: 90%;
+  max-width: 500px;
+
+  /* over hidden to fix "parent border radius doesnt have effect on child image border" */
+  overflow: hidden;
+
+  /* border: 10px solid red; */
+}
+
+.v3-sect1 .intro.first .intro__text {
+  min-height: 17em;
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+}
+
+/* ---------------------------------------------------------------------------------------- */
+
+.v3-sect1 .intro:last-child {
+  background-image: url(https://i.pinimg.com/564x/41/9d/12/419d12a71b19227a5f86db14d0a6b654.jpg);
+}
+
+.v3-sect1 .grid {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.v3-sect1 .grid-child {
+  height: 4rem;
+  border: 10px solid blue;
+}
+
+@media (min-width: 40em) {
+  .v3-sect1 .title .element::before {
+    width: 8rem;
+  }
+
+  .v3-sect1 .title .element::after {
+    width: 9rem;
+  }
+}
+
+@media (min-width: 50em) {
+  .v3-sect1 .intro.first .intro__content {
+    flex-direction: row;
+    align-items: start;
+    box-shadow: none;
+    overflow: visible;
+
+    max-width: 1000px;
+  }
+
+  .v3-sect1 .intro.first .intro__content.flex > * {
+    flex: 1;
+  }
+
+  .v3-sect1 .intro.first .intro__text,
+  .v3-sect1 .intro.first .intro__content img {
+    box-shadow: 2px 10px 20px -5px rgba(0, 0, 0, 0.263);
+  }
+
+  .v3-sect1 .intro.first .intro__text {
+    border-radius: 16px;
+    /* border: 1px solid #000; */
+    min-height: 28em;
+    padding-right: 4rem;
+  }
+
+  .v3-sect1 .intro.first .intro__content img {
+    align-self: center;
+    height: 270px;
+    /* border: 1px solid #000; */
+    border-radius: 16px;
+    position: relative;
+    top: 50px;
+    right: 35px;
+  }
+}
+
+@media (min-width: 60em) {
+  /* white pentagon shape clip */
+  .v3-sect1 .intro:first-child::before {
+    /* -webkit-clip-path: polygon(16% 0, 79% 100%, 61% 100%, 0 100%, 0 0); */
+    clip-path: polygon(40% 0, 87% 100%, 51% 100%, 0 100%, 0 0);
+  }
+}

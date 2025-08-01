@@ -12,6 +12,7 @@ a {
   height: 100%;
 }
 
+/* PADDING */
 .p-1 {
   padding: 1rem;
 }
@@ -63,6 +64,24 @@ a {
 .p-y-4 {
   padding-top: 3rem;
   padding-bottom: 3rem;
+}
+
+/* MARGIN */
+.m-1 {
+  margin: 0.5rem;
+}
+
+.m-2 {
+  margin: 1rem;
+}
+.m-3 {
+  margin: 1.4rem;
+}
+.m-4 {
+  margin: 2rem;
+}
+.m-5 {
+  margin: 4rem;
 }
 
 .m-x-1 {
@@ -136,6 +155,7 @@ a {
   margin-top: 6rem !important;
 }
 
+/* LETTER SPACING */
 .ls-1 {
   letter-spacing: 1px;
 }
@@ -152,6 +172,7 @@ a {
   letter-spacing: 6px;
 }
 
+/* FONT SIZE */
 .txt-sz-1 {
   font-size: 0.8rem;
 }
@@ -168,6 +189,7 @@ a {
   font-size: 2.1rem;
 }
 
+/* TEXT ALIGN */
 .txt-mid {
   text-align: center;
 }
@@ -176,6 +198,7 @@ a {
   text-align: left;
 }
 
+/* FONT WEIGHT */
 .txt-right {
   text-align: right;
 }
@@ -192,6 +215,7 @@ a {
   font-weight: 900;
 }
 
+/* DISPLAY */
 .grid {
   display: grid;
 }
@@ -235,6 +259,26 @@ a {
   .p-y-4 {
     padding-top: 6rem;
     padding-bottom: 6rem;
+  }
+
+  .m-y-1 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  .m-y-2 {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  .m-y-3 {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  .m-y-4 {
+    margin-top: 8rem;
+    margin-bottom: 8rem;
   }
 
   .txt-sz-1 {
