@@ -13,12 +13,18 @@ a {
   display: inline-block;
 }
 
+.bd {
+  border: 10px solid white;
+}
+
 .button {
   width: auto;
   height: auto;
   border: 1px solid #000;
   padding: 0.6rem 2rem;
   letter-spacing: 0.1rem;
+  cursor: pointer;
+
 }
 
 /* PADDING */
@@ -73,6 +79,36 @@ a {
 .p-y-4 {
   padding-top: 3rem;
   padding-bottom: 3rem;
+}
+
+.p-top-1 {
+  padding-top: 1rem !important;
+}
+
+.p-top-2 {
+  padding-top: 2rem !important;
+}
+
+.p-top-3 {
+  padding-top: 4rem !important;
+}
+.p-top-4 {
+  padding-top: 6rem !important;
+}
+
+.p-bottom-1 {
+  padding-bottom: 1rem !important;
+}
+
+.p-bottom-2 {
+  padding-bottom: 2rem !important;
+}
+
+.p-bottom-3 {
+  padding-bottom: 4rem !important;
+}
+.p-bottom-4 {
+  padding-bottom: 6rem !important;
 }
 
 /* MARGIN */
@@ -164,6 +200,11 @@ a {
   margin-top: 6rem !important;
 }
 
+.m-top-5   {
+  margin-top: 9rem !important;
+}
+
+
 /* LETTER SPACING */
 .ls-1 {
   letter-spacing: 1px;
@@ -227,6 +268,31 @@ a {
 /* DISPLAY */
 .grid {
   display: grid;
+}
+
+/** ABSOLUTE CENTERING  */
+.abs-mid-x {
+  transform: translateX(-50%);
+  right: 50%;
+  left: 50%;
+}
+
+.abs-mid-y {
+  transform: translateY(-50%);
+  top: 50%;
+  bottom: 50%;
+}
+
+.abs-mid {
+  transform: translate(-50%, -50%);
+  right: 50%;
+  left: 50%;
+  top: 50%;
+  bottom: 50%;
+}
+
+.bd-radius-100 {
+  border-radius: 100%;
 }
 
 @media (min-width: 40em) {

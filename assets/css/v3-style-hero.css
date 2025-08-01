@@ -2,7 +2,7 @@
   /* border: 5px solid red; */
   gap: 3rem;
   padding-inline: 0.5rem;
-  padding-block: 1.3rem;
+  margin-bottom: 4rem;
 
   flex-wrap: wrap;
 }
@@ -27,16 +27,106 @@
 
 .insane__hero .slideshow {
   /* border: 10px solid rgb(75, 226, 45); */
-  height: 38rem;
+  min-height: 45rem;
+  position: relative;
+
+  overflow: hidden;
 }
 
+/* slideshow white shape cut in  */
+.insane__hero .slideshow::before {
+  content: "";
+  position: absolute;
+  right: -250%;
+  left: -250%;
+
+  top: -30%;
+  height: 50%;
+
+  background: rgb(255, 255, 255);
+  transform: rotate(-5deg);
+  z-index: -1;
+}
+
+.insane__hero .slideshow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: rgba(255, 255, 255, 0);
+  z-index: -2;
+
+  transition: ease-out 350ms;
+}
+
+.insane__hero .slideshow:hover::after {
+  background: rgba(255, 255, 255, 0.33);
+}
+
+.insane__hero .slideshow .element__fade-out {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  height: 1px;
+  width: 100%;
+  background: white;
+
+  box-shadow: 0 0 2rem 3rem white;
+}
+
+.insane__hero .slideshow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.insane__hero .slideshow .button {
+  color: black;
+  border: none;
+  position: relative;
+}
+
+.insane__hero .slideshow:hover .button {
+  display: block;
+}
+
+.insane__hero .slideshow .button::after {
+  content: "";
+  position: absolute;
+  height: 0.1rem;
+  width: 0;
+  bottom: 0;
+  left: 0;
+  background-color: black;
+
+  transition: ease-out 350ms;
+}
+
+.insane__hero .slideshow .button:hover::after {
+  width: 100%;
+}
+
+/* SLIDE SHOW BACKGROUND IMAGE */
 .slideshow img {
+  position: absolute;
   height: 100%;
-  min-height: inherit;
+  width: 100%;
+  inset: 0;
+
+  z-index: -2;
 }
 
-/* @media (min-width: 50em) {
+@media (min-width: 50em) {
   .insane__hero .slideshow {
-    min-height: 30rem;
+    /* border: 10px solid rgb(75, 226, 45); */
+    min-height: 50rem;
+    position: relative;
+
+    overflow: hidden;
   }
-} */
+
+  /* slideshow white shape cut in  */
+  .insane__hero .slideshow::before {
+    top: -35%;
+  }
+}

@@ -32,15 +32,7 @@ html {
   padding: 0;
 }
 
-.hero {
-  width: 100%;
-  min-height: calc(100vh - 60px);
-  background: #f1ecc3;
 
-  /** RESPONSIVE HEIGHT  */
-  display: flex;
-  flex-direction: column;
-}
 
 .header {
   height: 60px;
@@ -48,6 +40,12 @@ html {
   background: #b4846c;
 
   color: #f1ecc3;
+
+  position: fixed;
+
+  z-index: 99999;
+
+  background: transparent;
 }
 
 .header > div,
@@ -71,17 +69,22 @@ html {
 
 .banner h3 {
   padding: 0.5rem 2rem;
-  background: #b4846c;
   padding-top: 0.7rem;
   margin: initial;
 
-  color: white;
+  color: black;
+  writing-mode: vertical-rl;
+  text-orientation: upright;
+  letter-spacing: 7px;
+  font-size: 1.8rem;
+
 }
 
+/* 
 .banner__img {
   margin-top: 3rem;
   width: 200px;
-}
+} */
 
 .flex {
   display: flex;
@@ -89,16 +92,25 @@ html {
   align-items: center;
 }
 
-.flex-y {
+.flex-y,
+.flex-y-bottom {
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   height: 100%;
   min-height: inherit;
 
   /** RESPONSIVE MIN HEIGHT (Child)  */
   flex: 1;
+}
+
+.flex-y {
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-y-bottom {
+  justify-content: flex-end;
+  align-items: center;
 }
 
 /** GRID V1  */
@@ -107,7 +119,6 @@ html {
 }
 
 h3 {
-  border: 1px solid #000;
   width: fit-content;
   margin: auto;
 }
@@ -253,6 +264,8 @@ h3 {
 .v2-sect1 .grid-child:nth-child(9) {
   grid-row: span 2;
 }
+
+
 
 @media (min-width: 30em) {
   .sect-grid-4-col {
