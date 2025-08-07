@@ -1,11 +1,6 @@
 $(document).ready(function () {
   var isBurst = false;
 
-  const startPos = [
-    $("#hero-btn").find(".star-container.__3").position().left,
-    $("#hero-btn").find(".star-container.__3").position().top,
-  ];
-
   //* in and out hover to display the stars
   $("#hero-btn").mouseenter(function () {
     $("#hero-btn")
@@ -127,6 +122,22 @@ $(document).ready(function () {
 
       $("#hero-btn").addClass("hovered");
 
+      //* 12 -> 0 : hovered
+      //* > 11 : not hovered
+
+      const startPos = [
+        $("#hero-btn").find(".star-container.__3").position().left,
+        $("#hero-btn").find(".star-container.__3").position().top,
+      ];
+
+      console.log($("#main-star").position().top);
+
+      var notHovered = $("#main-star").position().top > 11;
+
+      notHovered
+        ? console.log("MOON: not hovered")
+        : console.log("MOON: hovered");
+
       $("#hero-btn")
         .find(".star-container")
         .each(function () {
@@ -134,9 +145,29 @@ $(document).ready(function () {
           var currLeft = $(this).position().left;
           var currTop = $(this).position().top;
 
-          //* ignore the element if it's the big star
-          if ($(this).attr("id")) return;
+          console.log(
+            $(this).attr("class") +
+              " : " +
+              " top : " +
+              currTop +
+              " left : " +
+              currLeft
+          );
 
+          var $thisElement = $(this);
+          setTimeout(function () {
+            console.log();
+
+            console.log($thisElement);
+
+            $thisElement.addClass("shrink");
+            $thisElement.removeClass("hovered");
+          }, 7500);
+
+          //* ignore the element if it's the big star
+          if ($(this).attr("id") || notHovered) return;
+
+          //* shrink each of the small stars at the end
           if (currLeft < 12) {
             if (currTop > 12) {
               //* LEFT: Bottom
@@ -193,15 +224,6 @@ $(document).ready(function () {
             burstRangeX = 20;
             burstRangeY = 10;
           }
-
-          //* shrink each of the small stars at the end
-          var $thisElement = $(this);
-          setTimeout(function () {
-            console.log($thisElement);
-
-            $thisElement.addClass("shrink");
-            $thisElement.removeClass("hovered");
-          }, 7500);
         });
     }
   });
