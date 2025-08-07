@@ -19,7 +19,7 @@
 .v3-sect1 .title::before {
   position: absolute;
   content: "";
-  border-top: solid 2px black;
+  border-top: solid 2px rgba(0, 0, 0, 0.185);
   inset: 50%;
   width: 100%;
 
@@ -34,23 +34,23 @@
   width: fit-content;
   padding-left: 4px;
   background: white;
+  padding: 8px;
+  padding-right: 3px;
+  padding-block: 1rem;
 
-  border: 3px solid white;
 }
 .v3-sect1 h3 {
   position: relative;
   border: none;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   /* font-size: 0.9rem; */
 }
 
 .v3-sect1 .sub-insanity h3 {
-  margin-top: 0.1rem;
+  margin-top: 0.3rem;
   font-size: 0.7rem;
   /* font-size: 0.8rem; */
   color: #716f81;
-
-  /* background-color: white; */
 }
 
 /* SUB DIAMOND 1*/
@@ -58,45 +58,49 @@
   position: absolute;
   content: "";
 
-  width: 200%;
-  height: 310%;
+  width: 190%;
+  height: 190%;
 
   transform: translate(-50%, -50%) rotate(45deg);
   top: 50%;
   left: 45%;
 
-  z-index: -1;
+  z-index: -2;
 }
 
 .v3-sect1 .title .sub-insanity.FIRST h3:last-child::before {
-  border: 2px solid #f29191;
+  border: 9px solid #f29191;
+  background: white;
 }
 
-/* SUB DIAMOND 2*/
-.v3-sect1 .title .sub-insanity.LAST h3:last-child::before {
-  border: 1px solid #716f81;
-
-  width: 210%;
-  height: 320%;
-}
 
 /* SUB BIG DIAMOND 3*/
 .v3-sect1 .title .sub-insanity.FIRST h3:last-child::after {
   position: absolute;
   content: "";
-
-  width: 310%;
+  width: 360%;
   height: 600%;
+  border: 3px solid #cbcbcb;
+
+  left: 67%;
+  top: 0%;
 
   transform: translate(-50%, -50%) rotate(45deg);
 
-  border: solid 1px black;
-  background: white;
+  z-index: 0;
+}
 
-  left: 30%;
-  top: 10%;
+/* SUB DIAMOND 2*/
+.v3-sect1 .title .sub-insanity.LAST h3:last-child::before {
+  border: 1px solid #4e4c5997;
 
-  z-index: -2;
+  width: 320%;
+  height: 600%;
+
+  top: 90%;
+  left: 87%;
+  z-index: -3;
+
 }
 
 /* ELEMENTs: white padding to left and right of the whole shapping */
@@ -107,9 +111,7 @@
   content: "";
 
   height: 0.5rem;
-
   top: 50%;
-
   transform: translateY(-50%);
   background: white;
 
@@ -118,12 +120,12 @@
 
 .v3-sect1 .title .element::before {
   right: 100%;
-  width: 6rem;
+  width: 7rem;
 }
 
 .v3-sect1 .title .element::after {
-  left: 20%;
-  width: 7rem;
+  left: 50%;
+  width: 10rem;
 }
 
 /* V3-SECTION: INTRO */
@@ -138,7 +140,9 @@
   background-position: left;
   background-size: cover;
 
-  padding: 7rem 0;
+  padding: 9rem 0;
+
+  overflow: hidden;
 
   /* border: 10px solid purple; */
 }
@@ -150,12 +154,26 @@
   z-index: 0;
 }
 
+/* background top fade in */
+.v3-sect1 .intro.first .element {
+  content: "";
+  position: absolute;
+  top: 0;
+  height: 1px;
+  width: 100%;
+  background: white;
+
+  box-shadow: 0 0 2rem 3rem white;
+
+  z-index: 3;
+}
+
 /* background fade*/
 .v3-sect1 .intro.first::after {
   position: absolute;
   content: "";
   background-color: rgba(255, 255, 255, 0.203);
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(7px);
 
   inset: 0;
   z-index: -2;
@@ -173,8 +191,8 @@
   top: 0%;
   bottom: 2%;
 
-  -webkit-clip-path: polygon(0 51%, 100% 58%, 100% 100%, 0% 100%);
-  clip-path: polygon(0 51%, 100% 58%, 100% 100%, 0% 100%);
+  -webkit-clip-path: polygon(0 59%, 100% 65%, 100% 100%, 0% 100%);
+  clip-path: polygon(0 59%, 100% 65%, 100% 100%, 0% 100%);
 
   z-index: -1;
 }
@@ -184,23 +202,50 @@
   display: flex;
   flex-direction: column;
 
-  /* min-height: auto; */
   box-shadow: 2px 10px 20px -5px rgba(0, 0, 0, 0.263);
 
-  border-radius: 18px;
+  border-radius: 20px;
   width: 90%;
   max-width: 500px;
 
   /* over hidden to fix "parent border radius doesnt have effect on child image border" */
   overflow: hidden;
 
-  /* border: 10px solid red; */
+  backdrop-filter: blur(10px);
 }
 
 .v3-sect1 .intro.first .intro__text {
   min-height: 17em;
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.727);
+}
+
+.v3-sect1 .intro.first .intro__text .button {
+  border: 1px solid #85586f;
+  color: #ac7d88;
+  font-size: 0.8rem;
+
+  transition: ease-out 250ms;
+}
+
+.v3-sect1 .intro.first .intro__text .button:hover {
+  background-color: #85586f;
+  color: white;
+}
+
+.v3-sect1 .intro.first .intro__text > p:nth-child(2)::first-letter {
+  font-size: 3rem;
+  float: left;
+  padding-right: 0.5rem;
+  padding-top: 0.3rem;
+  line-height: 2.2rem;
+}
+
+.v3-sect1 .intro.first .accent {
+  color: #ac7d88;
+}
+
+.v3-sect1 .intro.first .accent-2 {
+  color: #827397;
 }
 
 /* ---------------------------------------------------------------------------------------- */
@@ -209,23 +254,13 @@
   background-image: url(https://i.pinimg.com/564x/41/9d/12/419d12a71b19227a5f86db14d0a6b654.jpg);
 }
 
-.v3-sect1 .grid {
-  display: grid;
-  gap: 0.5rem;
-}
-
-.v3-sect1 .grid-child {
-  height: 4rem;
-  border: 10px solid blue;
-}
-
 @media (min-width: 40em) {
   .v3-sect1 .title .element::before {
-    width: 8rem;
+    width: 9.5rem;
   }
 
   .v3-sect1 .title .element::after {
-    width: 9rem;
+    width: 10.5rem;
   }
 }
 
@@ -237,6 +272,7 @@
     overflow: visible;
 
     max-width: 1000px;
+    backdrop-filter: unset;
   }
 
   .v3-sect1 .intro.first .intro__content.flex > * {
@@ -245,24 +281,24 @@
 
   .v3-sect1 .intro.first .intro__text,
   .v3-sect1 .intro.first .intro__content img {
-    box-shadow: 2px 10px 20px -5px rgba(0, 0, 0, 0.263);
+    box-shadow: 2px 6px 10px -5px rgba(0, 0, 0, 0.263);
   }
 
   .v3-sect1 .intro.first .intro__text {
-    border-radius: 16px;
-    /* border: 1px solid #000; */
-    min-height: 28em;
-    padding-right: 4rem;
+    min-height: 26em;
+    padding-left: 3rem;
+    padding-right: 6rem;
+
+    backdrop-filter: blur(10px);
   }
 
   .v3-sect1 .intro.first .intro__content img {
     align-self: center;
     height: 270px;
-    /* border: 1px solid #000; */
-    border-radius: 16px;
+    border-radius: 18px;
     position: relative;
-    top: 50px;
-    right: 35px;
+    top: 34px;
+    right: 4rem;
   }
 }
 

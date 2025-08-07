@@ -1,3 +1,9 @@
+:root {
+  --hero-white: #FAF7F3;
+  --hero-dark: #001a2c;
+
+}
+
 img {
   width: 100%;
   height: 100%;
@@ -10,6 +16,21 @@ a {
   color: white;
   width: 100%;
   height: 100%;
+  display: inline-block;
+}
+
+.bd {
+  border: 10px solid white;
+}
+
+.button {
+  width: auto;
+  height: auto;
+  border: 1px solid #000;
+  padding: 0.6rem 2rem;
+  letter-spacing: 0.1rem;
+  cursor: pointer;
+
 }
 
 /* PADDING */
@@ -20,12 +41,15 @@ a {
 .p-2 {
   padding: 2rem;
 }
+
 .p-3 {
   padding: 4rem;
 }
+
 .p-4 {
   padding: 6rem;
 }
+
 .p-x-1 {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
@@ -66,6 +90,38 @@ a {
   padding-bottom: 3rem;
 }
 
+.p-top-1 {
+  padding-top: 1rem !important;
+}
+
+.p-top-2 {
+  padding-top: 2rem !important;
+}
+
+.p-top-3 {
+  padding-top: 4rem !important;
+}
+
+.p-top-4 {
+  padding-top: 6rem !important;
+}
+
+.p-bottom-1 {
+  padding-bottom: 1rem !important;
+}
+
+.p-bottom-2 {
+  padding-bottom: 2rem !important;
+}
+
+.p-bottom-3 {
+  padding-bottom: 4rem !important;
+}
+
+.p-bottom-4 {
+  padding-bottom: 6rem !important;
+}
+
 /* MARGIN */
 .m-1 {
   margin: 0.5rem;
@@ -74,12 +130,15 @@ a {
 .m-2 {
   margin: 1rem;
 }
+
 .m-3 {
   margin: 1.4rem;
 }
+
 .m-4 {
   margin: 2rem;
 }
+
 .m-5 {
   margin: 4rem;
 }
@@ -151,9 +210,15 @@ a {
 .m-top-3 {
   margin-top: 4rem !important;
 }
+
 .m-top-4 {
   margin-top: 6rem !important;
 }
+
+.m-top-5 {
+  margin-top: 9rem !important;
+}
+
 
 /* LETTER SPACING */
 .ls-1 {
@@ -220,6 +285,31 @@ a {
   display: grid;
 }
 
+/** ABSOLUTE CENTERING  */
+.abs-mid-x {
+  transform: translateX(-50%);
+  right: 50%;
+  left: 50%;
+}
+
+.abs-mid-y {
+  transform: translateY(-50%);
+  top: 50%;
+  bottom: 50%;
+}
+
+.abs-mid {
+  transform: translate(-50%, -50%);
+  right: 50%;
+  left: 50%;
+  top: 50%;
+  bottom: 50%;
+}
+
+.bd-radius-100 {
+  border-radius: 100%;
+}
+
 @media (min-width: 40em) {
   .p-x-1 {
     padding-left: 1rem;
@@ -282,7 +372,7 @@ a {
   }
 
   .txt-sz-1 {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 
   .txt-sz-2 {
