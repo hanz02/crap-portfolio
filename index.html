@@ -20,6 +20,13 @@
     <link
       href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"
       rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Zen+Maru+Gothic&display=swap"
+      rel="stylesheet">
+
   </head>
 
   <body>
@@ -32,6 +39,30 @@
       <div class="banner">
         <div class="flex-y-bottom">
           <div class="banner__graphics m-bottom-3">
+            <div id="welcome-container">
+              <div id="welcome-curtain">
+                <div id="welcome-msg">
+                  <h5>
+                    いらっしゃい
+                    <!-- AFTERTHOUGHT -->
+                  </h5>
+                  <div class="welcome-cat-wrapper">
+                    <img class="star-dark"
+                      src="assets/img/dark-star.svg"
+                      alt="dark star image">
+                    <img class="hero-cat dark-cat" src="assets/img/dark-cat.gif"
+                      alt="dark cat tails swinging image">
+                  </div>
+                </div>
+              </div>
+              <div id="closing-img">
+                <img class="hero-cat light-cat"
+                  src="assets/img/light-cat.gif"
+                  alt="hero cat tails swinging image">
+              </div>
+
+            </div>
+
             <span></span>
             <span></span>
             <span></span>
@@ -40,9 +71,13 @@
             <span></span>
             <span></span>
             <span></span>
+
+            <img class="floor" src="assets/img/floor.svg"
+              alt="cat floor svg">
           </div>
           <div class="banner__button p-x-4 flex m-bottom-3">
-            <button class="button bd-radius-100">
+            <button class="button bd-radius-100" id="hero-btn">
+              <span class="core"></span>
               <span
                 class="wave abs-mid bd-radius-100 wave-fade-out-log "></span>
               <span
@@ -62,9 +97,9 @@
                   alt="star svg" />
               </span>
               <!-- * THE BIG STAR -->
-              <span class="star-container __3">
-                <img class="star"
-                  src="assets/img/star_sharp.svg"
+              <span class="star-container __3" id="main-star">
+                <img class="star anim-glow" id="the-moon"
+                  src="assets/img/moon.svg"
                   alt="star svg" />
               </span>
 
@@ -445,4 +480,11 @@
     src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
     integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="assets/js/hero.js"></script>
+
+  <script type="text/javascript"
+    src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.14.1/jquery-ui.min.js"></script>
+
+  <script type="text/javascript"
+    src="assets/js/jquery.path.js"></script>
 </html>
