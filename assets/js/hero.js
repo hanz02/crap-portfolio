@@ -1,4 +1,7 @@
 $(document).ready(function () {
+  var isBurst = false;
+
+  //* swap two elements on the dom tree
   jQuery.fn.swapWith = function (to) {
     return this.each(function () {
       var copy_to = $(to).clone(true);
@@ -9,11 +12,12 @@ $(document).ready(function () {
   };
 
   var catHeightThreshold = 0;
-
+  //* shuffle messages while checking for cat threshold
   jQuery.fn.shuffle = function (elements) {
     var j;
     var midIndex = Math.ceil(elements.length / 2) - 1;
-    catHeightThreshold = $(".floor").offset().top - 80; //* make the threshold limit to be the top edge of the moon, means no message should cross the moon
+    catHeightThreshold =
+      $(".floor").offset().top - $(".hero-cat").outerWidth() + 40; //* make the threshold limit to be the top edge of the moon, means no message should cross the moon (floor height + cat height - margin bottom roughly 40px)
 
     console.log("cat threshold: " + catHeightThreshold);
 
@@ -23,7 +27,6 @@ $(document).ready(function () {
       j = Math.floor(Math.random() * this.length);
       $(elements[i]).before($(elements[j]));
 
-      opacityTime = randomIntFromInterval(1000, 5000);
       // console.log("$(elements[i]).css(top) :: " + $(elements[i]).css("top"));
 
       $(elements[i]).css({
@@ -86,12 +89,10 @@ $(document).ready(function () {
 
         //* if long message is in the middle right
         if (midRightOffset > catHeightThreshold) {
-          console.log("TOO HIGH offset right: " + midRightOffset);
           // $(elements[midRight]).css("border", "1px solid goldenrod");
           $(elements[midRight]).swapWith($(elements[counter]));
 
           counter += 1;
-          console.log("counter: :: " + counter);
         }
 
         //* if long message is in the middle left
@@ -113,28 +114,26 @@ $(document).ready(function () {
 
         console.log("\n\n");
       }
-      //! debug use
       // elements = $(".message");
+      // $("#the__one").swapWith($(elements[midIndex]));
+      //! debug use
+      elements = $(".message");
 
-      // // console.log(midIndex);
-      // // console.log(midLeft);
-      // // console.log(midRight);
+      midOffset =
+        parseInt($(elements[midIndex]).outerHeight(true)) +
+        $(elements[midIndex]).offset().top;
 
-      // midOffset =
-      //   parseInt($(elements[midIndex]).outerHeight(true)) +
-      //   $(elements[midIndex]).offset().top;
+      midLeftOffset =
+        parseInt($(elements[midLeft]).outerHeight(true)) +
+        $(elements[midLeft]).offset().top;
 
-      // midLeftOffset =
-      //   parseInt($(elements[midLeft]).outerHeight(true)) +
-      //   $(elements[midLeft]).offset().top;
+      midRightOffset =
+        parseInt($(elements[midRight]).outerHeight(true)) +
+        $(elements[midRight]).offset().top;
 
-      // midRightOffset =
-      //   parseInt($(elements[midRight]).outerHeight(true)) +
-      //   $(elements[midRight]).offset().top;
-
-      // console.log("----> AFTER offset middle: " + midOffset);
-      // console.log("----> AAFTER offset left: " + midLeftOffset);
-      // console.log("----> AFTER offset right: " + midRightOffset);
+      console.log("----> AFTER offset middle: " + midOffset);
+      console.log("----> AAFTER offset left: " + midLeftOffset);
+      console.log("----> AFTER offset right: " + midRightOffset);
 
       // $(elements[midLeft]).css("border", "1px solid var(--hero-white)");
       // $(elements[midRight]).css("border", "1px solid var(--hero-white)");
@@ -191,26 +190,25 @@ $(document).ready(function () {
         }
 
         if (counter >= $(".message").length) break;
+
+        // elements = $(".message");
+        // $("#the__one").swapWith($(elements[midRight]));
       }
 
       // $(elements[midLeft]).css("border", "1px solid magenta");
       // $(elements[midRight]).css("border", "1px solid skyblue");
 
       // //! for debug use only
-      // $(elements[midLeft]).css("border", "solid white 1px");
-      // $(elements[midRight]).css("border", "solid white 1px");
+      $(elements[midLeft]).css("border", "solid white 1px");
+      $(elements[midRight]).css("border", "solid white 1px");
 
-      // midLeftOffset =
-      //   parseInt($(elements[midLeft]).outerHeight(true)) +
-      //   $(elements[midLeft]).offset().top;
+      midLeftOffset =
+        parseInt($(elements[midLeft]).outerHeight(true)) +
+        $(elements[midLeft]).offset().top;
 
-      // console.log("$(elements[midLeft]).offset() " + midLeftOffset);
-
-      // midRightOffset =
-      //   parseInt($(elements[midRight]).outerHeight(true)) +
-      //   $(elements[midRight]).offset().top;
-
-      // console.log("$(elements[midRight]).offset() " + midRightOffset);
+      midRightOffset =
+        parseInt($(elements[midRight]).outerHeight(true)) +
+        $(elements[midRight]).offset().top;
     }
     return this;
   };
@@ -221,7 +219,10 @@ $(document).ready(function () {
   }
 
   //* secondaryExpand
-  function secodaryExpand(star, currLeft, currTop) {
+  function secondaryExpand(star, currLeft, currTop) {
+    var burstRangeY = 50;
+    var burstRangeX = currLeft;
+
     //* duration for the animation
     const burstDuration = 2000;
     if (currLeft < 12) {
@@ -282,8 +283,10 @@ $(document).ready(function () {
     }
   }
 
+  var isHovered = false;
   //* in and out hover to display the stars
   $("#hero-btn").mouseenter(function () {
+    isHovered = true;
     $("#hero-btn").addClass("hovered");
 
     $("#hero-btn")
@@ -296,42 +299,67 @@ $(document).ready(function () {
   });
 
   $("#hero-btn").mouseleave(function () {
-    $("#hero-btn").removeClass("hovered");
+    isHovered = false;
 
-    $("#hero-btn")
-      .find(".star-container")
-      .each(function () {
-        $(this).removeClass("hovered");
-      });
-    $(".tooltips").removeClass("hovered");
+    setTimeout(() => {
+      if (isHovered || isBurst) {
+        return;
+      }
+      $("#hero-btn").removeClass("hovered");
+      $("#hero-btn")
+        .find(".star-container")
+        .each(function () {
+          $(this).removeClass("hovered");
+        });
+      $(".tooltips").removeClass("hovered");
+    }, 2000);
   });
 
   //* on click hero button
   $("#hero-btn").on("click", function (event) {
     event.stopPropagation();
+    isBurst = true;
 
+    //* open the curtain briefly to get the height
     const $el = $("#welcome-curtain");
-    // Reset height to auto to get full scroll height
-    $el.css({
-      height: "fit-content",
-    });
-
+    //* Reset height to auto to get full scroll height
     const fullHeight = $el.prop("scrollHeight");
     //* get welcome container and set it to curtain height when it's fit content full height
     $("#welcome-container").css("height", fullHeight + "px");
 
-    // Set to 0 and trigger reflow
+    //* close the curtain height to 0 and trigger reflow
     $el.css("height", "0");
     $el[0].offsetHeight;
 
-    $(".detachment").addClass("burst");
+    //* disable and close off the button
+    $("#hero-btn").prop("disabled", true);
+
+    //* add burst class to button and welcome message
+    $("#hero-btn").addClass("burst");
+
+    // $("#hero-btn").addClass("no-hover");
+    //* rise the main star
+    $("#main-star").addClass("burst");
+
+    //* turn off mouse leave and mouse enter hover event
+    $("#hero-btn").off("mouseleave");
+    $("#hero-btn").off("mouseenter");
+
+    //* permanently set the button to hovered
+    $("#hero-btn").addClass("hovered");
 
     //* delay and disable tooltips
     setTimeout(function () {
       $(".tooltips").removeClass("hovered");
     }, 2000);
 
-    var startAnimTime = 3000;
+    var startAnimTime = 2300;
+    setTimeout(() => {
+      //* start burst animation on quote
+      $(".detachment").addClass("burst");
+    }, startAnimTime);
+
+    startAnimTime += 3000;
     //* 1st delay 3000
     //* curtain down
     $el.css({
@@ -342,7 +370,7 @@ $(document).ready(function () {
         "ms",
     });
 
-    startAnimTime += +3000;
+    startAnimTime += 2500;
     //* expand out
     setTimeout(function () {
       $("#welcome-container").addClass("expand");
@@ -360,15 +388,14 @@ $(document).ready(function () {
       $(".dark-cat").addClass("expand");
       //* move up and show the black star
       $(".star-dark").addClass("active");
-      //* inflate the big star a bit then shrink
+      //* inflate the big star a bit
       $("#main-star").addClass("expand");
 
       //* hide all the messages
       $(".messages-container").addClass("hide");
     }, startAnimTime);
 
-    startAnimTime += 1000;
-    //* 3rd delay 9000 + 3000 = 12 000
+    startAnimTime += 1200;
     //* close dark cat -> display light cat
     setTimeout(
       function () {
@@ -386,7 +413,7 @@ $(document).ready(function () {
       }
     );
 
-    //* shrink the moon down to the white cat, rise the background words a little bit
+    //* lower the floor and car, shrink the moon down to the white cat, rise the background words a little bit
     startAnimTime += 1100;
     setTimeout(function () {
       $(".banner__graphics").addClass("expand");
@@ -397,38 +424,151 @@ $(document).ready(function () {
     //* display the floor
     startAnimTime += 3000;
     setTimeout(function () {
-      $(".banner__graphics .floor").addClass("expand");
+      $(".banner__graphics .floor").addClass("active");
     }, startAnimTime);
 
-    var smallFontQuota = 3;
+    startAnimTime += 300;
+    //* increase the time to display the messages one by one, drop down one by one
+    setTimeout(function () {
+      const messages = $(".messages-container .message");
 
+      // //* loop through each message
+      messages.each(function () {
+        var thisElement = $(this);
+        const innerMessage = thisElement.find(".msg-inner");
+
+        //* randomize the opacity of the messages, and reduce the horizontal margin of the small sized messages
+        const fontSize = parseFloat($(innerMessage).css("font-size")) * 0.063;
+        // console.log(fontSize);
+        var opacity = 1;
+        var padding = 13;
+
+        //* if message font is small, reduce the opacity
+        if (fontSize < 0.6) {
+          opacity = Math.random() * 0.4 + 0.4;
+          padding = randomIntFromInterval(1, 3);
+        } else if (fontSize < 0.8) {
+          padding = randomIntFromInterval(2, 5);
+        }
+
+        thisElement.css({
+          transform: " translateY(0)",
+          opacity: opacity,
+          "padding-block": padding + "px",
+
+          transition:
+            "top " +
+            randomIntFromInterval(1000, 5000) +
+            "ms cubic-bezier(.05, .52, .07, 1.02)," +
+            "opacity 5000ms cubic-bezier(.05, .52, .07, 1.02)," +
+            "transform " +
+            randomIntFromInterval(2000, 7000) +
+            "ms cubic-bezier(.05, .52, .07, 1.02), " +
+            "background 2000ms cubic-bezier(.05, .52, .07, 1.02)",
+        });
+
+        thisElement.addClass("active");
+
+        // //* append a message predict span into the msg-inner p tag
+        // $(this)
+        //   .find(".msg-inner")
+        //   .append("<span class='message-predict'></span>");
+
+        // console.log($(this).find(".hover-message").height());
+
+        // //* then copy it's sibling height to the message predict that we have just appended
+        // $(this)
+        //   .find(".message-predict")
+        //   .css({
+        //     height: $(this).find(".hover-message").height() + "px",
+        //   });
+
+        $(thisElement).data(
+          "defaultPadding",
+          parseInt($(thisElement).css("padding-block"))
+        );
+
+        $(innerMessage).data(
+          "defaultFont",
+          parseInt($(innerMessage).css("font-size"))
+        );
+
+        //* add a bit of delay for the animation to end before user can hover on the messages
+        setTimeout(() => {
+          thisElement.mouseenter(function () {
+            messageHoverIn(thisElement, catHeightThreshold);
+          });
+          thisElement.mouseleave(function () {
+            messageHoverOut(thisElement);
+          });
+        }, 1000);
+      });
+
+      // const middleScrollOffset =
+      //   ($(".messages-container").outerWidth(true) -
+      //     $(".banner__graphics").width()) /
+      //   2;
+      // $(".banner__graphics").scrollLeft(middleScrollOffset);
+
+      // //* after drop down of each message, set left and right overflow width for scroll button
+      // console.log(
+      //   '$(".banner__graphics").width() : : ' + $(".banner__graphics").width()
+      // );
+      // console.log('' + $(".messages-container").outerWidth(true));
+
+      var rightOffset =
+        $(window).width() -
+        ($(".messages-container").offset().left +
+          $(".messages-container").outerWidth());
+
+      $(".messages-container").css({
+        left: $(".messages-container").position().left + "px",
+        right: rightOffset + "px",
+      });
+
+      if ($(window).width() < $(".messages-container").outerWidth(true)) {
+        console.log("SMALL SIZE SCREEN");
+        $(".scroll-button").addClass("active");
+
+        $("#btn-left").on("click", function () {
+          messageLeftScroll(catHeightThreshold);
+        });
+
+        $("#btn-right").on("click", function () {
+          messageRightScroll(catHeightThreshold);
+        });
+      }
+    }, startAnimTime);
+
+    var smallFontQuota = 5;
     //* check for floor threshhold, and reduce hoizontal margin if the font size is small
-    $(".messages-container .message").each(function () {
+    $(".messages-container .message p").each(function () {
       var fontSize = 0;
 
       if (smallFontQuota <= 0) {
-        while (fontSize < 0.7) {
-          fontSize = Math.random() * 0.9 + 0.5;
-        }
-      } else fontSize = Math.random() * 0.9 + 0.5;
+        fontSize = Math.random() * 0.9 + 0.5;
+      } else fontSize = Math.random() * 0.2 + 0.4;
+
+      const parentMessage = $(this).closest(".message");
 
       $(this).css({
-        top: randomIntFromInterval(1, 40) + 5 + "px",
         "font-size": fontSize + "rem",
       });
 
-      const floorHeightThreshold = $(".floor").offset().top + 60; //* make the threshold limit to be the top edge of the moon, means no message should cross the moon
+      $(parentMessage).css({
+        top: randomIntFromInterval(1, 40) + 5 + "px",
+      });
 
-      $(".threshold-bar").css("top", floorHeightThreshold + "px");
-
-      var messageOffset = $(this).outerHeight(true) + $(this).offset().top;
+      // var messageOffset = $(this).outerHeight(true) + $(this).offset().top;
       if (fontSize < 0.7) smallFontQuota -= 1;
       // console.log("current messageOffset: " + messageOffset);
       // console.log("catHeightThreshold: : " + catHeightThreshold);
       // console.log("\n");
-      var isBig = false;
+
+      const floorHeightThreshold = $(".floor").offset().top + 60; //* make the threshold limit to be the top edge of the moon, means no message should cross the moon
+
       while (
-        $(this).outerHeight(true) + $(this).offset().top >
+        $(parentMessage).outerHeight(true) + $(parentMessage).offset().top >
         floorHeightThreshold
       ) {
         // console.log(
@@ -439,166 +579,67 @@ $(document).ready(function () {
           "font-size": parseInt($(this).css("font-size")) - 1 + "px",
           // border: "solid 1px yellow",
         });
-        messageOffset = $(this).outerHeight(true) + $(this).offset().top;
 
         // console.log(
         //   "!!! after reduce size  " + parseInt($(this).css("font-size"))
         // );
-
-        isBig = true;
       }
+
+      const messageText = $(this).html();
+
+      $(this).append("<span class='hover-message'>" + messageText + "</span>");
     });
+
     const messages = $(".messages-container .message");
     messages.shuffle(messages);
 
-    //* increase the time to display the messages one by one, drop down one by one
-    setTimeout(function () {
-      $("#welcome-container").css("height", "fit-content");
-      $("#welcome-curtain").css("height", "fit-content");
-      $("#welcome-msg").css("height", "fit-content");
-      $("#welcome-msg h5").css("height", "10px");
+    // console.log($("#main-star").position().top);
+    var notHovered = $("#main-star").position().top > 11;
 
-      const messages = $(".messages-container .message");
+    // notHovered
+    //   ? console.log("MOON: not hovered")
+    //   : console.log("MOON: hovered");
 
-      //* randomize the opacity of the messages, and reduce the horizontal margin of the small sized messages
-      messages.each(function () {
+    //* small stars shrink and expand
+    $("#hero-btn")
+      .find(".star-container")
+      .each(function () {
+        //* ignore the element if it's the big star
+        if ($(this).attr("id")) return;
+
+        //* shrink all stars at the end
         var thisElement = $(this);
-
         setTimeout(function () {
-          const fontSize = parseFloat(thisElement.css("font-size")) * 0.063;
-          // console.log(fontSize);
-          var opacity = 1;
-          var margin = 0.7;
+          thisElement.removeClass("hovered");
+          thisElement.addClass("shrink");
+        }, 10000);
 
-          if (fontSize < 0.6) {
-            opacity = Math.random() * 0.4 + 0.4;
-            margin = Math.random() * 0.2 + 0.1;
-          } else if (fontSize < 0.8) {
-            margin = Math.random() * 0.3 + 0.2;
-          }
+        if (notHovered) {
+          setTimeout(function () {
+            $("#hero-btn")
+              .find(".star-container")
+              .each(function () {
+                $(this).addClass("hovered");
+              });
 
-          thisElement.css({
-            transform: " translateY(0)",
-            opacity: opacity,
-            "margin-block": margin + "rem",
-
-            transition:
-              "top " +
-              randomIntFromInterval(1000, 5000) +
-              "ms cubic-bezier(.05, .52, .07, 1.02)," +
-              "opacity 5000ms cubic-bezier(.05, .52, .07, 1.02)," +
-              "transform " +
-              randomIntFromInterval(5000, 10000) +
-              "ms cubic-bezier(.05, .52, .07, 1.02)",
+            $(".tooltips").addClass("hovered");
           });
 
-          thisElement.addClass("active");
-        });
-      });
-    }, startAnimTime);
-
-    if (event.target === event.currentTarget) {
-      //* disable and close off the button
-      $("#hero-btn").prop("disabled", true);
-      $("#hero-btn").addClass("burst");
-      $("#welcome-msg").addClass("burst");
-
-      // $("#hero-btn").addClass("no-hover");
-      //* rise the main star
-      $("#hero-btn").find("#main-star").addClass("burst");
-      burstRangeY = 50;
-      burstRangeX = currLeft;
-
-      var currLeft = $(this).position().left;
-      var currTop = $(this).position().top;
-
-      $("#hero-btn").off("mouseleave");
-      $("#hero-btn").off("mouseenter");
-
-      $("#hero-btn").addClass("hovered");
-
-      //* 12 -> 0 : hovered
-      //* > 11 : not hovered
-
-      const startPos = [
-        $("#hero-btn").find(".star-container.__3").position().left,
-        $("#hero-btn").find(".star-container.__3").position().top,
-      ];
-
-      // console.log($("#main-star").position().top);
-
-      var notHovered = $("#main-star").position().top > 11;
-
-      notHovered
-        ? console.log("MOON: not hovered")
-        : console.log("MOON: hovered");
-
-      //* small stars shrink and expand
-      $("#hero-btn")
-        .find(".star-container")
-        .each(function () {
-          //* get current position relative to the parent
-          var currLeft = $(this).position().left;
-          var currTop = $(this).position().top;
-
-          // console.log(
-          //   $(this).attr("class") +
-          //     " : " +
-          //     " top : " +
-          //     currTop +
-          //     " left : " +
-          //     currLeft
-          // );
-
-          //* shrink all stars at the end
-          var thisElement = $(this);
-
-          //* ignore the element if it's the big star
-          if ($(this).attr("id")) return;
-
           setTimeout(function () {
-            thisElement.removeClass("hovered");
-
-            thisElement.addClass("shrink");
-          }, 7500);
-
-          if (notHovered) {
-            setTimeout(function () {
-              $("#hero-btn")
-                .find(".star-container")
-                .each(function () {
-                  $(this).addClass("hovered");
-                });
-
-              $(".tooltips").addClass("hovered");
-            });
-
-            setTimeout(function () {
-              secodaryExpand(
-                thisElement,
-                thisElement.position().left,
-                thisElement.position().top
-              );
-            }, 500);
-          } else {
-            secodaryExpand(
+            secondaryExpand(
               thisElement,
               thisElement.position().left,
               thisElement.position().top
             );
-          }
+          }, 700);
+        } else
+          secondaryExpand(
+            thisElement,
+            thisElement.position().left,
+            thisElement.position().top
+          );
 
-          return;
-        });
-    }
+        return;
+      });
   });
 });
-
-// const rndInt = randomIntFromInterval(
-//   0,
-//   $("#hero-btn").find(".star-container").length - 1
-// );
-
-// console.log(rndInt);
-
-// $("#hero-btn").find(".star-container").length;

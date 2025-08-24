@@ -1,9 +1,47 @@
-.threshold-bar {
+.threshold-bar,
+.threshold-bar-cat,
+.threshold-bar-temp {
     position: absolute;
     content: '';
     width: 100%;
-    border: 5px solid red;
+    border: 1px solid blue;
     left: 0;
+}
+
+.threshold-bar-temp {
+    border: 1px solid red;
+
+}
+
+.threshold-bar-cat {
+    border: 1px solid yellow;
+}
+
+.threshold-bar-y,
+.threshold-bar-y-2,
+.threshold-bar-msg,
+.threshold-bar-msg-2,
+.threshold-bar-msg-mid {
+    position: absolute;
+    content: '';
+    height: 100%;
+    left: 0;
+}
+
+.threshold-bar-msg,
+.threshold-bar-msg-2 {
+
+    border: 1px solid var(--hero-white);
+}
+
+
+.threshold-bar-y,
+.threshold-bar-y-2 {
+    border: 1px solid magenta;
+}
+
+.threshold-bar-msg-mid {
+    border: 1px dotted mediumaquamarine;
 }
 
 body {
@@ -29,28 +67,44 @@ body {
     padding: 1.2rem;
 }
 
-.banner__button button {
+.banner__button button,
+.banner__button button::before {
     padding: 0;
-    border: var(--hero-white) solid 1px;
-    width: 13px;
-    height: 13px;
-    border-radius: 100%;
-    background: var(--hero-white);
-    box-shadow: 0 3px 0 0 var(--hero-white), 0 -3px 0 0 var(--hero-white), -3px 0 0 0 var(--hero-white), 3px 0 0 0 var(--hero-white), 0 0 0 3px var(--hero-white);
+    width: 15px;
+    height: 15px;
+    aspect-ratio: 1/1;
 
-    transition: all 350ms ease-out 0ms;
+    border-radius: 100%;
+    /* box-shadow: 0 3px 0 0 var(--hero-white), 0 -3px 0 0 var(--hero-white), -3px 0 0 0 var(--hero-white), 3px 0 0 0 var(--hero-white), 0 0 0 3px var(--hero-white); */
 }
+
+.banner__button button::before {
+    position: absolute;
+    content: '';
+    background: var(--hero-white);
+    border: var(--hero-white) solid 1px;
+
+    top: 50%;
+    left: 50%;
+    border-radius: 100%;
+
+    transform: translate(-50%, -50%);
+    transition: width 350ms ease-out 0ms, height 350ms ease-out 0ms;
+}
+
 
 .banner__button button * {
     pointer-events: none;
 }
 
-.banner__button button.hovered {
+.banner__button button.hovered::before {
+
+
     /* Border bottom */
     transition: box-shadow 350ms ease-out 150ms;
 
     animation-duration: 1s;
-    animation-name: box-shadow-out-in;
+    animation-name: size-out-in;
     animation-direction: normal;
     animation-fill-mode: forwards;
     animation-timing-function: ease-out;
@@ -81,9 +135,8 @@ body {
     transition: border 100ms ease-out;
 }
 
-.banner__button button:hover .wave {
+.banner__button button.hovered .wave {
     border: 2px solid rgba(255, 255, 255, 0);
-
 }
 
 .banner__button .wave,
@@ -121,9 +174,10 @@ body {
     transition: opacity 350ms ease-out 0ms, transform 350ms ease-out 0ms;
 }
 
+
 .banner__button button .star-container.hovered {
     opacity: 1;
-    transition: opacity 350ms ease-out 0ms, transform 350ms ease-out 0ms;
+    transition: opacity 350ms ease-out 0ms, transform 800ms var(--ease-out) 0ms;
 }
 
 .banner__button button .star {
@@ -301,8 +355,8 @@ body {
 /** big size */
 .banner__button button .star-container.__3.hovered {
     opacity: 1;
-    transform: translate(-50%, -200%);
-    transition: opacity 350ms ease-out 0ms, transform 700ms ease-out 0ms;
+    transform: translate(-50%, -300%);
+    transition: opacity 750ms var(--ease-out) 0ms, transform 1000ms var(--ease-out) 0ms;
 }
 
 .banner__button button .star-container:not(.__3).no-hover {
@@ -337,22 +391,29 @@ body {
 
 
 /** ---------------- burst click --------------  */
+
 .banner__button #main-star.burst {
-    transform: translate(-50%, -1750%) scale(1.5);
-    transition: opacity 350ms ease-out 0ms, transform 2000ms cubic-bezier(.13, .15, .05, 1.01) 0ms;
+    transform: translate(-50%, -1800%) scale(1.5);
+    transition: opacity 350ms ease-out 0ms, transform 1500ms cubic-bezier(.13, .15, .05, 1.01) 0ms;
 }
 
-.banner__button button.burst {
+.banner__button button.hovered.burst::before {
+    transition: background 2000ms var(--ease-out) 0ms;
+
     background: rgba(255, 255, 255, 0);
     /* border: 1px solid #ffffff; */
 
-    transition: background 3000ms ease-out 0ms, border 3000ms ease-out 0ms;
 
-    animation-name: box-shadow-in;
-    animation-duration: 0.1;
+    animation-name: size-in;
+    animation-duration: 2000ms;
     animation-fill-mode: forwards;
+    animation-timing-function: var(--ease-out);
 
     cursor: default;
+}
+
+.banner__button button:disabled {
+    background: rgba(255, 255, 255, 0);
 }
 
 .banner__button button.burst .wave {
@@ -394,7 +455,7 @@ body {
 
 .banner__graphics.expand {
     margin-bottom: 0;
-    transition: margin-bottom 2000ms cubic-bezier(.05, .52, .07, 1.02);
+    transition: margin-bottom 2000ms var(--ease-out);
 }
 
 .banner__graphics .detachment {
@@ -402,7 +463,7 @@ body {
     bottom: 5%;
     left: 50%;
     opacity: 1;
-    transition: bottom 2000ms cubic-bezier(.05, .52, .07, 1.02);
+    transition: bottom 2000ms var(--ease-out);
 }
 
 .banner__graphics .detachment.rise {
@@ -435,12 +496,14 @@ body {
     left: 0px;
     right: 0px;
     opacity: 1;
+    margin: 0;
+    padding: 0;
 
-    transition: font-size 1000ms cubic-bezier(.05, .52, .07, 1.02),
-        transform 2000ms cubic-bezier(.05, .52, .07, 1.02),
+    transition: font-size 1000ms var(--ease-out),
+        transform 2000ms var(--ease-out),
         filter 700ms ease-in-out 2000ms,
         opacity 700ms ease-in-out 2000ms,
-        text-shadow 1000ms cubic-bezier(.05, .52, .07, 1.02)
+        text-shadow 1000ms var(--ease-out)
 }
 
 
@@ -496,7 +559,8 @@ body {
     content: '';
 
     border: solid 1px white;
-    width: 160%;
+    height: calc(100% + 35px);
+
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -511,13 +575,13 @@ body {
     content: '';
 
     border: dashed 1px var(--hero-white);
-    width: 130%;
+    height: calc(100% + 21px);
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     aspect-ratio: 1/1;
     opacity: 0;
-
+    display: inline-block;
 }
 
 .banner__graphics .detachment .bg-box {
@@ -534,17 +598,18 @@ body {
 }
 
 .banner__graphics .detachment .bg-box::before {
-    width: 80%;
+    width: 75%;
+    height: 75%;
 }
 
 .banner__graphics .detachment .word::after,
 .banner__graphics .detachment .dotted-box,
 .banner__graphics .detachment .bg-box,
 .banner__graphics .detachment .bg-box::before {
-    transition: opacity 2000ms cubic-bezier(.05, .52, .07, 1.02),
-        box-shadow 2000ms cubic-bezier(.05, .52, .07, 1.02),
-        transform 2000ms cubic-bezier(.05, .52, .07, 1.02),
-        filter 700ms cubic-bezier(.05, .52, .07, 1.02) 2000ms;
+    transition: opacity 2000ms var(--ease-out),
+        box-shadow 2000ms var(--ease-out),
+        transform 2000ms var(--ease-out),
+        filter 700ms var(--ease-out) 2000ms;
 }
 
 .banner__graphics .detachment.burst .word::after,
@@ -587,18 +652,20 @@ body {
     overflow: hidden;
     /*! background: var(--hero-dark); */
     /* border: 1px solid var(--hero-white); */
+    height: "fit-content";
+
     clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0 100%);
-    transition: clip-path 1s ease-in-out;
+    transition: clip-path 800ms ease-in-out;
     /* Smooth transition */
-    height: 0;
-    z-index: 2;
+    /* height: 0; */
+    z-index: 1;
 
 }
 
 .banner__graphics #welcome-curtain.collapse {
     /* Final state: top points move to bottom, effectively collapsing height */
     clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
-    transition: clip-path 3000ms cubic-bezier(.05, .52, .07, 1.02), height 3000ms cubic-bezier(.05, .52, .07, 1.02) !important;
+    transition: clip-path 3000ms var(--ease-out), height 3000ms var(--ease-out) !important;
 }
 
 .banner__graphics #welcome-msg {
@@ -609,6 +676,7 @@ body {
     white-space: nowrap;
     overflow: hidden;
     /*! border: 1px solid var(--hero-white); */
+    /* border: 3px solid red; */
 
     display: flex;
     flex-direction: column;
@@ -634,13 +702,13 @@ body {
     writing-mode: vertical-rl;
     text-orientation: upright;
     position: relative;
-    transition: bottom 1000ms cubic-bezier(.05, .52, .07, 1.02) 3000ms;
+    transition: bottom 1000ms var(--ease-out) 3000ms;
     /*! background: var(--hero-dark); */
 }
 
 .banner__graphics #welcome-msg h5.expand {
     /* transform: translateY(-30px); */
-    transition: transform 1000ms cubic-bezier(.05, .52, .07, 1.02);
+    transition: transform 1000ms var(--ease-out);
 }
 
 .banner__graphics #welcome-msg .star-dark {
@@ -655,7 +723,7 @@ body {
     object-fit: contain;
 
     /* border: 3px solid darkslategrey; */
-    transition: top 3000ms cubic-bezier(.05, .52, .07, 1.02);
+    transition: top 3000ms var(--ease-out);
     filter: drop-shadow(0px 0px 3px var(--hero-dark));
 
 }
@@ -680,6 +748,7 @@ body {
     flex-grow: 0;
     /* prevent growing */
     /*! background: var(--hero-white); */
+    transition: backdrop-filter 1000ms var(--ease-out);
 }
 
 .banner__graphics .dark-cat {
@@ -688,7 +757,7 @@ body {
 
 .banner__graphics .dark-cat.expand {
     transform: translateY(30px);
-    transition: transform 3000ms cubic-bezier(.05, .52, .07, 1.02);
+    transition: transform 3000ms var(--ease-out);
     /* background: var(--hero-dark); */
 }
 
@@ -704,7 +773,7 @@ body {
     justify-content: flex-end;
     align-items: center;
     display: none;
-
+    z-index: 0;
     /* border: 2px solid red; */
 }
 
@@ -723,13 +792,13 @@ body {
     /*! background: var(--hero-white); */
 }
 
-.banner__graphics .floor.expand {
+.banner__graphics .floor.active {
     opacity: 90%;
     transition: opacity 2000ms ease-out;
 }
 
 .banner__button #main-star.expand {
-    animation-duration: 3s;
+    animation-duration: 4s;
     animation-name: rotate-half;
     animation-iteration-count: 1;
     animation-direction: normal;
@@ -754,46 +823,58 @@ body {
     left: 50% !important;
     top: 50% !important;
     opacity: 0;
-    transition: all 2000ms cubic-bezier(.05, .52, .07, 1.02), opacity 1000ms ease-out 1000ms;
+    transition: all 2000ms var(--ease-out), opacity 1000ms ease-out 1000ms;
 }
 
 .banner__graphics .messages-container {
     position: absolute;
     padding-top: 60px;
     top: 0;
+    z-index: 999;
 
     writing-mode: vertical-rl;
     text-orientation: upright;
-    /* border: 5px solid red; */
-    width: 100%;
-    height: 75%;
+    /* border: 1px solid red; */
+    width: fit-content;
+    height: 100%;
 
     color: var(--hero-white);
     display: flex;
     flex-direction: column;
     justify-content: center;
     /* gap: 1.3rem; */
-
-
+    transition: transform 750ms var(--ease-out);
 }
 
 .banner__graphics .messages-container .message {
     position: relative;
-    font-size: 1rem;
-    letter-spacing: 0.3rem;
-
     height: fit-content;
 
-    font-family: "Shippori Mincho", serif;
-    font-weight: 400;
     transform: translateY(0);
 
-    white-space: nowrap;
     opacity: 0;
     /*! background: var(--hero-white); */
-    margin-block: 0.5rem;
-    /* transition: top 5000ms cubic-bezier(.05, .52, .07, 1.02),
-        opacity 10000ms cubic-bezier(.05, .52, .07, 1.02); */
+    cursor: default;
+
+    /* border: 1px solid red; */
+
+    transition: background 750ms var(--ease-out);
+    /* transition: top 5000ms var(--ease-out),
+        opacity 10000ms var(--ease-out); */
+
+}
+
+.banner__graphics .messages-container .message p {
+    font-size: 1rem;
+    letter-spacing: 0.3rem;
+    font-family: "Shippori Mincho", serif;
+    font-weight: 400;
+
+    padding: 0;
+    margin: 0;
+    white-space: nowrap;
+    position: relative;
+
 }
 
 .banner__graphics .messages-container.hide .message {
@@ -803,10 +884,11 @@ body {
 .banner__graphics .messages-container .message.active {
     top: 0;
     transform: translateY(0) !important;
+    cursor: pointer;
 
-    transition: top 5000ms cubic-bezier(.05, .52, .07, 1.02),
-        opacity 5000ms cubic-bezier(.05, .52, .07, 1.02),
-        transform 5000ms cubic-bezier(.05, .52, .07, 1.02);
+    transition: top 5000ms var(--ease-out),
+        opacity 5000ms var(--ease-out),
+        transform 5000ms var(--ease-out);
 }
 
 .banner__graphics .messages-container #the__one.active {
@@ -840,7 +922,7 @@ body {
     animation-name: fade-in;
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
-    animation-timing-function: cubic-bezier(.05, .52, .07, 1.02);
+    animation-timing-function: var(--ease-out);
 }
 
 
@@ -1003,28 +1085,33 @@ body {
 
 
 
-@keyframes box-shadow-out-in {
+@keyframes size-out-in {
     0% {
-        box-shadow: 0 3px 0 0 var(--hero-white), 0 -3px 0 0 var(--hero-white), -3px 0 0 0 var(--hero-white), 3px 0 0 0 var(--hero-white), 0 0 0 3px var(--hero-white);
+        width: 13px;
+        height: 13px;
     }
 
     30% {
-        box-shadow: 0 9px 0 0 var(--hero-white), 0 -9px 0 0 var(--hero-white), -9px 0 0 0 var(--hero-white), 9px 0 0 0 var(--hero-white), 0 0 0 9px var(--hero-white);
+        width: 23px;
+        height: 23px;
     }
 
     70%,
     100% {
-        box-shadow: 0 7px 0 var(--hero-white), 0 -7px 0 var(--hero-white), -7px 0 0 var(--hero-white), 7px 0 0 var(--hero-white), 0 0 0 7px var(--hero-white);
+        width: 19px;
+        height: 19px;
     }
 }
 
-@keyframes box-shadow-in {
+@keyframes size-in {
     0% {
-        box-shadow: 0 7px 0 0 var(--hero-white), 0 -7px 0 0 var(--hero-white), -7px 0 0 0 var(--hero-white), 7px 0 0 0 var(--hero-white), 0 0 0 7px var(--hero-white);
+        width: 19px;
+        height: 19px;
     }
 
     100% {
-        box-shadow: 0 0px 0 var(--hero-white), 0 -0px 0 var(--hero-white), -0px 0 0 var(--hero-white), 0px 0 0 var(--hero-white), 0 0 0 0px var(--hero-white);
+        width: 13px;
+        height: 13px;
     }
 }
 
@@ -1042,26 +1129,26 @@ body {
 
 @keyframes rotate-half {
     0% {
-        transform: translate(-50%, -1750%) scale(1.5) rotate(0);
+        transform: translate(-50%, -1800%) scale(1.5) rotate(0);
     }
 
     50% {
-        transform: translate(-50%, -1830%) scale(1.5) rotate(20deg);
+        transform: translate(-50%, -1880%) scale(1.5) rotate(20deg);
     }
 
     100% {
-        transform: translate(-50%, -1750%) scale(1.5) rotate(0deg);
+        transform: translate(-50%, -1800%) scale(1.5) rotate(0deg);
     }
 }
 
 
 @keyframes shrink-down {
     0% {
-        transform: translate(-50%, -1750%) scale(1.5) rotate(0deg);
+        transform: translate(-50%, -1800%) scale(1.5) rotate(0deg);
     }
 
     100% {
-        transform: translate(-50%, -580%) scale(0.6) rotate(360deg);
+        transform: translate(-50%, -650%) scale(0.6) rotate(360deg);
     }
 }
 

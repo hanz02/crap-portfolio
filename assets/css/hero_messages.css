@@ -1,0 +1,107 @@
+.banner__graphics .messages-container .message {
+    padding-inline: 0.5rem;
+    padding-block: 0.1rem;
+
+}
+
+.banner__graphics .messages-container .message p {
+    transition: transform 750ms var(--ease-out);
+}
+
+.banner__graphics .messages-container .message.hovered p {
+    transform: scale(1.05) !important;
+}
+
+.banner__graphics .messages-container .message .hover-message {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
+    width: 120%;
+    height: 104%;
+    background: var(--hero-white);
+    color: var(--hero-dark);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+
+    letter-spacing: 0.3rem;
+    font-family: "Shippori Mincho", serif;
+    font-weight: 400;
+
+    clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+    transition: clip-path 750ms var(--ease-out) 0ms;
+}
+
+.banner__graphics .messages-container #the__one .hover-message {
+    text-shadow: 1px 1px 7px rgba(0, 26, 44, 0.413), -1px -1px 7px rgba(0, 26, 44, 0.454);
+
+}
+
+.banner__graphics .messages-container .message.hovered .hover-message {
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    transition: clip-path 1500ms var(--ease-out) 500ms;
+}
+
+.banner__graphics .hero-cat,
+.banner__button #main-star,
+.banner__graphics .floor {
+    transition: all 1000ms var(--ease-out);
+}
+
+.banner__graphics .hero-cat.blur,
+.banner__button #main-star.blur,
+.banner__graphics .floor.blur {
+    opacity: 0.5;
+    filter: blur(4px) !important;
+
+    transition: all 1000ms var(--ease-out);
+}
+
+/* .banner__graphics .messages-container .message .message-predict {
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100%;
+    border: 1px solid skyblue;
+    top: -2%;
+    left: 0;
+
+    transition: none;
+}
+
+.banner__graphics .messages-container .message .message-predict.hovered {
+    transform: scale(1.05);
+    padding-inline: 8px;
+} */
+
+.hero .scroll-button {
+    position: relative;
+    width: 90%;
+    /* background: red; */
+    /* border: 1px solid white; */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    opacity: 0;
+
+    transition: opacity 750ms var(--ease-out);
+
+}
+
+.hero .scroll-button button {
+    background: none;
+    color: var(--hero-white);
+    border: none;
+
+    cursor: pointer;
+    position: relative;
+    z-index: 999;
+}
+
+.hero .scroll-button.active {
+    opacity: 1;
+}
