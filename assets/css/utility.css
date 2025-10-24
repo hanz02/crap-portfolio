@@ -1,7 +1,7 @@
 :root {
   --hero-white: #FAF7F3;
-  --hero-dark: #001a2c;
-
+  --hero-dark: rgb(0, 26, 44);
+  --ease-out: cubic-bezier(.05, .52, .07, 1.02);
 }
 
 img {
