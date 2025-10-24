@@ -4,15 +4,21 @@ var isBlocking = false;
 
 var transitionValue = 0;
 
+const hero_cat = document.querySelector(".hero-cat.light-cat");
+const main_star = document.querySelector("#main-star");
+const floor = document.querySelector(".floor");
+
+const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
+
 function toggleCatFloorBlur(toBlur) {
   if (toBlur) {
-    $(".hero-cat").addClass("blur");
-    $("#main-star").addClass("blur");
-    $(".floor").addClass("blur");
+    hero_cat.classList.add("blur");
+    main_star.classList.add("blur");
+    floor.classList.add("blur");
   } else {
-    $(".hero-cat").removeClass("blur");
-    $("#main-star").removeClass("blur");
-    $(".floor").removeClass("blur");
+    hero_cat.classList.remove("blur");
+    main_star.classList.remove("blur");
+    floor.classList.remove("blur");
   }
 }
 
@@ -21,17 +27,21 @@ var currentMiddleIndex = "no element";
 function searchMiddleMessage(direction, isEnd, catThreshold) {
   if (isEnd) return;
 
-  var messages = $(".message p");
-  const catLeftOffset = $("#welcome-curtain").offset().left + catInnerPadding;
+  var messages = document.querySelectorAll(".message p");
+  const catLeftOffset =
+    document.querySelector("#welcome-curtain").getBoundingClientRect().left +
+    catInnerPadding;
   const catRightOffset =
-    $("#welcome-curtain").offset().left +
-    $("#welcome-curtain").outerWidth() -
+    document.querySelector("#welcome-curtain").getBoundingClientRect().left +
+    document.querySelector("#welcome-curtain").offsetWidth -
     catInnerPadding;
 
   //! debug: cat left and right threshold bar
-  $(".threshold-bar-y").css("left", catLeftOffset + "px");
-  $(".threshold-bar-y-2").css("left", catRightOffset + "px");
+  // document.querySelector(".threshold-bar-y").style.left = catLeftOffset + "px";
+  // document.querySelector(".threshold-bar-y-2").style.left =
+  //   catRightOffset + "px";
 
+  //* get current middle index
   var index =
     currentMiddleIndex === "no element"
       ? Math.floor(messages.length / 2)
@@ -41,45 +51,72 @@ function searchMiddleMessage(direction, isEnd, catThreshold) {
   var tempMiddleIndex = -1;
   var toBlur = false;
 
+  //! for debug only
+  let finalBottomOffset = 0;
   while (counter > 0) {
+    if (condition) {
+    }
     var color = direction === "right" ? "skyblue" : "green";
-    $(messages[index]).css("border", "solid 2px " + color);
+
+    //! debug message border
+    // messages[index].style.border = "solid 2px " + color;
 
     var msgRightOffset =
-      $(messages[index]).offset().left + $(messages[index]).outerWidth();
+      messages[index].getBoundingClientRect().left +
+      messages[index].offsetWidth;
 
     msgRightOffset =
       direction === "right"
         ? msgRightOffset - scrollDistance
         : msgRightOffset + scrollDistance;
 
-    var msgMiddleOffset = msgRightOffset - $(messages[index]).outerWidth() / 2;
-    $(".threshold-bar-msg-mid").css("left", msgMiddleOffset + "px");
-    $(".threshold-bar-msg-mid").css("border", "solid mediumaquamarine 1px");
+    var msgMiddleOffset = msgRightOffset - messages[index].offsetWidth / 2;
+    // document.querySelector(".threshold-bar-msg-mid").style.left =
+    //   msgMiddleOffset + "px";
+    // document.querySelector(".threshold-bar-msg-mid").style.border =
+    //   "solid mediumaquamarine 1px";
 
     const msgLeftOffset =
       direction === "right"
-        ? $(messages[index]).offset().left - scrollDistance
-        : $(messages[index]).offset().left + scrollDistance;
+        ? messages[index].getBoundingClientRect().left - scrollDistance
+        : messages[index].getBoundingClientRect().left + scrollDistance;
+
+    console.log(
+      "parseInt($(messages[index]).closest ====> " +
+        parseInt($(messages[index]).closest(".message").css("top"))
+    );
 
     const msgBottomOffset =
-      parseInt($(messages[index]).closest(".message").css("top")) +
-      $(messages[index]).find(".hover-message").outerHeight(true) +
-      parseInt($(".banner__graphics").css("padding-top"));
+      parseFloat(
+        window
+          .getComputedStyle(messages[index].closest(".message"))
+          .getPropertyValue("top")
+      ) +
+      messages[index].querySelector(".hover-message").offsetHeight +
+      parseFloat(
+        window
+          .getComputedStyle(document.querySelector(".banner__graphics"))
+          .getPropertyValue("padding-top")
+      );
 
     if (
       (msgLeftOffset > catLeftOffset && msgLeftOffset < catRightOffset) ||
       (msgRightOffset > catLeftOffset && msgRightOffset < catRightOffset) ||
       (msgMiddleOffset > catLeftOffset && msgMiddleOffset < catRightOffset)
     ) {
-      $(messages[index]).css("border", "solid 2px pink");
+      //! debug message border
+      // messages[index].style.border = "solid 2px pink";
       tempMiddleIndex = index;
       if (msgBottomOffset > catThreshold) {
-        $(messages[index]).css("border", "solid 2px red");
-        $(".threshold-bar-msg-mid").css("border", "solid red 1px");
+        //! debug message border
+        // messages[index].style.border = "solid 2px red";
+        // document.querySelector(".threshold-bar-msg-mid").style.border =
+        //   "solid red 1px";
 
         currentMiddleIndex = index;
         toBlur = true;
+
+        finalBottomOffset = msgBottomOffset;
 
         break;
       }
@@ -114,28 +151,38 @@ function searchMiddleMessage(direction, isEnd, catThreshold) {
     currentMiddleIndex = tempMiddleIndex;
 
   console.log(
-    "currentMiddleIndex : : : " + $($(".message p")[currentMiddleIndex]).text()
+    "currentMiddleIndex : : : " +
+      document.querySelectorAll(".message p")[currentMiddleIndex].textContent
   );
+
+  // console.log("cat threshold ====> ", catThreshold);
+
+  // console.log("finalBottomOffset ====> ", finalBottomOffset);
+
   isBlocking = toBlur;
   toggleCatFloorBlur(toBlur);
 }
 
 function messageLeftScroll(catThreshold) {
-  console.log($(".messages-container").position().left);
-  const messageContainerLeft = $(".messages-container").position().left;
+  console.log(
+    document.querySelector(".messages-container").getBoundingClientRect().left
+  );
+  const msg_containers = document.querySelector(".messages-container");
+  const messageContainerLeft = msg_containers.getBoundingClientRect().left;
 
   var isEnd = true;
-
-  $(".threshold-bar-cat").css("top", catThreshold + "px");
+  //! debug threshold
+  // document.querySelector(".threshold-bar-cat").style.top = catThreshold + "px";
 
   if (messageContainerLeft < -10) {
     transitionValue += scrollDistance;
 
-    $(".messages-container").css({
-      transform: "translateX(" + transitionValue + "px)",
-    });
+    document.querySelector(".messages-container").style.transform =
+      "translateX(" + transitionValue + "px)";
 
-    console.log("LEFT :: " + $(".messages-container").css("transform"));
+    console.log(
+      "LEFT :: " + document.querySelector(".messages-container").style.transform
+    );
 
     isEnd = false;
   }
@@ -144,24 +191,26 @@ function messageLeftScroll(catThreshold) {
 }
 
 function messageRightScroll(catThreshold) {
+  msg_container = document.querySelector(".messages-container");
+
   var messageContainerRight =
-    $(window).width() -
-    ($(".messages-container").offset().left +
-      $(".messages-container").outerWidth());
+    window.innerWidth -
+    (msg_container.getBoundingClientRect().left + msg_container.offsetWidth);
 
   var isEnd = true;
 
   //! debug: cat threshold bar
-  $(".threshold-bar-cat").css("top", catThreshold + "px");
+  // document.querySelector(".threshold-bar-cat").style.top = catThreshold + "px";
 
   if (messageContainerRight < -10) {
     transitionValue -= scrollDistance;
 
-    $(".messages-container").css({
-      transform: "translateX(" + transitionValue + "px)",
-    });
+    msg_container.style.transform = "translateX(" + transitionValue + "px)";
 
-    console.log("RIGHT : : " + $(".messages-container").css("transform"));
+    console.log(
+      "RIGHT : : " +
+        document.querySelector(".messages-container").style.transform
+    );
 
     isEnd = false;
   }
@@ -169,52 +218,61 @@ function messageRightScroll(catThreshold) {
   searchMiddleMessage("right", isEnd, catThreshold);
 }
 
-function messageHoverIn(thisElement, catThreshold) {
-  //   console.log(thisElement);
-  $(thisElement).addClass("hovered");
-  $(thisElement).find(".message-predict").css({
-    // "margin-block": $(thisElement).data("defaultPadding") + 8 + "px",
-  });
-  $(thisElement).find(".message-predict").addClass("hovered");
+function messageHoverIn(message, catThreshold) {
+  //   console.log(message);
+  message.classList.add("hovered");
+  // message.querySelector(".message-predict").style.marginBlock =
+  //   parseFloat(message.dataset.defaultPadding) + 8 + "px";
 
-  if (!$(thisElement).css("transition").includes("padding-block")) {
-    $(thisElement).css({
-      transition:
-        thisElement.css("transition") +
-        ", padding-block 750ms ease-out 0ms" +
-        ", transform 750ms cubic-bezier(.05, .52, .07, 1.02) 0ms",
-    });
+  // message.querySelector(".message-predict").classList.add("hovered");
+  const transitionValue = getComputedStyle(message).transition;
+  if (!transitionValue.includes("padding-block")) {
+    message.style.transition =
+      transitionValue +
+      ", padding-block 750ms ease-out 0ms" +
+      ", transform 750ms cubic-bezier(.05, .52, .07, 1.02) 0ms";
   }
 
-  $(thisElement).css({
-    "padding-block": $(thisElement).data("defaultPadding") + 8 + "px",
-  });
-  const messageRightOffset =
-    $(thisElement).find(".msg-inner").offset().left +
-    $(thisElement).find(".msg-inner").width() +
-    8;
-  const messageLeftOffset = $(thisElement).find(".msg-inner").offset().left - 8;
+  message.style.paddingBlock =
+    parseFloat(message.dataset.defaultPadding) + 8 + "px";
+
+  const inner_message = message.querySelector(".msg-inner");
+  const welcome_curtain = document.querySelector("#welcome-curtain");
+
+  const messageRightOffset = inner_message.getBoundingClientRect().right + 8;
+  const messageLeftOffset = inner_message.getBoundingClientRect().left - 8;
+
+  //todo: offset in jeury seems to be different from vanilla JS, look at the above two which gets the offset relat8ve to screen correctly
+  //* knowledge: The offsetTop property in JavaScript is not relative to the screen or the viewport. Instead, it returns the distance of an element's top border edge from the top padding edge of its offsetParent.
+  const hovered_message = message.querySelector(".hover-message");
 
   const messageBottomOffset =
-    $(thisElement).find(".hover-message").offset().top +
-    $(thisElement).find(".hover-message").outerHeight(true) +
+    hovered_message.getBoundingClientRect().top +
+    hovered_message.offsetHeight +
     8;
 
-  const catLeftOffset = $("#welcome-curtain").offset().left + catInnerPadding;
+  const catLeftOffset =
+    welcome_curtain.getBoundingClientRect().left + catInnerPadding;
   const catRightOffset =
-    $("#welcome-curtain").offset().left +
-    $("#welcome-curtain").outerWidth() -
+    welcome_curtain.getBoundingClientRect().left +
+    welcome_curtain.offsetWidth -
     catInnerPadding;
 
-  $(".threshold-bar").css("top", messageBottomOffset + "px");
+  //! debug threshold
+  // document.querySelector(".threshold-bar").style.top =
+  //   messageBottomOffset + "px";
 
-  $(".threshold-bar-y").css("left", catLeftOffset + "px");
-  $(".threshold-bar-y-2").css("left", catRightOffset + "px");
+  // document.querySelector(".threshold-bar-y").style.left = catLeftOffset + "px";
+  // document.querySelector(".threshold-bar-y-2").style.left =
+  //   catRightOffset + "px";
 
-  $(".threshold-bar-msg").css("left", messageRightOffset + "px");
-  $(".threshold-bar-msg-2").css("left", messageLeftOffset + "px");
+  // document.querySelector(".threshold-bar-msg").style.left =
+  //   messageRightOffset + "px";
 
-  $(".threshold-bar").css("border", "2px solid blue");
+  // document.querySelector(".threshold-bar-msg-2").style.left =
+  //   messageLeftOffset + "px";
+
+  // document.querySelector(".threshold-bar").style.border = "2px solid blue";
 
   //* do nothing if the message is above the cat height threshold
   if (messageBottomOffset < catThreshold) return;
@@ -226,22 +284,21 @@ function messageHoverIn(thisElement, catThreshold) {
     (messageLeftOffset > catLeftOffset && messageLeftOffset < catRightOffset)
   ) {
     toggleCatFloorBlur(true);
-    $(".threshold-bar").css("border", "2px solid red");
+
+    //! threshold debug
+    // document.querySelector(".threshold-bar").style.border = "2px solid red";
     return;
   }
 }
 
-function messageHoverOut(thisElement) {
+function messageHoverOut(message) {
   setTimeout(() => {
-    $(thisElement).removeClass("hovered");
+    message.classList.remove("hovered");
   }, 100);
 
   //todo check if current hover out is the blocking messages
-
   isBlocking ? toggleCatFloorBlur(true) : toggleCatFloorBlur(false);
-  $(thisElement).css({
-    "padding-block": $(thisElement).data("defaultPadding") + "px",
-  });
+  message.style.paddingBlock = message.dataset.defaultPadding + "px";
 }
 
 $(document).ready(function () {});
