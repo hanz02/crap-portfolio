@@ -509,6 +509,8 @@ document.addEventListener("DOMContentLoaded", function () {
     startAnimTime += 3000;
     setTimeout(function () {
       catFloor.classList.add("active");
+      catHeightThreshold =
+        $(".floor").offset().top - $(".hero-cat").outerWidth() + 40;
     }, startAnimTime);
 
     startAnimTime += 300;
@@ -517,9 +519,6 @@ document.addEventListener("DOMContentLoaded", function () {
       const messages = document.querySelectorAll(
         ".messages-container .message"
       );
-
-      catHeightThreshold =
-        $(".floor").offset().top - $(".hero-cat").outerWidth() + 40;
 
       // //* loop through each message
       messages.forEach(function (message) {
