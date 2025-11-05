@@ -226,6 +226,8 @@ function messageRightScroll(catThreshold) {
 }
 
 function messageHoverIn(message, catThreshold) {
+  // document.querySelector(".threshold-bar-cat").style.top = catThreshold + "px";
+
   //   console.log(message);
   message.classList.add("hovered");
   // message.querySelector(".message-predict").style.marginBlock =
@@ -249,7 +251,7 @@ function messageHoverIn(message, catThreshold) {
   const messageRightOffset = inner_message.getBoundingClientRect().right + 8;
   const messageLeftOffset = inner_message.getBoundingClientRect().left - 8;
 
-  //todo: offset in jeury seems to be different from vanilla JS, look at the above two which gets the offset relat8ve to screen correctly
+  //* offset in jeury seems to be different from vanilla JS, look at the above two which gets the offset relat8ve to screen correctly
   //* knowledge: The offsetTop property in JavaScript is not relative to the screen or the viewport. Instead, it returns the distance of an element's top border edge from the top padding edge of its offsetParent.
   const hovered_message = message.querySelector(".hover-message");
 
@@ -280,6 +282,15 @@ function messageHoverIn(message, catThreshold) {
   //   messageLeftOffset + "px";
 
   // document.querySelector(".threshold-bar").style.border = "2px solid blue";
+
+  // console.log();
+
+  // console.log("messageBottomOffset ===> ", messageBottomOffset);
+  // console.log("messageLeftOffset ===> ", messageLeftOffset);
+  // console.log("messageRightOffset ===> ", messageRightOffset);
+
+  // console.log("\n\ncatLeftOffset ===> ", catLeftOffset);
+  // console.log("catRightOffset ===> ", catRightOffset);
 
   //* do nothing if the message is above the cat height threshold
   if (messageBottomOffset < catThreshold) return;

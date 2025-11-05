@@ -69,8 +69,6 @@ document.addEventListener("DOMContentLoaded", function () {
     catHeightThreshold =
       $(".floor").offset().top - $(".hero-cat").outerWidth() + 40; //* make the threshold limit to be the top edge of the moon, means no message should cross the moon (floor height + cat height - margin bottom roughly 40px)
 
-    console.log("cat threshold: " + catHeightThreshold);
-
     for (var i = 0; i < elements.length; i++) {
       // $(elements[i]).before($(elements[j]));
       // } while (parseInt($(elements[midIndex]).css("height")) > 490);
@@ -520,6 +518,9 @@ document.addEventListener("DOMContentLoaded", function () {
         ".messages-container .message"
       );
 
+      catHeightThreshold =
+        $(".floor").offset().top - $(".hero-cat").outerWidth() - 20; //* make the threshold limit to be the top edge of the moon, means no message should cross the moon (floor height + cat height - margin bottom roughly 40px)
+
       // //* loop through each message
       messages.forEach(function (message) {
         const innerMessage = message.querySelector(".msg-inner");
@@ -579,6 +580,8 @@ document.addEventListener("DOMContentLoaded", function () {
         //* add a bit of delay for the animation to end before user can hover on the messages
         setTimeout(() => {
           message.addEventListener("mouseenter", function () {
+            console.log("catHeightThreshold ======> ", catHeightThreshold);
+
             messageHoverIn(message, catHeightThreshold);
           });
           message.addEventListener("mouseleave", function () {
