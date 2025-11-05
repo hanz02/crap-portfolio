@@ -47,15 +47,17 @@ function searchMiddleMessage(direction, isEnd, catThreshold) {
       ? Math.floor(messages.length / 2)
       : currentMiddleIndex;
 
-  var counter = 6;
+  var counter = 8;
   var tempMiddleIndex = -1;
   var toBlur = false;
+
+  console.log("currentMiddleIndex ====> ", currentMiddleIndex);
 
   //! for debug only
   let finalBottomOffset = 0;
   while (counter > 0) {
-    if (condition) {
-    }
+    // if (condition) {
+    // }
     var color = direction === "right" ? "skyblue" : "green";
 
     //! debug message border
@@ -107,11 +109,16 @@ function searchMiddleMessage(direction, isEnd, catThreshold) {
       //! debug message border
       // messages[index].style.border = "solid 2px pink";
       tempMiddleIndex = index;
+      // console.log("msgBottomOffset ====> ", msgBottomOffset);
+      // console.log("catThreshold ====> ", catThreshold);
+
       if (msgBottomOffset > catThreshold) {
         //! debug message border
         // messages[index].style.border = "solid 2px red";
         // document.querySelector(".threshold-bar-msg-mid").style.border =
         //   "solid red 1px";
+
+        // console.log("BLOCKED IN THE WAY ======!! ");
 
         currentMiddleIndex = index;
         toBlur = true;
