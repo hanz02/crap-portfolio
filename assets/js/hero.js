@@ -292,7 +292,7 @@ document.addEventListener("DOMContentLoaded", function () {
             duration: burstDuration,
             easing: "cubic-bezier(0.19, 1, 0.22, 1)", // equivalent to easeOutExpo
             fill: "forwards", // keeps final position
-          }
+          },
         );
       } else {
         //* LEFT: Top
@@ -309,7 +309,7 @@ document.addEventListener("DOMContentLoaded", function () {
             duration: burstDuration,
             easing: "cubic-bezier(0.19, 1, 0.22, 1)", // equivalent to easeOutExpo
             fill: "forwards", // keeps final position
-          }
+          },
         );
       }
     } else {
@@ -328,7 +328,7 @@ document.addEventListener("DOMContentLoaded", function () {
             duration: burstDuration,
             easing: "cubic-bezier(0.19, 1, 0.22, 1)", // equivalent to easeOutExpo
             fill: "forwards", // keeps final position
-          }
+          },
         );
       } else {
         //* RIGHT: Top
@@ -345,7 +345,7 @@ document.addEventListener("DOMContentLoaded", function () {
             duration: burstDuration,
             easing: "cubic-bezier(0.19, 1, 0.22, 1)", // equivalent to easeOutExpo
             fill: "forwards", // keeps final position
-          }
+          },
         );
       }
       burstRangeX = 20;
@@ -492,7 +492,7 @@ document.addEventListener("DOMContentLoaded", function () {
           height: $("#welcome-curtain").css("height", 0) + "px",
           transition: "height 1000ms cubic-bezier(.05, .52, .07, 1.02)",
         });
-      }
+      },
     );
 
     //* lower the floor and car, shrink the moon down to the white cat, rise the background words a little bit
@@ -515,7 +515,7 @@ document.addEventListener("DOMContentLoaded", function () {
     //* increase the time to display the messages one by one, drop down one by one
     setTimeout(function () {
       const messages = document.querySelectorAll(
-        ".messages-container .message"
+        ".messages-container .message",
       );
 
       catHeightThreshold =
@@ -572,7 +572,7 @@ document.addEventListener("DOMContentLoaded", function () {
         //   });
 
         message.dataset.defaultPadding = parseFloat(
-          getComputedStyle(message).paddingBlock
+          getComputedStyle(message).paddingBlock,
         );
 
         innerMessage.dataset.defaultFont = getElementFontSize(innerMessage);
@@ -639,7 +639,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (smallFontQuota <= 0) {
           fontSize = Math.random() * 0.9 + 0.5;
-        } else fontSize = Math.random() * 0.2 + 0.4;
+        } else fontSize = Math.random() * 0.3 + 0.5;
 
         const parentMessage = element.closest(".message");
 
@@ -669,7 +669,7 @@ document.addEventListener("DOMContentLoaded", function () {
             parseFloat(
               window
                 .getComputedStyle(element, null)
-                .getPropertyValue("font-size")
+                .getPropertyValue("font-size"),
             ) -
             1 +
             "px";
@@ -679,6 +679,7 @@ document.addEventListener("DOMContentLoaded", function () {
           // );
         }
 
+        //* generate hovered inner text (with white background)
         const messageText = element.innerText;
 
         const newElement = document.createElement("span");
@@ -734,14 +735,14 @@ document.addEventListener("DOMContentLoaded", function () {
             secondaryExpand(
               thisElement,
               getParentOffset(thisElement, "left"),
-              getParentOffset(thisElement, "top")
+              getParentOffset(thisElement, "top"),
             );
           }, 700);
         } else
           secondaryExpand(
             thisElement,
             getParentOffset(thisElement, "left"),
-            getParentOffset(thisElement, "top")
+            getParentOffset(thisElement, "top"),
           );
 
         return;
