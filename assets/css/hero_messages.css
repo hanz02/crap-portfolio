@@ -25,6 +25,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  white-space: nowrap;
   -webkit-backface-visibility: hidden;
   backface-visibility: hidden;
 
@@ -34,11 +35,11 @@
 
   clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
   transition: clip-path 750ms var(--ease-out) 0ms;
-  white-space: wrap;
 }
 
 .banner__graphics .messages-container #the__one .hover-message {
-  text-shadow: 1px 1px 7px rgba(0, 26, 44, 0.413),
+  text-shadow:
+    1px 1px 7px rgba(0, 26, 44, 0.413),
     -1px -1px 7px rgba(0, 26, 44, 0.454);
 }
 
