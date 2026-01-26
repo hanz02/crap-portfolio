@@ -42,6 +42,14 @@
   border: 1px dotted mediumaquamarine;
 } */
 
+/*! debug message */
+.debug_middleMessageContent {
+  color: skyblue;
+  position: absolute;
+  bottom: 0;
+  left: 10%;
+}
+
 body {
   position: relative;
 }
@@ -55,6 +63,7 @@ body {
   /** RESPONSIVE HEIGHT  */
   display: flex;
   flex-direction: column;
+  position: relative;
 
   /* border: 10px solid magenta; */
 }
@@ -87,7 +96,9 @@ body {
   border-radius: 100%;
 
   transform: translate(-50%, -50%);
-  transition: width 350ms ease-out 0ms, height 350ms ease-out 0ms;
+  transition:
+    width 350ms ease-out 0ms,
+    height 350ms ease-out 0ms;
 }
 
 .banner__button button * {
@@ -164,12 +175,16 @@ body {
   /* !border: 1px solid var(--hero-white); */
   /*! background: var(--hero-white); */
 
-  transition: opacity 350ms ease-out 0ms, transform 350ms ease-out 0ms;
+  transition:
+    opacity 350ms ease-out 0ms,
+    transform 350ms ease-out 0ms;
 }
 
 .banner__button button .star-container.hovered {
   opacity: 1;
-  transition: opacity 350ms ease-out 0ms, transform 800ms var(--ease-out) 0ms;
+  transition:
+    opacity 350ms ease-out 0ms,
+    transform 800ms var(--ease-out) 0ms;
 }
 
 .banner__button button .star {
@@ -181,7 +196,9 @@ body {
 }
 
 .banner__button button .tooltips {
-  transition: opacity 350ms ease-out 0ms, filter 1000ms ease-out 0ms;
+  transition:
+    opacity 350ms ease-out 0ms,
+    filter 1000ms ease-out 0ms;
 }
 
 .banner__button button .tooltips.hovered {
@@ -324,14 +341,17 @@ body {
 
   opacity: 0;
   transform: translate(-50%, -50%);
-  transition: opacity 350ms ease-out 1000ms, transform 1ms ease-out 1350ms;
+  transition:
+    opacity 350ms ease-out 1000ms,
+    transform 1ms ease-out 1350ms;
 }
 
 /** big size */
 .banner__button button .star-container.__3.hovered {
   opacity: 1;
   transform: translate(-50%, -300%);
-  transition: opacity 750ms var(--ease-out) 0ms,
+  transition:
+    opacity 750ms var(--ease-out) 0ms,
     transform 1000ms var(--ease-out) 0ms;
 }
 
@@ -369,7 +389,8 @@ body {
 
 .banner__button #main-star.burst {
   transform: translate(-50%, -1800%) scale(1.5);
-  transition: opacity 350ms ease-out 0ms,
+  transition:
+    opacity 350ms ease-out 0ms,
     transform 1500ms cubic-bezier(0.13, 0.15, 0.05, 1.01) 0ms;
 }
 
@@ -407,7 +428,9 @@ body {
 .banner__button button.burst .tooltips {
   letter-spacing: 5px;
   filter: drop-shadow(0px 0px 5px var(--hero-white));
-  transition: opacity 350ms ease-out 0ms, filter 1000ms ease-out 0ms,
+  transition:
+    opacity 350ms ease-out 0ms,
+    filter 1000ms ease-out 0ms,
     letter-spacing 2000ms ease-out 0ms;
 }
 
@@ -472,8 +495,11 @@ body {
   margin: 0;
   padding: 0;
 
-  transition: font-size 1000ms var(--ease-out), transform 2000ms var(--ease-out),
-    filter 700ms ease-in-out 2000ms, opacity 700ms ease-in-out 2000ms,
+  transition:
+    font-size 1000ms var(--ease-out),
+    transform 2000ms var(--ease-out),
+    filter 700ms ease-in-out 2000ms,
+    opacity 700ms ease-in-out 2000ms,
     text-shadow 1000ms var(--ease-out);
 }
 
@@ -492,10 +518,14 @@ body {
 .banner__graphics .detachment.burst .word {
   filter: blur(4px);
   opacity: 50%;
-  text-shadow: 0 0 10px hsla(36, 33%, 97%, 0.283),
-    0 0 10px rgba(250, 248, 244, 0.237), 0 0 10px rgba(250, 248, 244, 0.09),
-    0 0 10px rgba(250, 248, 244, 0.09), 0 0 10px rgba(250, 248, 244, 0.09),
-    0 0 10px rgba(250, 248, 244, 0.09), 0 0 10px rgba(250, 248, 244, 0.09);
+  text-shadow:
+    0 0 10px hsla(36, 33%, 97%, 0.283),
+    0 0 10px rgba(250, 248, 244, 0.237),
+    0 0 10px rgba(250, 248, 244, 0.09),
+    0 0 10px rgba(250, 248, 244, 0.09),
+    0 0 10px rgba(250, 248, 244, 0.09),
+    0 0 10px rgba(250, 248, 244, 0.09),
+    0 0 10px rgba(250, 248, 244, 0.09);
 }
 
 .banner__graphics .detach-wrapper::before {
@@ -514,7 +544,9 @@ body {
   opacity: 1;
 
   margin: auto;
-  transition: opacity 1000ms ease-out, bottom 1000ms ease-out;
+  transition:
+    opacity 1000ms ease-out,
+    bottom 1000ms ease-out;
 }
 
 .banner__graphics .detachment.burst .detach-wrapper::before {
@@ -573,8 +605,11 @@ body {
 .banner__graphics .detachment .dotted-box,
 .banner__graphics .detachment .bg-box,
 .banner__graphics .detachment .bg-box::before {
-  transition: opacity 2000ms var(--ease-out), box-shadow 2000ms var(--ease-out),
-    transform 2000ms var(--ease-out), filter 700ms var(--ease-out) 2000ms;
+  transition:
+    opacity 2000ms var(--ease-out),
+    box-shadow 2000ms var(--ease-out),
+    transform 2000ms var(--ease-out),
+    filter 700ms var(--ease-out) 2000ms;
 }
 
 .banner__graphics .detachment.burst .word::after,
@@ -628,7 +663,9 @@ body {
 .banner__graphics #welcome-curtain.collapse {
   /* Final state: top points move to bottom, effectively collapsing height */
   clip-path: polygon(0 100%, 100% 100%, 100% 100%, 0 100%);
-  transition: clip-path 3000ms var(--ease-out), height 3000ms var(--ease-out) !important;
+  transition:
+    clip-path 3000ms var(--ease-out),
+    height 3000ms var(--ease-out) !important;
 }
 
 .banner__graphics #welcome-msg {
@@ -780,7 +817,9 @@ body {
   left: 50% !important;
   top: 50% !important;
   opacity: 0;
-  transition: all 2000ms var(--ease-out), opacity 1000ms ease-out 1000ms;
+  transition:
+    all 2000ms var(--ease-out),
+    opacity 1000ms ease-out 1000ms;
 }
 
 .banner__graphics .messages-container {
@@ -810,7 +849,7 @@ body {
   transform: translateY(0);
 
   /*! if debug needed, set this to opacity: 1  */
-  opacity: 0;
+  opacity: 1;
   /*! background: var(--hero-white); */
   cursor: default;
 
@@ -842,15 +881,21 @@ body {
   transform: translateY(0) !important;
   cursor: pointer;
 
-  transition: top 5000ms var(--ease-out), opacity 5000ms var(--ease-out),
+  transition:
+    top 5000ms var(--ease-out),
+    opacity 5000ms var(--ease-out),
     transform 5000ms var(--ease-out);
 }
 
 .banner__graphics .messages-container #the__one.active {
-  text-shadow: 0 0 10px hsla(34, 41%, 97%, 0.2),
-    0 0 10px rgba(250, 248, 244, 0.199), 0 0 10px rgba(250, 248, 244, 0.09),
-    0 0 10px rgba(250, 248, 244, 0.09), 0 0 10px rgba(250, 248, 244, 0.09),
-    0 0 10px rgba(250, 248, 244, 0.09), 0 0 10px rgba(250, 248, 244, 0.09);
+  text-shadow:
+    0 0 10px hsla(34, 41%, 97%, 0.2),
+    0 0 10px rgba(250, 248, 244, 0.199),
+    0 0 10px rgba(250, 248, 244, 0.09),
+    0 0 10px rgba(250, 248, 244, 0.09),
+    0 0 10px rgba(250, 248, 244, 0.09),
+    0 0 10px rgba(250, 248, 244, 0.09),
+    0 0 10px rgba(250, 248, 244, 0.09);
   opacity: 1 !important;
 }
 
@@ -1104,7 +1149,8 @@ body {
 @media (max-height: 670px) {
   .banner__button #main-star.burst {
     transform: translate(-50%, -1500%) scale(1.5);
-    transition: opacity 350ms ease-out 0ms,
+    transition:
+      opacity 350ms ease-out 0ms,
       transform 2000ms cubic-bezier(0.13, 0.15, 0.05, 1.01) 0ms;
   }
 

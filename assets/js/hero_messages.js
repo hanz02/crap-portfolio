@@ -22,6 +22,7 @@ function toggleCatFloorBlur(toBlur) {
   }
 }
 
+//* IMPORTANT GLOBAL: middle message index
 var currentMiddleIndex = "no element";
 
 function searchMiddleMessage(direction, isEnd, catThreshold) {
@@ -85,20 +86,20 @@ function searchMiddleMessage(direction, isEnd, catThreshold) {
 
     console.log(
       "parseInt($(messages[index]).closest ====> " +
-        parseInt($(messages[index]).closest(".message").css("top"))
+        parseInt($(messages[index]).closest(".message").css("top")),
     );
 
     const msgBottomOffset =
       parseFloat(
         window
           .getComputedStyle(messages[index].closest(".message"))
-          .getPropertyValue("top")
+          .getPropertyValue("top"),
       ) +
       messages[index].querySelector(".hover-message").offsetHeight +
       parseFloat(
         window
           .getComputedStyle(document.querySelector(".banner__graphics"))
-          .getPropertyValue("padding-top")
+          .getPropertyValue("padding-top"),
       );
 
     if (
@@ -159,7 +160,7 @@ function searchMiddleMessage(direction, isEnd, catThreshold) {
 
   console.log(
     "currentMiddleIndex : : : " +
-      document.querySelectorAll(".message p")[currentMiddleIndex].textContent
+      document.querySelectorAll(".message p")[currentMiddleIndex].textContent,
   );
 
   // console.log("cat threshold ====> ", catThreshold);
@@ -172,7 +173,7 @@ function searchMiddleMessage(direction, isEnd, catThreshold) {
 
 function messageLeftScroll(catThreshold) {
   console.log(
-    document.querySelector(".messages-container").getBoundingClientRect().left
+    document.querySelector(".messages-container").getBoundingClientRect().left,
   );
   const msg_containers = document.querySelector(".messages-container");
   const messageContainerLeft = msg_containers.getBoundingClientRect().left;
@@ -188,7 +189,8 @@ function messageLeftScroll(catThreshold) {
       "translateX(" + transitionValue + "px)";
 
     console.log(
-      "LEFT :: " + document.querySelector(".messages-container").style.transform
+      "LEFT :: " +
+        document.querySelector(".messages-container").style.transform,
     );
 
     isEnd = false;
@@ -216,7 +218,7 @@ function messageRightScroll(catThreshold) {
 
     console.log(
       "RIGHT : : " +
-        document.querySelector(".messages-container").style.transform
+        document.querySelector(".messages-container").style.transform,
     );
 
     isEnd = false;
