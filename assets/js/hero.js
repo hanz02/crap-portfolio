@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   var catHeightThreshold = 0;
-  //* shuffle messages while checking for cat threshold
+  //* shuffle messages while checking for cat height threshold
   function shuffle(elements) {
     var j;
     var midIndex = Math.ceil(elements.length / 2) - 1;
@@ -255,6 +255,15 @@ document.addEventListener("DOMContentLoaded", function () {
         elements[midRight].offsetHeight +
         elements[midRight].getBoundingClientRect().top;
     }
+
+    //* regardless of even or odd number of messages, we assign the middle elements to a global middle message element
+    elements = document.querySelectorAll(".message");
+    currentMiddleIndex = Math.ceil(elements.length / 2) - 1;
+
+    document.querySelector(".debug_middleMessageContent").innerHTML =
+      elements[currentMiddleIndex].querySelector(".hover-message").innerHTML;
+
+    //todo: maybe set a border on the middle element?
   }
 
   function randomIntFromInterval(min, max) {
@@ -269,13 +278,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     //* duration for the animation
     const burstDuration = 2000;
+
+    //* if star origin position at left
     if (currLeft < 12) {
+      //* if star original position at left and bottom --> animate to top left
       if (currTop > 12) {
         //* LEFT: Bottom
         burstRangeY = 50;
         burstRangeX = currLeft;
 
-        //todo continue here
         star.animate(
           [
             {
@@ -295,7 +306,7 @@ document.addEventListener("DOMContentLoaded", function () {
           },
         );
       } else {
-        //* LEFT: Top
+        //* if star origin position at left and top --> animate to right and top
         burstRangeY = -50;
         burstRangeX = 130;
         star.animate(
@@ -313,8 +324,9 @@ document.addEventListener("DOMContentLoaded", function () {
         );
       }
     } else {
+      //* if star origin position at right
       if (currTop > 12) {
-        //* RIGHT: Bottom
+        //* if star original position at right and bottom --> animate to left bottom
         burstRangeY = 0;
         burstRangeX = 120;
         star.animate(
@@ -331,9 +343,9 @@ document.addEventListener("DOMContentLoaded", function () {
           },
         );
       } else {
-        //* RIGHT: Top
-        burstRangeY = 40;
-        burstRangeX = 20;
+        //* if star original position at right and top --> animate to right and bottom
+        burstRangeY = 60;
+        burstRangeX = 40;
         star.animate(
           [
             {
@@ -433,14 +445,15 @@ document.addEventListener("DOMContentLoaded", function () {
       tooltips.classList.add("hovered");
     }, 2000);
 
+    //* START ANIMATION SEQUENCES ON CLICK: 1st delay 2300
     var startAnimTime = 2300;
     setTimeout(() => {
       //* start burst animation on quote
       detachment_quote.classList.add("burst");
     }, startAnimTime);
 
+    //* 2nd delay 3000
     startAnimTime += 3000;
-    //* 1st delay 3000
     //* curtain down
     setStyles(welcome_curtain, {
       height: fullHeight + "px",
@@ -450,12 +463,13 @@ document.addEventListener("DOMContentLoaded", function () {
         "ms",
     });
 
+    //* 3rd delay 2500
     startAnimTime += 2500;
-    //* expand out
+    //* welcome text expand down
     setTimeout(function () {
       document.querySelector("#welcome-container").classList.add("expand");
 
-      //* expand the height bby 30px
+      //* expand the welcome height by 30px
       const fullHeight =
         document.querySelector("#welcome-curtain").scrollHeight;
 
@@ -477,6 +491,7 @@ document.addEventListener("DOMContentLoaded", function () {
       document.querySelector(".messages-container").classList.add("hide");
     }, startAnimTime);
 
+    //* 4th delay 1200
     startAnimTime += 1200;
     //* close dark cat -> display light cat
     setTimeout(
@@ -495,22 +510,25 @@ document.addEventListener("DOMContentLoaded", function () {
       },
     );
 
-    //* lower the floor and car, shrink the moon down to the white cat, rise the background words a little bit
+    //* 5th delay 1100
     startAnimTime += 1100;
+    //* lower the floor and car, shrink the moon down to the white cat, rise the background words a little bit
     setTimeout(function () {
       document.querySelector(".banner__graphics").classList.add("expand");
       main_star.classList.add("shrink");
       detachment_quote.classList.add("rise");
     }, startAnimTime);
 
-    //* display the floor
+    //* 6th delay 3000
     startAnimTime += 3000;
+    //* display the floor
     setTimeout(function () {
       catFloor.classList.add("active");
       catHeightThreshold =
         $(".floor").offset().top - $(".hero-cat").outerWidth() + 40;
     }, startAnimTime);
 
+    //* 7th delay 300
     startAnimTime += 300;
     //* increase the time to display the messages one by one, drop down one by one
     setTimeout(function () {
@@ -539,6 +557,8 @@ document.addEventListener("DOMContentLoaded", function () {
           padding = randomIntFromInterval(2, 5);
         }
 
+        //* set style to each individual message
+        //* drop down each message: set random opacity + set random top offset from the scree (Each message suspend differently)
         setStyles(message, {
           transform: " translateY(0)",
           opacity: opacity,
@@ -557,24 +577,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
         message.classList.add("active");
 
-        // //* append a message predict span into the msg-inner p tag
-        // $(this)
-        //   .find(".msg-inner")
-        //   .append("<span class='message-predict'></span>");
-
-        // console.log($(this).find(".hover-message").height());
-
-        // //* then copy it's sibling height to the message predict that we have just appended
-        // $(this)
-        //   .find(".message-predict")
-        //   .css({
-        //     height: $(this).find(".hover-message").height() + "px",
-        //   });
-
+        //* each message store their own original padding as their own data set
         message.dataset.defaultPadding = parseFloat(
           getComputedStyle(message).paddingBlock,
         );
 
+        //* each message store their own original font size as their own data set
         innerMessage.dataset.defaultFont = getElementFontSize(innerMessage);
 
         //* add a bit of delay for the animation to end before user can hover on the messages
@@ -590,30 +598,20 @@ document.addEventListener("DOMContentLoaded", function () {
         }, 1000);
       });
 
-      // const middleScrollOffset =
-      //   ($(".messages-container").outerWidth(true) -
-      //     $(".banner__graphics").width()) /
-      //   2;
-      // $(".banner__graphics").scrollLeft(middleScrollOffset);
-
-      // //* after drop down of each message, set left and right overflow width for scroll button
-      // console.log(
-      //   '$(".banner__graphics").width() : : ' + $(".banner__graphics").width()
-      // );
-      // console.log('' + $(".messages-container").outerWidth(true));
-
+      //* get the container that wrap all the messages (to check for mobile screen size)
       const msg_container = document.querySelector(".messages-container");
       var rightOffset =
         window.innerWidth -
         (msg_container.getBoundingClientRect().left +
           msg_container.offsetWidth);
 
+      //* get the container left and right offset relative to the window
       msg_container.style.left =
         msg_container.getBoundingClientRect().left + "px";
       msg_container.style.right = rightOffset + "px";
 
+      //* if mobile/smaller screen size, we display the left and right scroll button
       if (window.innerWidth < msg_container.offsetWidth) {
-        console.log("SMALL SIZE SCREEN");
         document.querySelector(".scroll-button").classList.add("active");
 
         document
@@ -630,6 +628,10 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }, startAnimTime);
 
+    //* ============ end of animation sequences ===================
+
+    //* ============ before any animation sequences starts ===================
+    //* only allow up to maximum 5 small font messages
     var smallFontQuota = 5;
     //* check for floor threshhold, and reduce hoizontal margin if the font size is small
     document
@@ -637,14 +639,15 @@ document.addEventListener("DOMContentLoaded", function () {
       .forEach(function (element) {
         var fontSize = 0;
 
+        //* if small font messages quota has reached, generate random larger font sizes
         if (smallFontQuota <= 0) {
           fontSize = Math.random() * 0.9 + 0.5;
         } else fontSize = Math.random() * 0.3 + 0.5;
 
-        const parentMessage = element.closest(".message");
-
         element.style.fontSize = fontSize + "rem";
 
+        //* for each individual message container, set a random top offset to the parent
+        const parentMessage = element.closest(".message");
         parentMessage.style.top = randomIntFromInterval(1, 40) + 5 + "px";
 
         // var messageOffset = $(this).offsetHeight(true) + $(this).offset().top;
@@ -653,9 +656,11 @@ document.addEventListener("DOMContentLoaded", function () {
         // console.log("catHeightThreshold: : " + catHeightThreshold);
         // console.log("\n");
 
+        //* make the threshold limit to be the top edge of the moon, means no message should cross the moon
         const floorHeightThreshold =
-          document.querySelector(".floor").getBoundingClientRect().top + 60; //* make the threshold limit to be the top edge of the moon, means no message should cross the moon
+          document.querySelector(".floor").getBoundingClientRect().top + 60;
 
+        //* Keep reducing the font size until the message doesn't exceed the floor threshold
         while (
           parentMessage.offsetHeight +
             parentMessage.getBoundingClientRect().top >
@@ -679,12 +684,12 @@ document.addEventListener("DOMContentLoaded", function () {
           // );
         }
 
-        //* generate hovered inner text (with white background)
-        const messageText = element.innerText;
+        //* generate hovered inner text (with white background after hover on individual message)
+        const messageText = element.innerHTML;
 
         const newElement = document.createElement("span");
         newElement.classList.add("hover-message");
-        newElement.textContent = messageText;
+        newElement.innerHTML = messageText;
 
         element.append(newElement);
       });
@@ -696,6 +701,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // console.log($("#main-star").position().top);
 
+    //* get original main star/moon offset
     var notHovered =
       getParentOffset(document.querySelector("#main-star"), "top") > 11;
 
@@ -703,7 +709,7 @@ document.addEventListener("DOMContentLoaded", function () {
     //   ? console.log("MOON: not hovered")
     //   : console.log("MOON: hovered");
 
-    //* small stars shrink and expand
+    //* small stars PRIMARY EXPAND
     document
       .querySelector("#hero-btn")
       .querySelectorAll(".star-container")
@@ -711,14 +717,18 @@ document.addEventListener("DOMContentLoaded", function () {
         //* ignore the element if it's the big star
         if (element.id === "main-star") return;
 
-        //* shrink all stars at the end
+        //* shrink all stars at the end of animation
         var thisElement = element;
         setTimeout(function () {
           thisElement.classList.remove("hovered");
           thisElement.classList.add("shrink");
         }, 10000);
 
+        //* if original main star position is not out and above the main button (that means user is on a mobile phone and just tapped the main button only)
+        //* then we want to primary expand it and then secondary expand all the stars in sequence
+        //* otherwise the user must have already hovered the button and so in that case we just do secondary expand on all the stars
         if (notHovered) {
+          //* primary expand on all the stars
           setTimeout(function () {
             document
               .querySelector("#hero-btn")
@@ -729,9 +739,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
             $(".tooltips").classList.add("hovered");
           });
-
+          //* shortly after primary expand, secondary expand on all the stars
           setTimeout(function () {
-            //todo conitnue here
             secondaryExpand(
               thisElement,
               getParentOffset(thisElement, "left"),
