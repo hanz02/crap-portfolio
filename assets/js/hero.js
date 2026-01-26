@@ -1,3 +1,5 @@
+import checkMiddleMessage from "./check_mid_fade.js";
+
 function getParentOffset(element, direction) {
   switch (direction) {
     case "top":
@@ -97,7 +99,7 @@ document.addEventListener("DOMContentLoaded", function () {
         elements[midRight].offsetHeight +
         elements[midRight].getBoundingClientRect().top;
 
-      // console.log(elements);s
+      // console.log(elements);
       // console.log("Message length: " + $(elements[midIndex]).css("height"));
 
       // console.log("current offset middle: " + midOffset);
@@ -264,6 +266,25 @@ document.addEventListener("DOMContentLoaded", function () {
       elements[currentMiddleIndex].querySelector(".hover-message").innerHTML;
 
     //todo: maybe set a border on the middle element?
+    elements[currentMiddleIndex].style.border = "solid white 1px";
+
+    // todo
+    // todo: for each individual message, do the below:
+    // const innerMessage = message.querySelector(".msg-inner");
+
+    // //* randomize the opacity of the messages, and reduce the horizontal margin of the small sized messages
+    // const fontSize = getElementFontSize(innerMessage) * 0.063;
+    // // console.log("Font size is " + fontSize);
+    // var opacity = 1;
+    // var padding = 13;
+
+    // //* if message font is small, reduce the opacity
+    // if (fontSize < 0.6) {
+    //   opacity = Math.random() * 0.4 + 0.4;
+    //   padding = randomIntFromInterval(1, 3);
+    // } else if (fontSize < 0.8) {
+    //   padding = randomIntFromInterval(2, 5);
+    // }
   }
 
   function randomIntFromInterval(min, max) {
@@ -541,21 +562,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // //* loop through each message
       messages.forEach(function (message) {
-        const innerMessage = message.querySelector(".msg-inner");
+        // const innerMessage = message.querySelector(".msg-inner");
 
-        //* randomize the opacity of the messages, and reduce the horizontal margin of the small sized messages
-        const fontSize = getElementFontSize(innerMessage) * 0.063;
-        // console.log("Font size is " + fontSize);
-        var opacity = 1;
-        var padding = 13;
+        // //* randomize the opacity of the messages, and reduce the horizontal margin of the small sized messages
+        // const fontSize = getElementFontSize(innerMessage) * 0.063;
+        // // console.log("Font size is " + fontSize);
+        // var opacity = 1;
+        // var padding = 13;
 
-        //* if message font is small, reduce the opacity
-        if (fontSize < 0.6) {
-          opacity = Math.random() * 0.4 + 0.4;
-          padding = randomIntFromInterval(1, 3);
-        } else if (fontSize < 0.8) {
-          padding = randomIntFromInterval(2, 5);
-        }
+        // //* if message font is small, reduce the opacity
+        // if (fontSize < 0.6) {
+        //   opacity = Math.random() * 0.4 + 0.4;
+        //   padding = randomIntFromInterval(1, 3);
+        // } else if (fontSize < 0.8) {
+        //   padding = randomIntFromInterval(2, 5);
+        // }
 
         //* set style to each individual message
         //* drop down each message: set random opacity + set random top offset from the scree (Each message suspend differently)
