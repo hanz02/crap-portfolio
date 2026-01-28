@@ -1,3 +1,6 @@
+import { setCurrentMiddleIndex, getCurrentMiddleIndex } from "./hero_global.js";
+import { messageHoverIn, messageHoverOut } from "./hero_messages.js";
+import getCatOffset from "./cat_offset.js";
 import checkMiddleMessage from "./check_mid_fade.js";
 
 function getParentOffset(element, direction) {
@@ -71,6 +74,8 @@ document.addEventListener("DOMContentLoaded", function () {
     catHeightThreshold =
       $(".floor").offset().top - $(".hero-cat").outerWidth() + 40; //* make the threshold limit to be the top edge of the moon, means no message should cross the moon (floor height + cat height - margin bottom roughly 40px)
 
+    console.log('$(".hero-cat").outerWidth(): ' + $(".hero-cat").outerWidth());
+
     for (var i = 0; i < elements.length; i++) {
       // $(elements[i]).before($(elements[j]));
       // } while (parseInt($(elements[midIndex]).css("height")) > 490);
@@ -79,6 +84,27 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // console.log("$(elements[i]).css(top) :: " + $(elements[i]).css("top"));
       elements[i].style.transform = "translateY(0)";
+
+      //* after shuffling
+      //* randomize the opacity for each individual messages, and reduce the horizontal margin of the small sized messages
+      const innerMessage = elements[i].querySelector(".msg-inner");
+      const fontSize = getElementFontSize(innerMessage) * 0.063;
+      // console.log("Font size is " + fontSize);
+      var opacity = 1;
+      var padding = 13;
+
+      //* if message font is small, reduce the opacity and the padding
+      if (fontSize < 0.6) {
+        opacity = Math.random() * 0.4 + 0.4;
+        padding = randomIntFromInterval(1, 3);
+      } else if (fontSize < 0.8) {
+        padding = randomIntFromInterval(2, 5);
+      }
+
+      setStyles(elements[i], {
+        opacity: opacity,
+        "padding-block": padding + "px",
+      });
     }
 
     //* refresh the message array order from th dorm tree after shuffle
@@ -86,8 +112,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     var midLeft = midIndex - 1;
     var midRight = midIndex + 1;
+    const { catLeftOffset, catRightOffset, catTopOffset } =
+      getCatOffset(".light-cat");
+
     //* if there are odd number of messages, check for middle, left and right
     if (elements.length % 2 == 1) {
+      midIndex += 1;
+
       var midOffset =
         elements[midIndex].offsetHeight +
         elements[midIndex].getBoundingClientRect().top;
@@ -259,13 +290,16 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     //* regardless of even or odd number of messages, we assign the middle elements to a global middle message element
-    elements = document.querySelectorAll(".message");
-    currentMiddleIndex = Math.ceil(elements.length / 2) - 1;
+    const messages = document.querySelectorAll(".message");
+    setCurrentMiddleIndex(Math.ceil(messages.length / 2) - 1);
 
     document.querySelector(".debug_middleMessageContent").innerHTML =
-      elements[currentMiddleIndex].querySelector(".hover-message").innerHTML;
+      messages[getCurrentMiddleIndex()].querySelector(
+        ".hover-message",
+      ).innerHTML;
 
     //todo: maybe set a border on the middle element?
+    //todo we can move on to checking middle image on another js file
     elements[currentMiddleIndex].style.border = "solid white 1px";
 
     // todo
@@ -518,7 +552,7 @@ document.addEventListener("DOMContentLoaded", function () {
     setTimeout(
       function () {
         //* display the closing message block
-        document.querySelector("#closing-img").style.display = "flex";
+        document.querySelector("#closing-img").style.opacity = "1";
         //* collpase the welcome message using clip path
         welcome_curtain.classList.add("collapse");
       },
@@ -582,8 +616,6 @@ document.addEventListener("DOMContentLoaded", function () {
         //* drop down each message: set random opacity + set random top offset from the scree (Each message suspend differently)
         setStyles(message, {
           transform: " translateY(0)",
-          opacity: opacity,
-          "padding-block": padding + "px",
 
           transition:
             "top " +
@@ -603,6 +635,7 @@ document.addEventListener("DOMContentLoaded", function () {
           getComputedStyle(message).paddingBlock,
         );
 
+        const innerMessage = message.querySelector(".msg-inner");
         //* each message store their own original font size as their own data set
         innerMessage.dataset.defaultFont = getElementFontSize(innerMessage);
 
