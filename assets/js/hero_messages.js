@@ -1,3 +1,6 @@
+import getCatOffset from "./cat_offset.js";
+import { getCurrentMiddleIndex, setCurrentMiddleIndex } from "./hero_global.js";
+
 const scrollDistance = 70;
 const catInnerPadding = 13;
 var isBlocking = false;
@@ -22,20 +25,12 @@ function toggleCatFloorBlur(toBlur) {
   }
 }
 
-//* IMPORTANT GLOBAL: middle message index
-var currentMiddleIndex = "no element";
-
 function searchMiddleMessage(direction, isEnd, catThreshold) {
   if (isEnd) return;
 
   var messages = document.querySelectorAll(".message p");
-  const catLeftOffset =
-    document.querySelector("#welcome-curtain").getBoundingClientRect().left +
-    catInnerPadding;
-  const catRightOffset =
-    document.querySelector("#welcome-curtain").getBoundingClientRect().left +
-    document.querySelector("#welcome-curtain").offsetWidth -
-    catInnerPadding;
+  const { catLeftOffset, catRightOffset, catTopOffset } =
+    getCatOffset(".light-cat");
 
   //! debug: cat left and right threshold bar
   // document.querySelector(".threshold-bar-y").style.left = catLeftOffset + "px";
@@ -44,15 +39,15 @@ function searchMiddleMessage(direction, isEnd, catThreshold) {
 
   //* get current middle index
   var index =
-    currentMiddleIndex === "no element"
+    getCurrentMiddleIndex() === "no element"
       ? Math.floor(messages.length / 2)
-      : currentMiddleIndex;
+      : getCurrentMiddleIndex();
 
   var counter = 8;
   var tempMiddleIndex = -1;
   var toBlur = false;
 
-  console.log("currentMiddleIndex ====> ", currentMiddleIndex);
+  console.log("currentMiddleIndex ====> ", getCurrentMiddleIndex());
 
   //! for debug only
   let finalBottomOffset = 0;
@@ -83,11 +78,6 @@ function searchMiddleMessage(direction, isEnd, catThreshold) {
       direction === "right"
         ? messages[index].getBoundingClientRect().left - scrollDistance
         : messages[index].getBoundingClientRect().left + scrollDistance;
-
-    console.log(
-      "parseInt($(messages[index]).closest ====> " +
-        parseInt($(messages[index]).closest(".message").css("top")),
-    );
 
     const msgBottomOffset =
       parseFloat(
@@ -121,7 +111,7 @@ function searchMiddleMessage(direction, isEnd, catThreshold) {
 
         // console.log("BLOCKED IN THE WAY ======!! ");
 
-        currentMiddleIndex = index;
+        setCurrentMiddleIndex(index);
         toBlur = true;
 
         finalBottomOffset = msgBottomOffset;
@@ -155,12 +145,13 @@ function searchMiddleMessage(direction, isEnd, catThreshold) {
     counter--;
   }
 
-  if (!toBlur || currentMiddleIndex === "no element")
-    currentMiddleIndex = tempMiddleIndex;
+  if (!toBlur || getCurrentMiddleIndex() === "no element")
+    setCurrentMiddleIndex(tempMiddleIndex);
 
   console.log(
     "currentMiddleIndex : : : " +
-      document.querySelectorAll(".message p")[currentMiddleIndex].textContent,
+      document.querySelectorAll(".message p")[getCurrentMiddleIndex()]
+        .textContent,
   );
 
   // console.log("cat threshold ====> ", catThreshold);
@@ -227,7 +218,7 @@ function messageRightScroll(catThreshold) {
   searchMiddleMessage("right", isEnd, catThreshold);
 }
 
-function messageHoverIn(message, catThreshold) {
+export function messageHoverIn(message, catThreshold) {
   // document.querySelector(".threshold-bar-cat").style.top = catThreshold + "px";
 
   //   console.log(message);
@@ -262,12 +253,8 @@ function messageHoverIn(message, catThreshold) {
     hovered_message.offsetHeight +
     8;
 
-  const catLeftOffset =
-    welcome_curtain.getBoundingClientRect().left + catInnerPadding;
-  const catRightOffset =
-    welcome_curtain.getBoundingClientRect().left +
-    welcome_curtain.offsetWidth -
-    catInnerPadding;
+  const { catLeftOffset, catRightOffset, catTopOffset } =
+    getCatOffset(".light-cat");
 
   //! debug threshold
   // document.querySelector(".threshold-bar").style.top =
@@ -311,7 +298,7 @@ function messageHoverIn(message, catThreshold) {
   }
 }
 
-function messageHoverOut(message) {
+export function messageHoverOut(message) {
   setTimeout(() => {
     message.classList.remove("hovered");
   }, 100);
