@@ -48,7 +48,7 @@ export default function getMiddleMessages(middleMessageIndex) {
     middleMessages.push(elements[middleMessageIndex]);
     middleMessages.push(elements[middleMessageIndex + 1]);
 
-    return middleMessage;
+    return middleMessages;
   }
 
   //   while (middleMessage.getBoundingClientRect().left < catLeftOffset) {
