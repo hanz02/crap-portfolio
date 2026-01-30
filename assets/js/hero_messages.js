@@ -13,7 +13,7 @@ const floor = document.querySelector(".floor");
 
 const viewportWidth = window.innerWidth || document.documentElement.clientWidth;
 
-function toggleCatFloorBlur(toBlur) {
+export function toggleCatFloorBlur(toBlur) {
   if (toBlur) {
     hero_cat.classList.add("blur");
     main_star.classList.add("blur");
@@ -304,8 +304,14 @@ export function messageHoverOut(message) {
   }, 100);
 
   //todo check if current hover out is the blocking messages
-  isBlocking ? toggleCatFloorBlur(true) : toggleCatFloorBlur(false);
+  toggleCatFloorBlur(isBlocking);
   message.style.paddingBlock = message.dataset.defaultPadding + "px";
 }
 
-$(document).ready(function () {});
+export function setIsBlockingCat(input) {
+  isBlocking = input;
+}
+
+export function getIsBlockingCat(input) {
+  return isBlocking;
+}

@@ -1,5 +1,5 @@
 /*! debug threshold  */
-.threshold-bar,
+.threshold-bar-x,
 .threshold-bar-cat,
 .threshold-bar-temp {
   position: absolute;
@@ -63,7 +63,7 @@ body {
   min-height: 600px;
   max-height: 800px;
   background: #001a2c;
-  max-height: 1080px;
+  max-height: 800px;
 
   /** RESPONSIVE HEIGHT  */
   display: flex;
