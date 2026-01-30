@@ -25,7 +25,7 @@ function toggleCatFloorBlur(toBlur) {
   }
 }
 
-function searchMiddleMessage(direction, isEnd, catThreshold) {
+export function searchMiddleMessage(direction, isEnd, catThreshold) {
   if (isEnd) return;
 
   var messages = document.querySelectorAll(".message p");
@@ -162,7 +162,7 @@ function searchMiddleMessage(direction, isEnd, catThreshold) {
   toggleCatFloorBlur(toBlur);
 }
 
-function messageLeftScroll(catThreshold) {
+export function messageLeftScroll(catThreshold) {
   console.log(
     document.querySelector(".messages-container").getBoundingClientRect().left,
   );
@@ -190,7 +190,7 @@ function messageLeftScroll(catThreshold) {
   searchMiddleMessage("left", isEnd, catThreshold);
 }
 
-function messageRightScroll(catThreshold) {
+export function messageRightScroll(catThreshold) {
   msg_container = document.querySelector(".messages-container");
 
   var messageContainerRight =

@@ -1,6 +1,12 @@
 import { setCurrentMiddleIndex, getCurrentMiddleIndex } from "./hero_global.js";
-import { messageHoverIn, messageHoverOut } from "./hero_messages.js";
+import {
+  messageHoverIn,
+  messageHoverOut,
+  messageLeftScroll,
+  messageRightScroll,
+} from "./hero_messages.js";
 import getCatOffset from "./cat_offset.js";
+import getMiddleMessages from "./get_middle_messages.js";
 
 function getParentOffset(element, direction) {
   switch (direction) {
@@ -70,8 +76,6 @@ document.addEventListener("DOMContentLoaded", function () {
   function shuffle(elements) {
     var j;
     var midIndex = Math.ceil(elements.length / 2) - 1;
-    catHeightThreshold =
-      $(".floor").offset().top - $(".hero-cat").outerWidth() + 40; //* make the threshold limit to be the top edge of the moon, means no message should cross the moon (floor height + cat height - margin bottom roughly 40px)
 
     console.log('$(".hero-cat").outerWidth(): ' + $(".hero-cat").outerWidth());
 
@@ -107,192 +111,217 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     //* refresh the message array order from th dorm tree after shuffle
-    elements = document.querySelectorAll(".message");
+    let messages = document.querySelectorAll(".message .msg-inner");
 
     var midLeft = midIndex - 1;
     var midRight = midIndex + 1;
     const { catLeftOffset, catRightOffset, catTopOffset } =
       getCatOffset(".light-cat");
 
-    //* if there are odd number of messages, check for middle, left and right
-    if (elements.length % 2 == 1) {
-      midIndex += 1;
+    catHeightThreshold = catTopOffset + 55; //* make the threshold limit to be the top edge of the moon, means no message should cross the moon (floor height + cat height - margin bottom roughly 40px)
+    document.querySelector(".threshold-bar-cat").style.top =
+      catHeightThreshold + "px";
 
-      var midOffset =
-        elements[midIndex].offsetHeight +
-        elements[midIndex].getBoundingClientRect().top;
+    const middleMessages = getMiddleMessages(midIndex);
 
-      var midLeftOffset =
-        elements[midLeft].offsetHeight + $(elements[midLeft]).offset().top;
+    document.querySelector(".middleStartMessage").innerHTML =
+      middleMessages[0].innerHTML;
 
-      var midRightOffset =
-        elements[midRight].offsetHeight +
-        elements[midRight].getBoundingClientRect().top;
+    document.querySelector(".middleEndMessage").innerHTML =
+      middleMessages[middleMessages.length - 1].innerHTML;
 
-      // console.log(elements);s
-      // console.log("Message length: " + $(elements[midIndex]).css("height"));
+    for (let index = 0; index < middleMessages.length; index++) {
+      const message = middleMessages[index].querySelector(".msg-inner");
+      message.style.border = "1px solid white";
 
-      // console.log("current offset middle: " + midOffset);
-      // console.log("current offset left: " + midLeftOffset);
-      // console.log("current offset right: " + midRightOffset);
-
-      var counter = 0;
-      // * check for middle
-      while (
-        midLeftOffset > catHeightThreshold ||
-        midRightOffset > catHeightThreshold ||
-        midOffset > catHeightThreshold
-      ) {
-        elements = document.querySelectorAll(".message");
-        midLeftOffset =
-          elements[midLeft].offsetHeight +
-          elements[midLeft].getBoundingClientRect().top;
-
-        midRightOffset =
-          elements[midRight].offsetHeight +
-          elements[midRight].getBoundingClientRect().top;
-
-        midOffset =
-          elements[midIndex].offsetHeight +
-          elements[midIndex].getBoundingClientRect().top;
-
-        if (midOffset > catHeightThreshold) {
-          console.log("TOO HIGH offset middle: " + midLeftOffset);
-          // $(elements[midIndex]).css("border", "1px solid red");
-          swapElements(elements[counter], elements[midIndex]);
-
-          counter += 1;
-          console.log("counter: :: " + counter);
-        }
-
-        //* if long message is in the middle right
-        if (midRightOffset > catHeightThreshold) {
-          // $(elements[midRight]).css("border", "1px solid goldenrod");
-          swapElements(elements[counter], elements[midRight]);
-          counter += 1;
-        }
-
-        //* if long message is in the middle left
-        if (midLeftOffset > catHeightThreshold) {
-          console.log("TOO HIGH offset left: " + midLeftOffset);
-          // $(elements[midLeft]).css("border", "1px solid green");
-          swapElements(elements[midLeft], elements[counter]);
-          counter += 1;
-          console.log("counter: :: " + counter);
-        }
-
-        // if (maxTries > 0) {
-        //   console.log("!! MAX TRIES FINISHED!! ");
-        //   break;
-        // }
-
-        if (counter >= $(".message").length) break;
-
-        console.log("\n\n");
-      }
-      // elements = $(".message");
-      // $("#the__one").swapElements($(elements[midIndex]));
-      //! debug use
-      elements = document.querySelectorAll(".message");
-
-      midLeftOffset =
-        elements[midLeft].offsetHeight +
-        elements[midLeft].getBoundingClientRect().top;
-
-      midRightOffset =
-        elements[midRight].offsetHeight +
-        elements[midRight].getBoundingClientRect().top;
-
-      midOffset =
-        elements[midIndex].offsetHeight +
-        elements[midIndex].getBoundingClientRect().top;
-
-      console.log("----> AFTER offset middle: " + midOffset);
-      console.log("----> AAFTER offset left: " + midLeftOffset);
-      console.log("----> AFTER offset right: " + midRightOffset);
-
-      //! debug border message
-      // elements[midLeft].style.border = "1px solid var(--hero-white)";
-      // elements[midRight].style.border = "1px solid var(--hero-white)";
-      // elements[midIndex].style.border = "1px solid var(--hero-white)";
-    } else {
-      //* if there are even number of messages, check for left and right
-      midLeft = midIndex;
-      midRight = midIndex + 1;
-
-      // console.log("midLeft  " + midLeft);
-      // console.log("midRight  " + midRight);
-
-      var midLeftOffset =
-        elements[midLeft].offsetHeight +
-        elements[midLeft].getBoundingClientRect().top;
-
-      var midRightOffset =
-        elements[midRight].offsetHeight +
-        elements[midRight].getBoundingClientRect().top;
-
-      // console.log("THRESHOLD " + catHeightThreshold);
-      // console.log("$(elements[midLeft]).offset() " + midLeftOffset);
-      // console.log("$(elements[midRight]).offset() " + midRightOffset);
-
-      var counter = 0;
-      // //* check for right and left, make sure no long ass messages are in the middle
-      while (
-        midRightOffset > catHeightThreshold ||
-        midLeftOffset > catHeightThreshold
-      ) {
-        elements = document.querySelectorAll(".message");
-        midLeftOffset =
-          elements[midLeft].offsetHeight +
-          elements[midLeft].getBoundingClientRect().top;
-
-        midRightOffset =
-          elements[midRight].offsetHeight +
-          elements[midRight].getBoundingClientRect().top;
-
-        //* if long message is in the middle right
-        if (midRightOffset > catHeightThreshold) {
-          console.log("TOO HIGHH offset right: " + midRightOffset);
-          // $(elements[midRight]).css("border", "1px solid skyblue");
-          swapElements(elements[midRight], elements[counter]);
-          counter += 1;
-        }
-
-        //* if long message is in the middle left
-        if (midLeftOffset > catHeightThreshold) {
-          console.log("TOO HIGHHHH offset left: " + midLeftOffset);
-          // $(elements[midLeft]).css("border", "1px solid purple");
-          swapElements(elements[midLeft], elements[counter]);
-          counter += 1;
-        }
-
-        if (counter >= elements.length) break;
-
-        // elements = $(".message");
-        // $("#the__one").swapElements($(elements[midRight]));
-      }
-
-      // $(elements[midLeft]).css("border", "1px solid magenta");
-      // $(elements[midRight]).css("border", "1px solid skyblue");
-
-      //! debug border message
-      // elements[midLeft].style.border = "solid white 1px";
-      // elements[midRight].style.border = "solid white 1px";
-
-      midLeftOffset =
-        elements[midLeft].offsetHeight +
-        elements[midLeft].getBoundingClientRect().top;
-
-      midRightOffset =
-        elements[midRight].offsetHeight +
-        elements[midRight].getBoundingClientRect().top;
+      if (
+        (message.getBoundingClientRect().right > catLeftOffset &&
+          message.getBoundingClientRect().right < catRightOffset) ||
+        (message.getBoundingClientRect().left > catLeftOffset &&
+          message.getBoundingClientRect().left < catRightOffset)
+      )
+        message.style.border = "1px solid gold";
     }
+    // //* if there are odd number of messages, check for middle, left and right
+    // if (elements.length % 2 == 1) {
+    //   midIndex += 1;
+
+    //   var midOffset =
+    //     elements[midIndex].offsetHeight +
+    //     elements[midIndex].getBoundingClientRect().top;
+
+    //   var midLeftOffset =
+    //     elements[midLeft].offsetHeight + $(elements[midLeft]).offset().top;
+
+    //   var midRightOffset =
+    //     elements[midRight].offsetHeight +
+    //     elements[midRight].getBoundingClientRect().top;
+
+    //   // console.log(elements);s
+    //   // console.log("Message length: " + $(elements[midIndex]).css("height"));
+
+    //   // console.log("current offset middle: " + midOffset);
+    //   // console.log("current offset left: " + midLeftOffset);
+    //   // console.log("current offset right: " + midRightOffset);
+
+    //   let counter = 0;
+    //   // * check for middle
+    //   let middleSolved = false;
+    //   while (
+    //     midLeftOffset > catHeightThreshold ||
+    //     midRightOffset > catHeightThreshold ||
+    //     midOffset > catHeightThreshold
+    //   ) {
+    //     elements = document.querySelectorAll(".message");
+    //     midLeftOffset =
+    //       elements[midLeft].offsetHeight +
+    //       elements[midLeft].getBoundingClientRect().top;
+
+    //     midRightOffset =
+    //       elements[midRight].offsetHeight +
+    //       elements[midRight].getBoundingClientRect().top;
+
+    //     midOffset =
+    //       elements[midIndex].offsetHeight +
+    //       elements[midIndex].getBoundingClientRect().top;
+
+    //     if (midOffset > catHeightThreshold) {
+    //       console.log("TOO HIGH offset middle: " + midLeftOffset);
+    //       // $(elements[midIndex]).css("border", "1px solid red");
+    //       swapElements(elements[counter], elements[midIndex]);
+
+    //       counter += 1;
+    //       console.log("counter: :: " + counter);
+    //     }
+
+    //     //* if long message is in the middle right
+    //     if (midRightOffset > catHeightThreshold) {
+    //       // $(elements[midRight]).css("border", "1px solid goldenrod");
+    //       swapElements(elements[counter], elements[midRight]);
+    //       counter += 1;
+    //     }
+
+    //     //* if long message is in the middle left
+    //     if (midLeftOffset > catHeightThreshold) {
+    //       console.log("TOO HIGH offset left: " + midLeftOffset);
+    //       // $(elements[midLeft]).css("border", "1px solid green");
+    //       swapElements(elements[midLeft], elements[counter]);
+    //       counter += 1;
+    //       console.log("counter: :: " + counter);
+    //     }
+
+    //     // if (maxTries > 0) {
+    //     //   console.log("!! MAX TRIES FINISHED!! ");
+    //     //   break;
+    //     // }
+
+    //     if (counter >= $(".message").length) break;
+
+    //     console.log("\n\n");
+    //   }
+    //   // elements = $(".message");
+    //   // $("#the__one").swapElements($(elements[midIndex]));
+    //   //! debug use
+    //   elements = document.querySelectorAll(".message");
+
+    //   midLeftOffset =
+    //     elements[midLeft].offsetHeight +
+    //     elements[midLeft].getBoundingClientRect().top;
+
+    //   midRightOffset =
+    //     elements[midRight].offsetHeight +
+    //     elements[midRight].getBoundingClientRect().top;
+
+    //   midOffset =
+    //     elements[midIndex].offsetHeight +
+    //     elements[midIndex].getBoundingClientRect().top;
+
+    //   console.log("----> AFTER offset middle: " + midOffset);
+    //   console.log("----> AAFTER offset left: " + midLeftOffset);
+    //   console.log("----> AFTER offset right: " + midRightOffset);
+
+    //   //! debug border message
+    //   // elements[midLeft].style.border = "1px solid var(--hero-white)";
+    //   // elements[midRight].style.border = "1px solid var(--hero-white)";
+    //   // elements[midIndex].style.border = "1px solid var(--hero-white)";
+    // } else {
+    //   //* if there are even number of messages, check for left and right
+    //   midLeft = midIndex;
+    //   midRight = midIndex + 1;
+
+    //   // console.log("midLeft  " + midLeft);
+    //   // console.log("midRight  " + midRight);
+
+    //   var midLeftOffset =
+    //     elements[midLeft].offsetHeight +
+    //     elements[midLeft].getBoundingClientRect().top;
+
+    //   var midRightOffset =
+    //     elements[midRight].offsetHeight +
+    //     elements[midRight].getBoundingClientRect().top;
+
+    //   // console.log("THRESHOLD " + catHeightThreshold);
+    //   // console.log("$(elements[midLeft]).offset() " + midLeftOffset);
+    //   // console.log("$(elements[midRight]).offset() " + midRightOffset);
+
+    //   var counter = 0;
+    //   // //* check for right and left, make sure no long ass messages are in the middle
+    //   while (
+    //     midRightOffset > catHeightThreshold ||
+    //     midLeftOffset > catHeightThreshold
+    //   ) {
+    //     elements = document.querySelectorAll(".message");
+    //     midLeftOffset =
+    //       elements[midLeft].offsetHeight +
+    //       elements[midLeft].getBoundingClientRect().top;
+
+    //     midRightOffset =
+    //       elements[midRight].offsetHeight +
+    //       elements[midRight].getBoundingClientRect().top;
+
+    //     //* if long message is in the middle right
+    //     if (midRightOffset > catHeightThreshold) {
+    //       console.log("TOO HIGHH offset right: " + midRightOffset);
+    //       // $(elements[midRight]).css("border", "1px solid skyblue");
+    //       swapElements(elements[midRight], elements[counter]);
+    //       counter += 1;
+    //     }
+
+    //     //* if long message is in the middle left
+    //     if (midLeftOffset > catHeightThreshold) {
+    //       console.log("TOO HIGHHHH offset left: " + midLeftOffset);
+    //       // $(elements[midLeft]).css("border", "1px solid purple");
+    //       swapElements(elements[midLeft], elements[counter]);
+    //       counter += 1;
+    //     }
+
+    //     if (counter >= elements.length) break;
+
+    //     // elements = $(".message");
+    //     // $("#the__one").swapElements($(elements[midRight]));
+    //   }
+
+    //   // $(elements[midLeft]).css("border", "1px solid magenta");
+    //   // $(elements[midRight]).css("border", "1px solid skyblue");
+
+    //   //! debug border message
+    //   // elements[midLeft].style.border = "solid white 1px";
+    //   // elements[midRight].style.border = "solid white 1px";
+
+    //   midLeftOffset =
+    //     elements[midLeft].offsetHeight +
+    //     elements[midLeft].getBoundingClientRect().top;
+
+    //   midRightOffset =
+    //     elements[midRight].offsetHeight +
+    //     elements[midRight].getBoundingClientRect().top;
+    // }
 
     //* regardless of even or odd number of messages, we assign the middle elements to a global middle message element
-    const messages = document.querySelectorAll(".message");
+    messages = document.querySelectorAll(".message");
     setCurrentMiddleIndex(Math.ceil(messages.length / 2) - 1);
 
-    document.querySelector(".debug_middleMessageContent").innerHTML =
+    document.querySelector(".middleMessageContent").innerHTML =
       messages[getCurrentMiddleIndex()].querySelector(
         ".hover-message",
       ).innerHTML;
@@ -571,6 +600,10 @@ document.addEventListener("DOMContentLoaded", function () {
         ".messages-container .message",
       );
 
+      const { catTopOffset } = getCatOffset();
+      document.querySelector(".threshold-bar-cat").style.top =
+        catTopOffset + "px";
+
       catHeightThreshold =
         $(".floor").offset().top - $(".hero-cat").outerWidth() - 20; //* make the threshold limit to be the top edge of the moon, means no message should cross the moon (floor height + cat height - margin bottom roughly 40px)
 
@@ -618,15 +651,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
       //* get the container that wrap all the messages (to check for mobile screen size)
       const msg_container = document.querySelector(".messages-container");
-      var rightOffset =
-        window.innerWidth -
-        (msg_container.getBoundingClientRect().left +
-          msg_container.offsetWidth);
+      // var rightOffset =
+      //   window.innerWidth -
+      //   (msg_container.getBoundingClientRect().left +
+      //     msg_container.offsetWidth);
 
       //* get the container left and right offset relative to the window
-      msg_container.style.left =
-        msg_container.getBoundingClientRect().left + "px";
-      msg_container.style.right = rightOffset + "px";
+      // msg_container.style.left =
+      //   msg_container.getBoundingClientRect().left + "px";
+      // msg_container.style.right = rightOffset + "px";
 
       //* if mobile/smaller screen size, we display the left and right scroll button
       if (window.innerWidth < msg_container.offsetWidth) {
