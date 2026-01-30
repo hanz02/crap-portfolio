@@ -20,7 +20,7 @@
 
 .threshold-bar-y,
 .threshold-bar-y-2,
-.threshold-bar-msg,
+.threshold-bar-y-3,
 .threshold-bar-msg-2,
 .threshold-bar-msg-mid {
   position: absolute;
@@ -30,6 +30,7 @@
   z-index: 999;
 }
 
+.threshold-bar-y-3,
 .threshold-bar-msg,
 .threshold-bar-msg-2 {
   border: 1px solid var(--hero-white);
@@ -45,7 +46,7 @@
 }
 
 /*! debug message */
-.debug_middleMessageContent {
+.debugMessage {
   color: skyblue;
   position: absolute;
   bottom: 0;

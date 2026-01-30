@@ -11,16 +11,16 @@ export default function getCatOffset(catType = "") {
 
   //todo position threshold bars around the cat, test the reliability of this function
   document.querySelector(".threshold-bar-y").style.left =
-    curtainRect.left + "px";
+    curtainRect.left + 17 + "px";
   document.querySelector(".threshold-bar-y-2").style.left =
-    curtainRect.right + "px";
-  document.querySelector(".threshold-bar-cat").style.top =
-    catTopOffset - 30 + "px";
+    curtainRect.right - 17 + "px";
+  // document.querySelector(".threshold-bar-cat").style.top =
+  //   catTopOffset - 30 + "px";
 
   return {
-    catLeftOffset: catRect.left,
-    catRightOffset: catRect.right,
-    catTopOffset: catRect.top + 20,
+    catLeftOffset: catRect.left + 17,
+    catRightOffset: catRect.right - 17,
+    catTopOffset: catRect.top - 20,
     catBottomOffset: catRect.bottom,
   };
 }
