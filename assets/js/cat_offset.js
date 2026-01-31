@@ -20,7 +20,7 @@ export default function getCatOffset(catType = "") {
   return {
     catLeftOffset: catRect.left + 17,
     catRightOffset: catRect.right - 17,
-    catTopOffset: catRect.top - 20,
+    catTopOffset: catRect.top - 30,
     catBottomOffset: catRect.bottom,
   };
 }
