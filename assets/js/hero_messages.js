@@ -1,5 +1,6 @@
 import getCatOffset from "./cat_offset.js";
 import { getCurrentMiddleIndex, setCurrentMiddleIndex } from "./hero_global.js";
+import travelGetMiddleMessagesList from "./get_middle_messages.js";
 
 const scrollDistance = 70;
 const catInnerPadding = 13;
@@ -38,7 +39,7 @@ export function searchMiddleMessage(direction, isEnd, catThreshold) {
   //   catRightOffset + "px";
 
   //* get current middle index
-  var index =
+  var middleIndex =
     getCurrentMiddleIndex() === "no element"
       ? Math.floor(messages.length / 2)
       : getCurrentMiddleIndex();
@@ -49,69 +50,70 @@ export function searchMiddleMessage(direction, isEnd, catThreshold) {
 
   console.log("currentMiddleIndex ====> ", getCurrentMiddleIndex());
 
+  document.querySelector(".middleMessageContent").innerHTML =
+    messages[getCurrentMiddleIndex()].querySelector(".hover-message").innerHTML;
+
+  // ======> new version
+  //todo try to use the travelGetMiddleMessagesList function to achieve
+  // ====>
+
   //! for debug only
   let finalBottomOffset = 0;
   while (counter > 0) {
-    // if (condition) {
-    // }
     var color = direction === "right" ? "skyblue" : "green";
 
     //! debug message border
-    // messages[index].style.border = "solid 2px " + color;
+    // messages[middleIndex].style.border = "solid 2px " + color;
 
-    var msgRightOffset =
-      messages[index].getBoundingClientRect().left +
-      messages[index].offsetWidth;
+    var msgRightOffset = messages[middleIndex].getBoundingClientRect().right;
 
     msgRightOffset =
       direction === "right"
         ? msgRightOffset - scrollDistance
         : msgRightOffset + scrollDistance;
 
-    var msgMiddleOffset = msgRightOffset - messages[index].offsetWidth / 2;
-    // document.querySelector(".threshold-bar-msg-mid").style.left =
-    //   msgMiddleOffset + "px";
-    // document.querySelector(".threshold-bar-msg-mid").style.border =
-    //   "solid mediumaquamarine 1px";
+    var msgMiddleOffset =
+      msgRightOffset - messages[middleIndex].offsetWidth / 2;
 
     const msgLeftOffset =
       direction === "right"
-        ? messages[index].getBoundingClientRect().left - scrollDistance
-        : messages[index].getBoundingClientRect().left + scrollDistance;
+        ? messages[middleIndex].getBoundingClientRect().left - scrollDistance
+        : messages[middleIndex].getBoundingClientRect().left + scrollDistance;
 
     const msgBottomOffset =
       parseFloat(
         window
-          .getComputedStyle(messages[index].closest(".message"))
+          .getComputedStyle(messages[middleIndex].closest(".message"))
           .getPropertyValue("top"),
       ) +
-      messages[index].querySelector(".hover-message").offsetHeight +
+      messages[middleIndex].querySelector(".hover-message").offsetHeight +
       parseFloat(
         window
           .getComputedStyle(document.querySelector(".banner__graphics"))
           .getPropertyValue("padding-top"),
       );
 
+    //*
     if (
       (msgLeftOffset > catLeftOffset && msgLeftOffset < catRightOffset) ||
       (msgRightOffset > catLeftOffset && msgRightOffset < catRightOffset) ||
       (msgMiddleOffset > catLeftOffset && msgMiddleOffset < catRightOffset)
     ) {
       //! debug message border
-      // messages[index].style.border = "solid 2px pink";
-      tempMiddleIndex = index;
+      // messages[middleIndex].style.border = "solid 2px pink";
+      tempMiddleIndex = middleIndex;
       // console.log("msgBottomOffset ====> ", msgBottomOffset);
       // console.log("catThreshold ====> ", catThreshold);
 
       if (msgBottomOffset > catThreshold) {
         //! debug message border
-        // messages[index].style.border = "solid 2px red";
+        // messages[middleIndex].style.border = "solid 2px red";
         // document.querySelector(".threshold-bar-msg-mid").style.border =
         //   "solid red 1px";
 
         // console.log("BLOCKED IN THE WAY ======!! ");
 
-        setCurrentMiddleIndex(index);
+        setCurrentMiddleIndex(middleIndex);
         toBlur = true;
 
         finalBottomOffset = msgBottomOffset;
@@ -139,7 +141,7 @@ export function searchMiddleMessage(direction, isEnd, catThreshold) {
     //* if no messages are blocking the cat, assign latest in range middle index to the current middle index
 
     //* traverse up and down
-    direction === "right" ? index-- : index++;
+    direction === "right" ? middleIndex-- : middleIndex++;
 
     //* amount of elements to traverse, count down
     counter--;
@@ -191,7 +193,7 @@ export function messageLeftScroll(catThreshold) {
 }
 
 export function messageRightScroll(catThreshold) {
-  msg_container = document.querySelector(".messages-container");
+  const msg_container = document.querySelector(".messages-container");
 
   var messageContainerRight =
     window.innerWidth -

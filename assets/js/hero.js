@@ -6,7 +6,7 @@ import {
   messageRightScroll,
 } from "./hero_messages.js";
 import getCatOffset from "./cat_offset.js";
-import getMiddleMessages from "./get_middle_messages.js";
+import travelGetMiddleMessagesList from "./get_middle_messages.js";
 import {
   toggleCatFloorBlur,
   setIsBlockingCat,
@@ -81,13 +81,10 @@ document.addEventListener("DOMContentLoaded", function () {
   //* shuffle messages while checking for cat height threshold
   function shuffle(elements) {
     var j;
-    var midIndex = Math.ceil(elements.length / 2) - 1;
-
-    console.log('$(".hero-cat").outerWidth(): ' + $(".hero-cat").outerWidth());
 
     for (var i = 0; i < elements.length; i++) {
       // $(elements[i]).before($(elements[j]));
-      // } while (parseInt($(elements[midIndex]).css("height")) > 490);
+      // } while (parseInt($(elements[middleMessageIndex]).css("height")) > 490);
       j = Math.floor(Math.random() * elements.length);
       elements[i].parentNode.insertBefore(elements[j], elements[i]);
 
@@ -116,85 +113,83 @@ document.addEventListener("DOMContentLoaded", function () {
       });
     }
 
+    var middleMessageIndex = Math.ceil(elements.length / 2) - 1;
     //* refresh the message array order from th dorm tree after shuffle
-    let messages = document.querySelectorAll(".message .msg-inner");
+    let messages = document.querySelectorAll(".message");
 
-    var midLeft = midIndex - 1;
-    var midRight = midIndex + 1;
-    const { catLeftOffset, catRightOffset, catTopOffset } =
-      getCatOffset(".light-cat");
+    const catOffsets = getCatOffset(".light-cat");
 
-    catHeightThreshold = catTopOffset + 55; //* make the threshold limit to be the top edge of the moon, means no message should cross the moon (floor height + cat height - margin bottom roughly 40px)
-    document.querySelector(".threshold-bar-cat").style.top =
-      catHeightThreshold + "px";
+    catHeightThreshold = catOffsets.catTopOffset + 55; //* make the threshold limit to be the top edge of the moon, means no message should cross the moon (floor height + cat height - margin bottom roughly 40px)
+    // document.querySelector(".threshold-bar-cat").style.top =
+    //   catHeightThreshold + "px";
 
-    const middleMessages = getMiddleMessages(midIndex);
+    const middleMessage = messages[middleMessageIndex];
+    let searchDirection;
 
-    document.querySelector(".middleStartMessage").innerHTML =
-      middleMessages[0].innerHTML;
+    //* if the left edge of the middle message is at position to the left edge of the cat
+    //* travel and select few messages to the left (close to the cat)
+    if (middleMessage.getBoundingClientRect().left > catOffsets.catLeftOffset)
+      searchDirection = "right";
+    //* if the right edge of the middle message is at position to the right edge of the cat
+    //* travel and select few messages to the right (close to the cat)
+    else if (
+      middleMessage.getBoundingClientRect().right < catOffsets.catRightOffset
+    )
+      searchDirection = "left";
+    else {
+      //todo: what if left and right edge of the middle message is outside the left and right edge of the cat?
+      //todo: AKA: what if the message is right in the middle above the cat?
+      // alert("We found it!! Middle message is in the middle above the cat!!");
+      searchDirection = "middle";
+    }
 
-    document.querySelector(".middleEndMessage").innerHTML =
-      middleMessages[middleMessages.length - 1].innerHTML;
+    let middleMessages = travelGetMiddleMessagesList(
+      catOffsets,
+      messages,
+      middleMessageIndex,
+      searchDirection,
+    );
+
+    //! debug to display start and end message around the middle cat
+    // document.querySelector(".middleStartMessage").innerHTML =
+    //   middleMessages[0].innerHTML;
+
+    // document.querySelector(".middleEndMessage").innerHTML =
+    //   middleMessages[middleMessages.length - 1].innerHTML;
 
     for (let index = 0; index < middleMessages.length; index++) {
       const message = middleMessages[index].querySelector("p.msg-inner");
-      message.style.border = "1px solid white";
+      // message.style.border = "1px solid white";
       const messageOffsets = message.getBoundingClientRect();
 
       if (
-        (messageOffsets.right > catLeftOffset &&
-          messageOffsets.right < catRightOffset) ||
-        (messageOffsets.left > catLeftOffset &&
-          messageOffsets.left < catRightOffset)
+        (messageOffsets.right > catOffsets.catLeftOffset &&
+          messageOffsets.right < catOffsets.catRightOffset) ||
+        (messageOffsets.left > catOffsets.catLeftOffset &&
+          messageOffsets.left < catOffsets.catRightOffset)
       ) {
-        if (messageOffsets.bottom > catTopOffset) {
+        if (messageOffsets.bottom > catHeightThreshold) {
           message.style.border = "1px solid gold";
-          console.log("messageOffsets.bottom ====> " + messageOffsets.bottom);
-          console.log("catBottomOffset ====> " + messageOffsets.bottom);
 
-          document.querySelector(".threshold-bar-x").style.top =
-            messageOffsets.bottom + "px";
+          // document.querySelector(".threshold-bar-x").style.top =
+          //   messageOffsets.bottom + "px";
 
           document.querySelector(".hero-cat.light-cat").dataset.blur = true;
           setIsBlockingCat(true);
 
           break;
         }
-
-        // toggleCatFloorBlur(true);
       }
     }
 
-    //* regardless of even or odd number of messages, we assign the middle elements to a global middle message element
-    messages = document.querySelectorAll(".message");
+    //* finally we assign the middle elements to a global middle message element
     setCurrentMiddleIndex(Math.ceil(messages.length / 2) - 1);
 
-    document.querySelector(".middleMessageContent").innerHTML =
-      messages[getCurrentMiddleIndex()].querySelector(
-        ".hover-message",
-      ).innerHTML;
-
-    //todo: maybe set a border on the middle element?
-    //todo we can move on to checking middle image on another js file
-    elements[getCurrentMiddleIndex()].style.border = "solid white 1px";
-
-    // todo
-    // todo: for each individual message, do the below:
-    // const innerMessage = message.querySelector(".msg-inner");
-
-    // //* randomize the opacity of the messages, and reduce the horizontal margin of the small sized messages
-    // const fontSize = getElementFontSize(innerMessage) * 0.063;
-    // // console.log("Font size is " + fontSize);
-    // var opacity = 1;
-    // var padding = 13;
-
-    // //* if message font is small, reduce the opacity
-    // if (fontSize < 0.6) {
-    //   opacity = Math.random() * 0.4 + 0.4;
-    //   padding = randomIntFromInterval(1, 3);
-    // } else if (fontSize < 0.8) {
-    //   padding = randomIntFromInterval(2, 5);
-    // }
+    //! debug use: to set the middle message on display debugging UI
+    // document.querySelector(".middleMessageContent").innerHTML =
+    //   messages[getCurrentMiddleIndex()].querySelector(
+    //     ".hover-message",
+    //   ).innerHTML;
   }
 
   function randomIntFromInterval(min, max) {
@@ -527,11 +522,16 @@ document.addEventListener("DOMContentLoaded", function () {
             "document.querySelector.dataset.blur",
             document.querySelector(".hero-cat.light-cat").dataset.blur,
           );
+        }, 1000);
 
-          if (document.querySelector(".hero-cat.light-cat").dataset.blur) {
+        setTimeout(() => {
+          if (
+            document.querySelector(".hero-cat.light-cat").dataset.blur ===
+            "true"
+          ) {
             toggleCatFloorBlur(true);
           }
-        }, 1000);
+        }, 600);
       });
 
       //* get the container that wrap all the messages (to check for mobile screen size)
