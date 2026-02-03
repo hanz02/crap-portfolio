@@ -1,6 +1,9 @@
 import getCatOffset from "./cat_offset.js";
 import { getCurrentMiddleIndex, setCurrentMiddleIndex } from "./hero_global.js";
-import travelGetMiddleMessagesList from "./get_middle_messages.js";
+import {
+  travelGetMiddleMessagesList,
+  checkMessageListBlockingCat,
+} from "./get_middle_messages.js";
 
 const scrollDistance = 70;
 const catInnerPadding = 13;
@@ -29,9 +32,7 @@ export function toggleCatFloorBlur(toBlur) {
 export function searchMiddleMessage(direction, isEnd, catThreshold) {
   if (isEnd) return;
 
-  var messages = document.querySelectorAll(".message p");
-  const { catLeftOffset, catRightOffset, catTopOffset } =
-    getCatOffset(".light-cat");
+  var messages = document.querySelectorAll(".message");
 
   //! debug: cat left and right threshold bar
   // document.querySelector(".threshold-bar-y").style.left = catLeftOffset + "px";
@@ -50,124 +51,38 @@ export function searchMiddleMessage(direction, isEnd, catThreshold) {
 
   console.log("currentMiddleIndex ====> ", getCurrentMiddleIndex());
 
-  document.querySelector(".middleMessageContent").innerHTML =
-    messages[getCurrentMiddleIndex()].querySelector(".hover-message").innerHTML;
-
   // ======> new version
   //todo try to use the travelGetMiddleMessagesList function to achieve
-  // ====>
-
-  //! for debug only
-  let finalBottomOffset = 0;
-  while (counter > 0) {
-    var color = direction === "right" ? "skyblue" : "green";
-
-    //! debug message border
-    // messages[middleIndex].style.border = "solid 2px " + color;
-
-    var msgRightOffset = messages[middleIndex].getBoundingClientRect().right;
-
-    msgRightOffset =
-      direction === "right"
-        ? msgRightOffset - scrollDistance
-        : msgRightOffset + scrollDistance;
-
-    var msgMiddleOffset =
-      msgRightOffset - messages[middleIndex].offsetWidth / 2;
-
-    const msgLeftOffset =
-      direction === "right"
-        ? messages[middleIndex].getBoundingClientRect().left - scrollDistance
-        : messages[middleIndex].getBoundingClientRect().left + scrollDistance;
-
-    const msgBottomOffset =
-      parseFloat(
-        window
-          .getComputedStyle(messages[middleIndex].closest(".message"))
-          .getPropertyValue("top"),
-      ) +
-      messages[middleIndex].querySelector(".hover-message").offsetHeight +
-      parseFloat(
-        window
-          .getComputedStyle(document.querySelector(".banner__graphics"))
-          .getPropertyValue("padding-top"),
-      );
-
-    //*
-    if (
-      (msgLeftOffset > catLeftOffset && msgLeftOffset < catRightOffset) ||
-      (msgRightOffset > catLeftOffset && msgRightOffset < catRightOffset) ||
-      (msgMiddleOffset > catLeftOffset && msgMiddleOffset < catRightOffset)
-    ) {
-      //! debug message border
-      // messages[middleIndex].style.border = "solid 2px pink";
-      tempMiddleIndex = middleIndex;
-      // console.log("msgBottomOffset ====> ", msgBottomOffset);
-      // console.log("catThreshold ====> ", catThreshold);
-
-      if (msgBottomOffset > catThreshold) {
-        //! debug message border
-        // messages[middleIndex].style.border = "solid 2px red";
-        // document.querySelector(".threshold-bar-msg-mid").style.border =
-        //   "solid red 1px";
-
-        // console.log("BLOCKED IN THE WAY ======!! ");
-
-        setCurrentMiddleIndex(middleIndex);
-        toBlur = true;
-
-        finalBottomOffset = msgBottomOffset;
-
-        break;
-      }
-    }
-
-    if (
-      direction === "right" &&
-      msgLeftOffset > catLeftOffset &&
-      msgRightOffset > catLeftOffset
-    ) {
-      break;
-    }
-
-    if (
-      direction === "left" &&
-      msgLeftOffset < catRightOffset &&
-      msgRightOffset < catRightOffset
-    ) {
-      break;
-    }
-
-    //* if no messages are blocking the cat, assign latest in range middle index to the current middle index
-
-    //* traverse up and down
-    direction === "right" ? middleIndex-- : middleIndex++;
-
-    //* amount of elements to traverse, count down
-    counter--;
-  }
-
-  if (!toBlur || getCurrentMiddleIndex() === "no element")
-    setCurrentMiddleIndex(tempMiddleIndex);
-
-  console.log(
-    "currentMiddleIndex : : : " +
-      document.querySelectorAll(".message p")[getCurrentMiddleIndex()]
-        .textContent,
+  const catOffsets = getCatOffset(".light-cat");
+  const messagesList = travelGetMiddleMessagesList(
+    catOffsets,
+    messages,
+    middleIndex,
+    direction,
+    scrollDistance,
   );
 
-  // console.log("cat threshold ====> ", catThreshold);
+  const { isBlockingCat, latestMiddleMessageIndex } =
+    checkMessageListBlockingCat(
+      messagesList,
+      catOffsets,
+      catOffsets.catTopOffset,
+      direction,
+      scrollDistance,
+    );
 
-  // console.log("finalBottomOffset ====> ", finalBottomOffset);
+  setIsBlockingCat(isBlockingCat);
 
-  isBlocking = toBlur;
-  toggleCatFloorBlur(toBlur);
+  toggleCatFloorBlur(getIsBlockingCat());
+  setCurrentMiddleIndex(latestMiddleMessageIndex);
+  document.querySelector(".middleMessageContent").innerHTML =
+    messages[latestMiddleMessageIndex].querySelector(
+      ".hover-message",
+    ).innerHTML;
+  // ====>
 }
 
 export function messageLeftScroll(catThreshold) {
-  console.log(
-    document.querySelector(".messages-container").getBoundingClientRect().left,
-  );
   const msg_containers = document.querySelector(".messages-container");
   const messageContainerLeft = msg_containers.getBoundingClientRect().left;
 
@@ -209,11 +124,6 @@ export function messageRightScroll(catThreshold) {
 
     msg_container.style.transform = "translateX(" + transitionValue + "px)";
 
-    console.log(
-      "RIGHT : : " +
-        document.querySelector(".messages-container").style.transform,
-    );
-
     isEnd = false;
   }
 
@@ -241,7 +151,6 @@ export function messageHoverIn(message, catThreshold) {
     parseFloat(message.dataset.defaultPadding) + 8 + "px";
 
   const inner_message = message.querySelector(".msg-inner");
-  const welcome_curtain = document.querySelector("#welcome-curtain");
 
   const messageRightOffset = inner_message.getBoundingClientRect().right + 8;
   const messageLeftOffset = inner_message.getBoundingClientRect().left - 8;
@@ -255,8 +164,7 @@ export function messageHoverIn(message, catThreshold) {
     hovered_message.offsetHeight +
     8;
 
-  const { catLeftOffset, catRightOffset, catTopOffset } =
-    getCatOffset(".light-cat");
+  const { catLeftOffset, catRightOffset } = getCatOffset(".light-cat");
 
   //! debug threshold
   // document.querySelector(".threshold-bar").style.top =
@@ -306,7 +214,7 @@ export function messageHoverOut(message) {
   }, 100);
 
   //todo check if current hover out is the blocking messages
-  toggleCatFloorBlur(isBlocking);
+  toggleCatFloorBlur(getIsBlockingCat());
   message.style.paddingBlock = message.dataset.defaultPadding + "px";
 }
 
@@ -314,6 +222,6 @@ export function setIsBlockingCat(input) {
   isBlocking = input;
 }
 
-export function getIsBlockingCat(input) {
+export function getIsBlockingCat() {
   return isBlocking;
 }
