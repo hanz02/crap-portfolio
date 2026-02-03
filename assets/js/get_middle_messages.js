@@ -15,7 +15,7 @@ export function travelGetMiddleMessagesList(
       messages[middleIndex].getBoundingClientRect().right + scrollDistance >
       catOffsets.catLeftOffset
     ) {
-      // messages[middleIndex].style.border = "1px solid red";
+      messages[middleIndex].style.border = "1px solid red";
 
       messagesIndexList.push(middleIndex);
       middleIndex++;
