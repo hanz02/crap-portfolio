@@ -6,7 +6,10 @@ import {
   messageRightScroll,
 } from "./hero_messages.js";
 import getCatOffset from "./cat_offset.js";
-import travelGetMiddleMessagesList from "./get_middle_messages.js";
+import {
+  travelGetMiddleMessagesList,
+  checkMessageListBlockingCat,
+} from "./get_middle_messages.js";
 import {
   toggleCatFloorBlur,
   setIsBlockingCat,
@@ -117,6 +120,10 @@ document.addEventListener("DOMContentLoaded", function () {
     //* refresh the message array order from th dorm tree after shuffle
     let messages = document.querySelectorAll(".message");
 
+    //! debug use: to set the middle message on display debugging UI
+    document.querySelector(".middleMessageContent").innerHTML =
+      messages[middleMessageIndex].querySelector(".hover-message").innerHTML;
+
     const catOffsets = getCatOffset(".light-cat");
 
     catHeightThreshold = catOffsets.catTopOffset + 55; //* make the threshold limit to be the top edge of the moon, means no message should cross the moon (floor height + cat height - margin bottom roughly 40px)
@@ -124,18 +131,19 @@ document.addEventListener("DOMContentLoaded", function () {
     //   catHeightThreshold + "px";
 
     const middleMessage = messages[middleMessageIndex];
+
     let searchDirection;
 
     //* if the left edge of the middle message is at position to the left edge of the cat
     //* travel and select few messages to the left (close to the cat)
     if (middleMessage.getBoundingClientRect().left > catOffsets.catLeftOffset)
-      searchDirection = "right";
+      searchDirection = "left";
     //* if the right edge of the middle message is at position to the right edge of the cat
     //* travel and select few messages to the right (close to the cat)
     else if (
       middleMessage.getBoundingClientRect().right < catOffsets.catRightOffset
     )
-      searchDirection = "left";
+      searchDirection = "right";
     else {
       //todo: what if left and right edge of the middle message is outside the left and right edge of the cat?
       //todo: AKA: what if the message is right in the middle above the cat?
@@ -143,11 +151,12 @@ document.addEventListener("DOMContentLoaded", function () {
       searchDirection = "middle";
     }
 
-    let middleMessages = travelGetMiddleMessagesList(
+    let middleMessagesIndex = travelGetMiddleMessagesList(
       catOffsets,
       messages,
       middleMessageIndex,
       searchDirection,
+      0,
     );
 
     //! debug to display start and end message around the middle cat
@@ -157,39 +166,14 @@ document.addEventListener("DOMContentLoaded", function () {
     // document.querySelector(".middleEndMessage").innerHTML =
     //   middleMessages[middleMessages.length - 1].innerHTML;
 
-    for (let index = 0; index < middleMessages.length; index++) {
-      const message = middleMessages[index].querySelector("p.msg-inner");
-      // message.style.border = "1px solid white";
-      const messageOffsets = message.getBoundingClientRect();
-
-      if (
-        (messageOffsets.right > catOffsets.catLeftOffset &&
-          messageOffsets.right < catOffsets.catRightOffset) ||
-        (messageOffsets.left > catOffsets.catLeftOffset &&
-          messageOffsets.left < catOffsets.catRightOffset)
-      ) {
-        if (messageOffsets.bottom > catHeightThreshold) {
-          message.style.border = "1px solid gold";
-
-          // document.querySelector(".threshold-bar-x").style.top =
-          //   messageOffsets.bottom + "px";
-
-          document.querySelector(".hero-cat.light-cat").dataset.blur = true;
-          setIsBlockingCat(true);
-
-          break;
-        }
-      }
-    }
-
-    //* finally we assign the middle elements to a global middle message element
-    setCurrentMiddleIndex(Math.ceil(messages.length / 2) - 1);
-
-    //! debug use: to set the middle message on display debugging UI
-    // document.querySelector(".middleMessageContent").innerHTML =
-    //   messages[getCurrentMiddleIndex()].querySelector(
-    //     ".hover-message",
-    //   ).innerHTML;
+    const { isBlockingCat } = checkMessageListBlockingCat(
+      middleMessagesIndex,
+      catOffsets,
+      catHeightThreshold,
+      "center",
+      0,
+    );
+    setIsBlockingCat(isBlockingCat);
   }
 
   function randomIntFromInterval(min, max) {
@@ -461,8 +445,8 @@ document.addEventListener("DOMContentLoaded", function () {
       );
 
       const { catTopOffset } = getCatOffset();
-      document.querySelector(".threshold-bar-cat").style.top =
-        catTopOffset + "px";
+      // document.querySelector(".threshold-bar-cat").style.top =
+      //   catTopOffset + "px";
 
       // //* loop through each message
       messages.forEach(function (message) {
@@ -517,20 +501,10 @@ document.addEventListener("DOMContentLoaded", function () {
           message.addEventListener("mouseleave", function () {
             messageHoverOut(message);
           });
-
-          console.log(
-            "document.querySelector.dataset.blur",
-            document.querySelector(".hero-cat.light-cat").dataset.blur,
-          );
         }, 1000);
 
         setTimeout(() => {
-          if (
-            document.querySelector(".hero-cat.light-cat").dataset.blur ===
-            "true"
-          ) {
-            toggleCatFloorBlur(true);
-          }
+          toggleCatFloorBlur(getIsBlockingCat());
         }, 600);
       });
 
