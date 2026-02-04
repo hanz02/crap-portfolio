@@ -19,9 +19,6 @@ export function travelGetMiddleMessagesList(
 
       messagesIndexList.push(middleIndex);
       middleIndex++;
-
-      document.querySelector(".threshold-bar-y-3").style.left =
-        messages[middleIndex].getBoundingClientRect().right + "px";
     }
 
     //* we return an array of ranges of middle messages near the cat (left to right order of the messages)
@@ -71,14 +68,12 @@ export function checkMessageListBlockingCat(
       .querySelectorAll(".message")
       [start].querySelector("p");
     message.style.border = "1px solid white";
-    console.log("=============== INDEX ", start, "=======================");
+    // console.log("=============== INDEX ", start, "=======================");
 
     //* get offset objects of individual middle messages
     const messageOffsets = message.getBoundingClientRect();
     let msgRightOffset = messageOffsets.right;
     let msgLeftOffset = messageOffsets.left;
-
-    console.log("msgRightOffset ===> ", msgRightOffset);
 
     if (scrollDirection === "left") {
       msgRightOffset += scrollDistance;
@@ -87,10 +82,6 @@ export function checkMessageListBlockingCat(
       msgRightOffset -= scrollDistance;
       msgLeftOffset -= scrollDistance;
     }
-
-    console.log("msgRightOffset AFTER ===> ", msgRightOffset);
-    console.log("catOffsets.catLeftOffset   =====> ", catOffsets.catLeftOffset);
-    console.log("catOffsets.catRightOffset ====> ", catOffsets.catRightOffset);
 
     //* if individual message right edge is within cat blocking range OR if  individual message left edge is within cat blovking range
     if (
@@ -102,9 +93,9 @@ export function checkMessageListBlockingCat(
       document.querySelector(".threshold-bar-cat").style.top =
         catHeightThreshold + "px";
 
-      console.log("message MESSAGE ====> ", message.innerHTML);
-      document.querySelector(".threshold-bar-x").style.top =
-        messageOffsets.bottom + "px";
+      // console.log("message MESSAGE ====> ", message.innerHTML);
+      // document.querySelector(".threshold-bar-x").style.top =
+      //   messageOffsets.bottom + "px";
       //* if individual message left or right edge is within cat blocking range AND that individual message is below the cat height threshold
       //* that means the individual message is indeed blocking the cat
       if (messageOffsets.bottom > catHeightThreshold) {
@@ -118,9 +109,6 @@ export function checkMessageListBlockingCat(
       }
     }
 
-    console.log(
-      "___________________________________________________________________",
-    );
     start++;
   }
 

@@ -80,11 +80,65 @@
     padding-inline: 8px;
 } */
 
-.hero .scroll-button {
+.hero .banner .scroll-button {
+  content: "";
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 5rem;
+  backdrop-filter: blur(2px);
+  background: rgba(0, 26, 44, 0.605);
+
+  height: 100%;
+
+  display: flex;
+  align-items: center;
+  opacity: 0;
+  z-index: -1;
+  transition:
+    opacity 2000ms var(--ease-out) 2000ms,
+    z-index 0ms var(--ease-out);
+  cursor: pointer;
+}
+
+.hero .banner .scroll-button.active {
+  opacity: 1;
+  z-index: 9999;
+  transition:
+    opacity 2000ms var(--ease-out) 1000ms,
+    z-index 0ms var(--ease-out);
+}
+
+.hero .banner #btn-left {
+  left: 0;
+  mask: linear-gradient(to left, transparent, var(--hero-dark) 70%);
+  justify-content: flex-start;
+  padding-left: 1rem;
+}
+
+.hero .banner #btn-right {
+  mask: linear-gradient(to right, transparent, var(--hero-dark) 70%);
+  right: 0;
+  justify-content: flex-end;
+  padding-right: 1rem;
+}
+
+.hero .banner .scroll-button i {
+  color: var(--hero-white);
+  opacity: 90%;
+  font-size: 2rem;
+  border: mediumseagreen solid 1px;
+
+  /*! to make debug look nicer only */
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* .hero .scroll-button {
   position: relative;
   width: 90%;
-  /* background: red; */
-  /* border: 1px solid white; */
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -105,4 +159,4 @@
 
 .hero .scroll-button.active {
   opacity: 1;
-}
+} */

@@ -9,7 +9,7 @@ const scrollDistance = 70;
 const catInnerPadding = 13;
 var isBlocking = false;
 
-var transitionValue = 0;
+var scrollTransitionValue = 0;
 
 const hero_cat = document.querySelector(".hero-cat.light-cat");
 const main_star = document.querySelector("#main-star");
@@ -49,7 +49,7 @@ export function searchMiddleMessage(direction, isEnd, catThreshold) {
   var tempMiddleIndex = -1;
   var toBlur = false;
 
-  console.log("currentMiddleIndex ====> ", getCurrentMiddleIndex());
+  // console.log("currentMiddleIndex ====> ", getCurrentMiddleIndex());
 
   // ======> new version
   //todo try to use the travelGetMiddleMessagesList function to achieve
@@ -83,31 +83,33 @@ export function searchMiddleMessage(direction, isEnd, catThreshold) {
 }
 
 export function messageLeftScroll(catThreshold) {
+  document.querySelector("#btn-right").classList.add("active");
+
   const msg_containers = document.querySelector(".messages-container");
-  const messageContainerLeft = msg_containers.getBoundingClientRect().left;
+  let messageContainerLeft = msg_containers.getBoundingClientRect().left;
 
   var isEnd = true;
   //! debug threshold
   // document.querySelector(".threshold-bar-cat").style.top = catThreshold + "px";
 
   if (messageContainerLeft < -10) {
-    transitionValue += scrollDistance;
+    scrollTransitionValue += scrollDistance;
 
     document.querySelector(".messages-container").style.transform =
-      "translateX(" + transitionValue + "px)";
-
-    console.log(
-      "LEFT :: " +
-        document.querySelector(".messages-container").style.transform,
-    );
+      "translateX(" + scrollTransitionValue + "px)";
 
     isEnd = false;
   }
+
+  if (msg_containers.getBoundingClientRect().left + scrollDistance >= 0)
+    document.querySelector("#btn-left").classList.remove("active");
 
   searchMiddleMessage("left", isEnd, catThreshold);
 }
 
 export function messageRightScroll(catThreshold) {
+  document.querySelector("#btn-left").classList.add("active");
+
   const msg_container = document.querySelector(".messages-container");
 
   var messageContainerRight =
@@ -120,12 +122,27 @@ export function messageRightScroll(catThreshold) {
   // document.querySelector(".threshold-bar-cat").style.top = catThreshold + "px";
 
   if (messageContainerRight < -10) {
-    transitionValue -= scrollDistance;
+    scrollTransitionValue -= scrollDistance;
 
-    msg_container.style.transform = "translateX(" + transitionValue + "px)";
+    msg_container.style.transform =
+      "translateX(" + scrollTransitionValue + "px)";
 
     isEnd = false;
   }
+
+  var messageContainerRight =
+    window.innerWidth -
+    (msg_container.getBoundingClientRect().left + msg_container.offsetWidth);
+
+  // console.log("messageContainerRight =====> ", messageContainerRight);
+
+  // console.log(
+  //   "messageContainerRight using OFFSET =====> ",
+  //   msg_container.getBoundingClientRect().right,
+  // );
+
+  if (messageContainerRight + scrollDistance >= 0)
+    document.querySelector("#btn-right").classList.remove("active");
 
   searchMiddleMessage("right", isEnd, catThreshold);
 }
@@ -139,10 +156,10 @@ export function messageHoverIn(message, catThreshold) {
   //   parseFloat(message.dataset.defaultPadding) + 8 + "px";
 
   // message.querySelector(".message-predict").classList.add("hovered");
-  const transitionValue = getComputedStyle(message).transition;
-  if (!transitionValue.includes("padding-block")) {
+  const scrollTransitionValue = getComputedStyle(message).transition;
+  if (!scrollTransitionValue.includes("padding-block")) {
     message.style.transition =
-      transitionValue +
+      scrollTransitionValue +
       ", padding-block 750ms ease-out 0ms" +
       ", transform 750ms cubic-bezier(.05, .52, .07, 1.02) 0ms";
   }

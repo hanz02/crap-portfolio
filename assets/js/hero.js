@@ -126,7 +126,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const catOffsets = getCatOffset(".light-cat");
 
-    catHeightThreshold = catOffsets.catTopOffset + 55; //* make the threshold limit to be the top edge of the moon, means no message should cross the moon (floor height + cat height - margin bottom roughly 40px)
+    catHeightThreshold = catOffsets.catTopOffset; //* make the threshold limit to be the top edge of the moon, means no message should cross the moon (floor height + cat height - margin bottom roughly 40px)
     // document.querySelector(".threshold-bar-cat").style.top =
     //   catHeightThreshold + "px";
 
@@ -170,7 +170,7 @@ document.addEventListener("DOMContentLoaded", function () {
       middleMessagesIndex,
       catOffsets,
       catHeightThreshold,
-      "center",
+      searchDirection,
       0,
     );
     setIsBlockingCat(isBlockingCat);
@@ -522,7 +522,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
       //* if mobile/smaller screen size, we display the left and right scroll button
       if (window.innerWidth < msg_container.offsetWidth) {
-        document.querySelector(".scroll-button").classList.add("active");
+        document.querySelectorAll(".scroll-button").forEach((button) => {
+          button.classList.add("active");
+        });
 
         document
           .querySelector("#btn-left")
@@ -567,9 +569,11 @@ document.addEventListener("DOMContentLoaded", function () {
         // console.log("\n");
 
         //* make the threshold limit to be the top edge of the moon, means no message should cross the moon
-        const floorHeightThreshold =
-          document.querySelector(".floor").getBoundingClientRect().top + 60;
-
+        const floorHeightThreshold = document
+          .querySelector(".floor")
+          .getBoundingClientRect().top;
+        document.querySelector(".threshold-bar-x").style.top =
+          floorHeightThreshold + "px";
         //* Keep reducing the font size until the message doesn't exceed the floor threshold
         while (
           parentMessage.offsetHeight +
