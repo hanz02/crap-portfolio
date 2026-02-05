@@ -652,7 +652,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 star.classList.add("hovered");
               });
 
-            $(".tooltips").classList.add("hovered");
+            document.querySelector(".tooltips").classList.add("hovered");
           });
           //* shortly after primary expand, secondary expand on all the stars
           setTimeout(function () {

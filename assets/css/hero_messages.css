@@ -99,6 +99,9 @@
     opacity 2000ms var(--ease-out) 2000ms,
     z-index 0ms var(--ease-out);
   cursor: pointer;
+
+  -webkit-tap-highlight-color: transparent;
+  outline: none; /* Recommended to also remove default focus outline */
 }
 
 .hero .banner .scroll-button.active {
@@ -126,8 +129,7 @@
 .hero .banner .scroll-button i {
   color: var(--hero-white);
   opacity: 90%;
-  font-size: 2rem;
-  border: mediumseagreen solid 1px;
+  font-size: 1.5rem;
 
   /*! to make debug look nicer only */
   height: 100%;
