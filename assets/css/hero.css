@@ -1,5 +1,5 @@
 /*! debug threshold  */
-.threshold-bar-x,
+/* .threshold-bar-x,
 .threshold-bar-cat,
 .threshold-bar-temp {
   position: absolute;
@@ -43,15 +43,15 @@
 
 .threshold-bar-msg-mid {
   border: 1px dotted mediumaquamarine;
-}
+} */
 
 /*! debug message */
-.debugMessage {
+/* .debugMessage {
   color: skyblue;
   position: absolute;
   bottom: 0;
   left: 10%;
-}
+} */
 
 body {
   position: relative;
@@ -467,7 +467,7 @@ body {
 
 .banner__graphics .detachment {
   position: absolute;
-  bottom: 5%;
+  bottom: 15%;
   left: 50%;
   opacity: 1;
   transition: bottom 2000ms var(--ease-out);
@@ -858,7 +858,7 @@ body {
   transform: translateY(0);
 
   /*! if debug needed, set this to opacity: 1  */
-  opacity: 1;
+  opacity: 0;
   /*! background: var(--hero-white); */
   cursor: default;
 

@@ -15,7 +15,7 @@ export function travelGetMiddleMessagesList(
       messages[middleIndex].getBoundingClientRect().right + scrollDistance >
       catOffsets.catLeftOffset
     ) {
-      messages[middleIndex].style.border = "1px solid red";
+      // messages[middleIndex].style.border = "1px solid red";
 
       messagesIndexList.push(middleIndex);
       middleIndex++;
@@ -28,7 +28,7 @@ export function travelGetMiddleMessagesList(
       messages[middleIndex].getBoundingClientRect().left - scrollDistance <
       catOffsets.catRightOffset
     ) {
-      messages[middleIndex].style.border = "1px solid green";
+      // messages[middleIndex].style.border = "1px solid green";
       messagesIndexList.push(middleIndex);
       middleIndex--;
     }
@@ -67,7 +67,7 @@ export function checkMessageListBlockingCat(
     const message = document
       .querySelectorAll(".message")
       [start].querySelector("p");
-    message.style.border = "1px solid white";
+    // message.style.border = "1px solid white";
     // console.log("=============== INDEX ", start, "=======================");
 
     //* get offset objects of individual middle messages
@@ -99,7 +99,7 @@ export function checkMessageListBlockingCat(
       //* if individual message left or right edge is within cat blocking range AND that individual message is below the cat height threshold
       //* that means the individual message is indeed blocking the cat
       if (messageOffsets.bottom > catHeightThreshold) {
-        message.style.border = "1px solid gold";
+        // message.style.border = "1px solid gold";
 
         //* return true and the index of the latest middle message that is blocking the cat
         return {
