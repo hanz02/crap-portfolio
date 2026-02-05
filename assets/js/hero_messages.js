@@ -75,10 +75,10 @@ export function searchMiddleMessage(direction, isEnd, catThreshold) {
 
   toggleCatFloorBlur(getIsBlockingCat());
   setCurrentMiddleIndex(latestMiddleMessageIndex);
-  document.querySelector(".middleMessageContent").innerHTML =
-    messages[latestMiddleMessageIndex].querySelector(
-      ".hover-message",
-    ).innerHTML;
+  // document.querySelector(".middleMessageContent").innerHTML =
+  //   messages[latestMiddleMessageIndex].querySelector(
+  //     ".hover-message",
+  //   ).innerHTML;
   // ====>
 }
 
