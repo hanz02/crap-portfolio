@@ -110,8 +110,9 @@ document.addEventListener("DOMContentLoaded", function () {
         padding = randomIntFromInterval(2, 5);
       }
 
+      elements[i].dataset.randomOpacity = opacity;
+
       setStyles(elements[i], {
-        opacity: opacity,
         "padding-block": padding + "px",
       });
     }
@@ -121,8 +122,8 @@ document.addEventListener("DOMContentLoaded", function () {
     let messages = document.querySelectorAll(".message");
 
     //! debug use: to set the middle message on display debugging UI
-    document.querySelector(".middleMessageContent").innerHTML =
-      messages[middleMessageIndex].querySelector(".hover-message").innerHTML;
+    // document.querySelector(".middleMessageContent").innerHTML =
+    //   messages[middleMessageIndex].querySelector(".hover-message").innerHTML;
 
     const catOffsets = getCatOffset(".light-cat");
 
@@ -470,7 +471,7 @@ document.addEventListener("DOMContentLoaded", function () {
         //* drop down each message: set random opacity + set random top offset from the scree (Each message suspend differently)
         setStyles(message, {
           transform: " translateY(0)",
-
+          opacity: message.dataset.randomOpacity,
           transition:
             "top " +
             randomIntFromInterval(1000, 5000) +
